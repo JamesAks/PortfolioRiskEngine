@@ -23,23 +23,21 @@ Interface -----> Portfolio Service -----> Risk Engine -----> Data Models
 
 ## Repository Structure
 
-portfolio-risk-engine/
-│
-├── src/                # C++ implementation files
-│
-├── include/            # Header files
-│
-├── data/               # Example datasets (CSV price data)
-│
-├── tests/              # Unit tests
-│
-├── docs/               # Diagrams, design notes, planning
-│
-├── CMakeLists.txt      # Build configuration
-│
-├── README.md           # Main documentation
-│
-└── .gitignore
+src/                # C++ implementation files
+
+include/            # Header files
+
+data/               # Example datasets (CSV price data)
+
+tests/              # Unit tests
+
+docs/               # Diagrams, design notes, planning
+
+CMakeLists.txt      # Build configuration
+
+README.md           # Main documentation
+
+.gitignore
 
 
 ## Future Features
