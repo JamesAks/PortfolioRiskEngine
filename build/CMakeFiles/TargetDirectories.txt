@@ -1,0 +1,10 @@
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/CMakeFiles/PortfolioRiskEngine.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/CMakeFiles/Experimental.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/CMakeFiles/Nightly.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/CMakeFiles/Continuous.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/CMakeFiles/NightlyMemoryCheck.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/CMakeFiles/RUN_TESTS.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/src/CMakeFiles/RUN_TESTS.dir
+C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/build/tests/CMakeFiles/RUN_TESTS.dir

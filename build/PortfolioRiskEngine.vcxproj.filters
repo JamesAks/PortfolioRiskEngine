@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\src\TimeSeries.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\src\Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\src\Portfolio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{1E147181-D5F8-3168-832B-AA9EADF0A8C7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

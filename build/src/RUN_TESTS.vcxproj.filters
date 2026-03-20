@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\build\CMakeFiles\ddaed24045a5f643195725cd4f94c878\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{3CAFAAE1-23EC-3947-8AFA-0F89F95C6808}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
