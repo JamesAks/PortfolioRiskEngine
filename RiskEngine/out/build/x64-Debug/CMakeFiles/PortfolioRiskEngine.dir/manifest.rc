@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/x64-Debug/CMakeFiles/PortfolioRiskEngine.dir/embed.manifest"

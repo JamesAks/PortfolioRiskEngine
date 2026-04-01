@@ -1,0 +1,17 @@
+#include "../include/Asset.hpp"
+
+
+
+Asset::Asset(std::string& n, int q, TimeSeries d) :name{ n }, quantity{ q }, hist_data{ d }{};
+
+
+TimeSeries Asset::historicData() { return hist_data; };
+
+
+double Asset::currentPrice() {
+
+    return hist_data.prices[hist_data.prices.size() - 1];
+}
+
+
+std::string Asset::symbol() { return name; };

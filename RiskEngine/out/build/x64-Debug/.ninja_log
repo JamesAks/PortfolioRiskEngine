@@ -1,0 +1,11 @@
+# ninja log v5
+3	553	7967543956876399	build.ninja	34224c2d6efe9c16
+1	2000	7967392494342575	CMakeFiles/PortfolioRiskEngine.dir/src/RiskEngine.cpp.obj	8ed1c87296820467
+24	1102	7966853913583791	CMakeFiles/PortfolioRiskEngine.dir/src/Statistics.cpp.obj	fd1eb63690e40a7e
+1	2629	7967391023750096	CMakeFiles/PortfolioRiskEngine.dir/C_/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/test.cpp.obj	92799503086c6b1a
+0	14	0	clean	9992afb1f91dc381
+5	1104	7965056692200787	CMakeFiles/PortfolioRiskEngine.dir/RiskEngine.cpp.obj	56a6592921fac1ae
+14	3493	7966853937579014	CMakeFiles/PortfolioRiskEngine.dir/src/PortfolioManager.cpp.obj	105d54a4ab332809
+8	3532	7966853937954823	CMakeFiles/PortfolioRiskEngine.dir/src/Asset.cpp.obj	618cbe0731e45b3b
+19	3599	7966853938644310	CMakeFiles/PortfolioRiskEngine.dir/src/Portfolio.cpp.obj	48c69963f2d9ad4f
+2001	2216	7967392496153915	PortfolioRiskEngine.exe	2ed715da0e08e165

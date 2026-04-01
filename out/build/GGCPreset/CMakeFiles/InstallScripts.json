@@ -1,9 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/GGCPreset/cmake_install.cmake",
-		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/GGCPreset/src/cmake_install.cmake",
-		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/GGCPreset/tests/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
