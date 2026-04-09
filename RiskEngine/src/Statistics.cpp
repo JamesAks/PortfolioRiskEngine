@@ -32,4 +32,5 @@ double RiskStatistics::standardDeviation(std::vector<double> data) {
 
     return sqrt(variance(data));
 }
-  
+ 
+

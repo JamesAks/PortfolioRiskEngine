@@ -18,7 +18,7 @@ class Asset {
     private:
 
         std::string name;
-        int quantity;
+        int quant;
         TimeSeries hist_data;
 
     public:
@@ -26,6 +26,12 @@ class Asset {
         Asset(std::string&, int, TimeSeries);
 
         double currentPrice();
-        TimeSeries historicData();
+        double marketValue();
+        int quantity();
         std::string symbol();
+        TimeSeries historicData();
+
+        
+        
+        
 };
