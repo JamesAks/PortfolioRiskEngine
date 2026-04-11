@@ -34,3 +34,25 @@ double RiskStatistics::standardDeviation(std::vector<double> data) {
 }
  
 
+double RiskStatistics::covariance(std::vector<double> first, std::vector<double> second) {
+
+    double f_expected = mean(first);
+    double s_expected = mean(second);
+
+    double sum = 0;
+    for (int i = 0; i < first.size(); i++) {
+
+        sum += (first[i] - f_expected) * (second[i] - s_expected);
+    }
+
+    return sum / (first.size());
+}
+
+double RiskStatistics::correlation(std::vector<double> first, std::vector<double> second) {
+
+    double covar = covariance(first, second);
+    double f_std = standardDeviation(first);
+    double s_std = standardDeviation(second);
+
+    return covar / (f_std * s_std);
+}

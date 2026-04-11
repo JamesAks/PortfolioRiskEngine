@@ -25,10 +25,19 @@ class Asset {
 
         Asset(std::string&, int, TimeSeries);
 
+        // Returns the current/latest price of the asset.
         double currentPrice();
+
+        // Returns the market value of the total asset including its quantity.
         double marketValue();
+
+        // Returns quantity of the asset currently purchased.
         int quantity();
+
+        // Returns the symbol/ID if the asset.
         std::string symbol();
+
+        // Returns the historical data of the asset.
         TimeSeries historicData();
 
         

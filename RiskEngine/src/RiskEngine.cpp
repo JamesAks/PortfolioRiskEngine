@@ -17,8 +17,9 @@ AssetRiskReport RiskEngine::analyseAsset(Asset asset) {
 	return report;
 }
 
-std::vector<double> RiskEngine::returns(Asset asset) {
+std::vector<double> RiskEngine::periodicReturns(Asset asset) {
 
+	// Returns the percentage increas
 	std::vector<double> asset_returns;
 	std::vector<double> ps = asset.historicData().prices;
 
@@ -30,7 +31,7 @@ std::vector<double> RiskEngine::returns(Asset asset) {
 	return asset_returns;
 }
 
-double RiskEngine::expectedReturn(Asset asset) { return stats.mean(returns(asset)); }
+double RiskEngine::expectedReturn(Asset asset) { return stats.mean(periodicReturns(asset)); }
 
 
 PortfolioRiskReport RiskEngine::analysePortfolio(Portfolio port) {
@@ -41,8 +42,9 @@ PortfolioRiskReport RiskEngine::analysePortfolio(Portfolio port) {
 	report.total_return = totalReturn(port);
 	report.expectedReturn = expectedReturn(port);
 	report.volatitilty = portfolioVolatility(port);
-	report.overallRisk = overallRisk(port);
 	report.breakdowns = breakdown(port);
+	report.testCovariance = assetCovariance(port.viewAssets()[0], port.viewAssets()[1]);
+	report.testCorrelation = assetCorrelation(port.viewAssets()[0], port.viewAssets()[1]);
 	
 	return report;
 }
@@ -72,7 +74,6 @@ double RiskEngine::expectedReturn(Portfolio port) {
 	}
 
 	return sum;
-
 }
 
 
@@ -82,10 +83,26 @@ double RiskEngine::portfolioVolatility(Portfolio port) {
 }
 
 
-double RiskEngine::overallRisk(Portfolio port) {
+double RiskEngine::assetCovariance(Asset first, Asset second) {
 
-	return 0;
+	// Covariance is how to 
+	std::vector<double> f_returns = periodicReturns(first);
+	std::vector<double> s_returns = periodicReturns(second);
+
+	return stats.covariance(f_returns, s_returns);
 }
+
+
+double RiskEngine::assetCorrelation(Asset first, Asset second) {
+
+	// Correlation is the relationship between 2 assets.
+	std::vector<double> f_returns = periodicReturns(first);
+	std::vector<double> s_returns = periodicReturns(second);
+
+	return stats.correlation(f_returns, s_returns);
+
+}
+
 
 std::vector<AssetRiskReport> RiskEngine::breakdown(Portfolio port) {
 
@@ -105,7 +122,8 @@ void displayPortfolioReport(PortfolioRiskReport report) {
 	printf("Total Return : %f \n", report.total_return);
 	printf("Expected Return : %f \n", report.expectedReturn);
 	printf("Volatility : %f \n", report.volatitilty);
-	printf("Overall Risk : %f \n", report.overallRisk);
+	printf("Test Covariance : %f \n ", report.testCovariance);
+	printf("Test Correlation : %f \n \n", report.testCorrelation);
 
 	printf("Asset Breakdown ---- Total Number of Assets : %zu ---- \n", report.breakdowns.size());
 
