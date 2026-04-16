@@ -1,6 +1,8 @@
 #include "RiskEngine/include/RiskEngine.hpp"
 #include <stdio.h>
 #include <chrono>
+#include <Eigen/Dense>
+#include <iostream>
 
 
 
@@ -27,14 +29,12 @@ int main() {
     Asset asset3{ name3, 3, hist };
     Asset asset4{ name4, 4, hist };
 
-
     Portfolio portfolio;
 
     portfolio.add(asset1);
     portfolio.add(asset2);
     portfolio.add(asset3);
     portfolio.add(asset4);
-
 
     auto report = risk_engine.analysePortfolio(portfolio);
     displayPortfolioReport(report);
@@ -46,4 +46,6 @@ int main() {
     portfolio.remove(name1);
 
     printf("Size of portfolio: %d \n", int(portfolio.size()));
+
+
 }

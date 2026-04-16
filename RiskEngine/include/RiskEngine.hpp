@@ -1,5 +1,6 @@
 ﻿#include "Statistic.hpp"
 #include "Portfolio.hpp"
+#include "CovarianceMatrix.hpp"
 
 
 
@@ -21,6 +22,7 @@ struct PortfolioRiskReport {
 	double testCovariance = 0;
 	double testCorrelation = 0;
 	std::vector<AssetRiskReport> breakdowns = {};
+	CovarianceMatrix cov_matrix;
 };
 
 // The class responsible for the risk calculations for example volatility and expected returns.
@@ -56,6 +58,9 @@ class RiskEngine {
 
 		// The risk of the portfolio using the variance-covariance formula.
 		double portfolioVolatility(Portfolio);
+
+		// Computes the covariance matrix of a givenm portfolio.
+		CovarianceMatrix computeCovarianceMatrix(Portfolio);
 
 		// The covaraince between two seperate assets.
 		double assetCovariance(Asset, Asset);

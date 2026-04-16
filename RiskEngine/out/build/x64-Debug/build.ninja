@@ -45,6 +45,7 @@ build cmake_object_order_depends_target_PortfolioRiskEngine: phony || CMakeFiles
 
 build CMakeFiles\PortfolioRiskEngine.dir\C_\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\test.cpp.obj: CXX_COMPILER__PortfolioRiskEngine_Debug C$:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\test.cpp || cmake_object_order_depends_target_PortfolioRiskEngine
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++latest
+  INCLUDES = -IC:\libs\C++\eigen-5.0.0
   OBJECT_DIR = CMakeFiles\PortfolioRiskEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\PortfolioRiskEngine.dir\C_\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine
   TARGET_COMPILE_PDB = CMakeFiles\PortfolioRiskEngine.dir\
@@ -52,6 +53,7 @@ build CMakeFiles\PortfolioRiskEngine.dir\C_\Users\james\Documents\Portfolio\Quan
 
 build CMakeFiles\PortfolioRiskEngine.dir\src\RiskEngine.cpp.obj: CXX_COMPILER__PortfolioRiskEngine_Debug ..\..\..\src\RiskEngine.cpp || cmake_object_order_depends_target_PortfolioRiskEngine
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++latest
+  INCLUDES = -IC:\libs\C++\eigen-5.0.0
   OBJECT_DIR = CMakeFiles\PortfolioRiskEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\PortfolioRiskEngine.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\PortfolioRiskEngine.dir\
@@ -59,6 +61,7 @@ build CMakeFiles\PortfolioRiskEngine.dir\src\RiskEngine.cpp.obj: CXX_COMPILER__P
 
 build CMakeFiles\PortfolioRiskEngine.dir\src\Asset.cpp.obj: CXX_COMPILER__PortfolioRiskEngine_Debug ..\..\..\src\Asset.cpp || cmake_object_order_depends_target_PortfolioRiskEngine
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++latest
+  INCLUDES = -IC:\libs\C++\eigen-5.0.0
   OBJECT_DIR = CMakeFiles\PortfolioRiskEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\PortfolioRiskEngine.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\PortfolioRiskEngine.dir\
@@ -66,6 +69,7 @@ build CMakeFiles\PortfolioRiskEngine.dir\src\Asset.cpp.obj: CXX_COMPILER__Portfo
 
 build CMakeFiles\PortfolioRiskEngine.dir\src\Portfolio.cpp.obj: CXX_COMPILER__PortfolioRiskEngine_Debug ..\..\..\src\Portfolio.cpp || cmake_object_order_depends_target_PortfolioRiskEngine
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++latest
+  INCLUDES = -IC:\libs\C++\eigen-5.0.0
   OBJECT_DIR = CMakeFiles\PortfolioRiskEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\PortfolioRiskEngine.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\PortfolioRiskEngine.dir\
@@ -73,6 +77,7 @@ build CMakeFiles\PortfolioRiskEngine.dir\src\Portfolio.cpp.obj: CXX_COMPILER__Po
 
 build CMakeFiles\PortfolioRiskEngine.dir\src\PortfolioManager.cpp.obj: CXX_COMPILER__PortfolioRiskEngine_Debug ..\..\..\src\PortfolioManager.cpp || cmake_object_order_depends_target_PortfolioRiskEngine
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++latest
+  INCLUDES = -IC:\libs\C++\eigen-5.0.0
   OBJECT_DIR = CMakeFiles\PortfolioRiskEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\PortfolioRiskEngine.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\PortfolioRiskEngine.dir\
@@ -80,6 +85,15 @@ build CMakeFiles\PortfolioRiskEngine.dir\src\PortfolioManager.cpp.obj: CXX_COMPI
 
 build CMakeFiles\PortfolioRiskEngine.dir\src\Statistics.cpp.obj: CXX_COMPILER__PortfolioRiskEngine_Debug ..\..\..\src\Statistics.cpp || cmake_object_order_depends_target_PortfolioRiskEngine
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++latest
+  INCLUDES = -IC:\libs\C++\eigen-5.0.0
+  OBJECT_DIR = CMakeFiles\PortfolioRiskEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\PortfolioRiskEngine.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\PortfolioRiskEngine.dir\
+  TARGET_PDB = PortfolioRiskEngine.pdb
+
+build CMakeFiles\PortfolioRiskEngine.dir\src\CovarinceMatrix.cpp.obj: CXX_COMPILER__PortfolioRiskEngine_Debug ..\..\..\src\CovarinceMatrix.cpp || cmake_object_order_depends_target_PortfolioRiskEngine
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++latest
+  INCLUDES = -IC:\libs\C++\eigen-5.0.0
   OBJECT_DIR = CMakeFiles\PortfolioRiskEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\PortfolioRiskEngine.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\PortfolioRiskEngine.dir\
@@ -93,7 +107,7 @@ build CMakeFiles\PortfolioRiskEngine.dir\src\Statistics.cpp.obj: CXX_COMPILER__P
 #############################################
 # Link the executable PortfolioRiskEngine.exe
 
-build PortfolioRiskEngine.exe: CXX_EXECUTABLE_LINKER__PortfolioRiskEngine_Debug CMakeFiles\PortfolioRiskEngine.dir\C_\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\test.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\RiskEngine.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\Asset.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\Portfolio.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\PortfolioManager.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\Statistics.cpp.obj
+build PortfolioRiskEngine.exe: CXX_EXECUTABLE_LINKER__PortfolioRiskEngine_Debug CMakeFiles\PortfolioRiskEngine.dir\C_\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\test.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\RiskEngine.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\Asset.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\Portfolio.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\PortfolioManager.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\Statistics.cpp.obj CMakeFiles\PortfolioRiskEngine.dir\src\CovarinceMatrix.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

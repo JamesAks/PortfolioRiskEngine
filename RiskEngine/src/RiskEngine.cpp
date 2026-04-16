@@ -1,4 +1,5 @@
 ﻿#include "../include/RiskEngine.hpp"
+#include <iostream>
 
 
 
@@ -17,9 +18,10 @@ AssetRiskReport RiskEngine::analyseAsset(Asset asset) {
 	return report;
 }
 
+
 std::vector<double> RiskEngine::periodicReturns(Asset asset) {
 
-	// Returns the percentage increas
+
 	std::vector<double> asset_returns;
 	std::vector<double> ps = asset.historicData().prices;
 
@@ -30,6 +32,7 @@ std::vector<double> RiskEngine::periodicReturns(Asset asset) {
 
 	return asset_returns;
 }
+
 
 double RiskEngine::expectedReturn(Asset asset) { return stats.mean(periodicReturns(asset)); }
 
@@ -45,7 +48,8 @@ PortfolioRiskReport RiskEngine::analysePortfolio(Portfolio port) {
 	report.breakdowns = breakdown(port);
 	report.testCovariance = assetCovariance(port.viewAssets()[0], port.viewAssets()[1]);
 	report.testCorrelation = assetCorrelation(port.viewAssets()[0], port.viewAssets()[1]);
-	
+	report.cov_matrix = computeCovarianceMatrix(port);
+
 	return report;
 }
 
@@ -64,7 +68,6 @@ double RiskEngine::totalReturn(Portfolio port) {
 
 double RiskEngine::expectedReturn(Portfolio port) {
 
-
 	auto ws = port.weights();
 	double sum = 0;
 
@@ -82,10 +85,29 @@ double RiskEngine::portfolioVolatility(Portfolio port) {
 	return 0;
 }
 
+CovarianceMatrix RiskEngine::computeCovarianceMatrix(Portfolio port) {
+
+	std::vector<Asset> assets = port.viewAssets();
+	size_t size = assets.size();
+	CovarianceMatrix cov_matrix(port.assetLabels());
+
+	for (size_t i = 0; i < size; i++) {
+
+		for (size_t j = i; j < size; j++) {
+
+			double covariance = assetCovariance(assets[i], assets[j]);
+			cov_matrix(i, j) = covariance;
+			cov_matrix(j, i) = covariance;
+		}
+
+	}
+
+	return cov_matrix;
+}
+
 
 double RiskEngine::assetCovariance(Asset first, Asset second) {
 
-	// Covariance is how to 
 	std::vector<double> f_returns = periodicReturns(first);
 	std::vector<double> s_returns = periodicReturns(second);
 
@@ -95,7 +117,6 @@ double RiskEngine::assetCovariance(Asset first, Asset second) {
 
 double RiskEngine::assetCorrelation(Asset first, Asset second) {
 
-	// Correlation is the relationship between 2 assets.
 	std::vector<double> f_returns = periodicReturns(first);
 	std::vector<double> s_returns = periodicReturns(second);
 
@@ -122,10 +143,11 @@ void displayPortfolioReport(PortfolioRiskReport report) {
 	printf("Total Return : %f \n", report.total_return);
 	printf("Expected Return : %f \n", report.expectedReturn);
 	printf("Volatility : %f \n", report.volatitilty);
-	printf("Test Covariance : %f \n ", report.testCovariance);
+	printf("Test Covariance : %f \n", report.testCovariance);
 	printf("Test Correlation : %f \n \n", report.testCorrelation);
 
-	printf("Asset Breakdown ---- Total Number of Assets : %zu ---- \n", report.breakdowns.size());
+	printf("----- Assets Breakdown ----- \n\n");
+	printf("Total Number of Assets : %zu \n\n", report.breakdowns.size());
 
 	for (int i = 0; i < report.breakdowns.size(); i++) {
 
@@ -133,6 +155,9 @@ void displayPortfolioReport(PortfolioRiskReport report) {
 		displayAssetReport(report.breakdowns[i]);
 		printf("\n");
 	}
+
+	printf(" ----- Covariance Matrix ------ \n\n");
+	std::cout << report.cov_matrix.data() << "\n\n";
 }
 
 

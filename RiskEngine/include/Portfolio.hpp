@@ -18,6 +18,9 @@ class Portfolio {
         // Returns the assets stored within the portfolio.
         std::vector<Asset> viewAssets();
 
+        // Returns the label of all assets in the portfolio.
+        std::vector<std::string> assetLabels();
+
         // Returns the symbol/ID of the portfolio.
         std::string viewName();
 

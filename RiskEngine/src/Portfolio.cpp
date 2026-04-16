@@ -9,6 +9,21 @@ Portfolio::Portfolio(std::string n, std::vector<Asset> as) : name{ n }, assets {
 
 
 std::vector<Asset> Portfolio::viewAssets() { return assets; }
+
+
+std::vector<std::string> Portfolio::assetLabels() {
+
+    std::vector<std::string> labels;
+
+    for (Asset a : assets) {
+
+        labels.push_back(a.symbol());
+    }
+
+    return labels;
+}
+
+
 std::string Portfolio::viewName() { return name; }
 
 
