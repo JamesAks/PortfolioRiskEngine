@@ -19,7 +19,7 @@ Eigen::MatrixXd CovarianceMatrix::data() {
 }
 
 
-double& CovarianceMatrix::operator()(int i, int j) { return cov_matrix(i, j); };
+double& CovarianceMatrix::operator()(size_t i, size_t j) { return cov_matrix(i, j); };
 
 
 void CovarianceMatrix::validate() {

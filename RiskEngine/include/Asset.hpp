@@ -18,12 +18,12 @@ class Asset {
     private:
 
         std::string name;
-        int quant;
+        size_t quant;
         TimeSeries hist_data;
 
     public:
 
-        Asset(std::string&, int, TimeSeries);
+        Asset(std::string&, size_t, TimeSeries);
 
         // Returns the current/latest price of the asset.
         double currentPrice();

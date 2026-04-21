@@ -2,7 +2,7 @@
 
 
 
-Asset::Asset(std::string& n, int q, TimeSeries d) :name{ n }, quant{ q }, hist_data{ d }{};
+Asset::Asset(std::string& n, size_t q, TimeSeries d) :name{ n }, quant{ q }, hist_data{ d }{};
 
 
 TimeSeries Asset::historicData() { return hist_data; };

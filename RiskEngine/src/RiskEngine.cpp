@@ -82,7 +82,12 @@ double RiskEngine::expectedReturn(Portfolio port) {
 
 double RiskEngine::portfolioVolatility(Portfolio port) {
 
-	return 0;
+	auto weights = port.weights();
+	Eigen::MatrixXd cov_matrix = computeCovarianceMatrix(port).data();
+	Eigen::Map<Eigen::MatrixXd> weights_matrix(weights.data(), port.size(), 1);
+	double variance = (weights_matrix.transpose() * cov_matrix * weights_matrix).value();
+
+	return variance;
 }
 
 CovarianceMatrix RiskEngine::computeCovarianceMatrix(Portfolio port) {
@@ -164,17 +169,7 @@ void displayPortfolioReport(PortfolioRiskReport report) {
 void displayAssetReport(AssetRiskReport report) {
 
 	printf("Asset ID : %s \n", report.ID.c_str());
-	printf("Volatility : %f \n", report.volatility);
+	printf("Volatility : %g \n", report.volatility);
 	printf("Market Value : %f \n", report.market_value );
 	printf("Expected Return : %f \n", report.expected_return);
 }
-
-
-//void RiskEngine::displayReport(RiskReport report) {
-//
-//	printf("Risk Report \n");
-//	printf("Asset ID : %s \n", report.assetID.c_str());
-//	printf("Asset Market Value : %f \n", report.marketValue);
-//	printf("Volatility : %f \n", report.volatility);
-//	printf("")
-//}
