@@ -1,13 +1,15 @@
 #include "../include/Portfolio.hpp"
+#include "../include/Adapter.hpp"
 
-class PortfoliManager {
+class PortfolioManager {
 
 private:
 
-    Portfolio portfolio;
+    std::vector<Portfolio> portfolios = {};
 
 public:
 
-    PortfoliManager(Portfolio);
+    PortfolioManager();
+    PortfolioManager(std::vector<Portfolio>);
 
 };

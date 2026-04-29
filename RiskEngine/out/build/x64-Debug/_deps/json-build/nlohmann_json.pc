@@ -1,0 +1,4 @@
+Name: nlohmann_json
+Description: JSON for Modern C++
+Version: 3.11.3
+Cflags: -IC:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/install/x64-Debug/include
