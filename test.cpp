@@ -3,11 +3,19 @@
 #include <chrono>
 #include <Eigen/Dense>
 #include <iostream>
+#include "RiskEngine/include/Adapter.hpp"
+#include <fstream>
+#include <filesystem>
+
 
 
 
 int main() {
+    
+    auto var = "ALPHA_VANTAGE_API_KEY";
+    const char* API_KEY = getenv(var);
 
+    curl_global_init(CURL_GLOBAL_WIN32);
     auto a = std::chrono::year{ 2012 } / 2 / 3;
     std::vector<std::chrono::year_month_day> days{ a, std::chrono::year{2012} / 2 / 3, std::chrono::year{2012} / 2 / 4 };
     std::vector<double> prices{ 12.5, 16.4, 18.9 };
@@ -47,5 +55,13 @@ int main() {
 
     printf("Size of portfolio: %d \n", int(portfolio.size()));
 
+    AlphaVantageAdapter adp(API_KEY);
+
+    auto hista = adp.historicalDaily("AAPL");
+
+    for (double i : hista.second) {
+
+        printf("Apple price : %g \n", i);
+    }
 
 }
