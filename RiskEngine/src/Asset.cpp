@@ -2,23 +2,29 @@
 
 
 
-Asset::Asset(std::string& n, size_t q, TimeSeries d) :name{ n }, quant{ q }, hist_data{ d }{};
-
-
-TimeSeries Asset::historicData() { return hist_data; };
+Asset::Asset(std::string s, double price) :asset_symbol{ s }, current_price{ price }{};
 
 
 double Asset::currentPrice() {
 
-    return hist_data.prices[hist_data.prices.size() - 1];
+    return current_price;
 }
 
 
-std::string Asset::symbol() { return name; };
+void Asset::updatePrice(double price) {
 
-double Asset::marketValue() {
+    if (price < 0) {
 
-    return currentPrice() * quant;
+        printf("Invalid - Price must be positive.");
+    } 
+    else {
+
+        current_price = price;
+    }
 }
 
-int Asset::quantity() { return quant; }
+
+std::string Asset::symbol() { return asset_symbol; }
+
+
+

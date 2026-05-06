@@ -2,105 +2,108 @@
 #include <iostream>
 
 
-
-RiskEngine::RiskEngine(){};
-RiskEngine::RiskEngine(RiskStatistics rstat) : stats{ rstat }{};
+RiskEngine::RiskEngine(MarketDataManager& mdm): market_data_manager{ mdm }{}
 
 
-AssetRiskReport RiskEngine::analyseAsset(Asset asset) {
+AssetRiskReport RiskEngine::analyseAsset(Position pos, TimeFrame tf) {
 
-	AssetRiskReport report;
-	report.ID = asset.symbol();
-	report.volatility = stats.variance(asset.historicData().prices);
-	report.market_value = asset.marketValue();
-	report.expected_return = expectedReturn(asset);
+	
+	RiskStatistics stats;
+	std::string symbol = pos.asset->symbol();
+	std::vector<double> data = market_data_manager.periodicData(symbol, tf).prices;
+	
+	AssetRiskReport report{
+
+		symbol,
+		pos.asset->currentPrice() * pos.quantity,
+		stats.variance(data),
+		expectedReturn(pos, tf)
+	};
+
+	return report;
+}
+
+
+PortfolioRiskReport RiskEngine::analysePortfolio(Portfolio port, TimeFrame tf) {
+
+	PortfolioRiskReport report{
+
+		port.viewID(),
+		totalReturn(port),
+		expectedReturn(port,  tf),
+		portfolioVolatility(port, tf),
+		breakdown(port,  tf),
+		computeCovarianceMatrix(port, tf)
+	};
 
 	return report;
 }
 
 
-std::vector<double> RiskEngine::periodicReturns(Asset asset) {
+std::vector<double> RiskEngine::periodicReturns(Position pos, TimeFrame tf) {
+	
+	RiskStatistics stats;
+	return stats.periodicReturns(market_data_manager.periodicData(pos.asset->symbol(), tf).prices);
+}
+	
 
-
-	std::vector<double> asset_returns;
-	std::vector<double> ps = asset.historicData().prices;
-
-	for (size_t i = 1; i < ps.size(); i++) {
-
-		asset_returns.push_back((ps[i] - ps[i - 1]) / ps[i - 1]);
-	}
-
-	return asset_returns;
+double RiskEngine::expectedReturn(Position pos, TimeFrame tf) {
+	
+	RiskStatistics stats;
+	return stats.mean(periodicReturns(pos, tf));
 }
 
-
-double RiskEngine::expectedReturn(Asset asset) { return stats.mean(periodicReturns(asset)); }
-
-
-PortfolioRiskReport RiskEngine::analysePortfolio(Portfolio port) {
-
-	PortfolioRiskReport report;
-
-	report.ID = port.viewName();
-	report.total_return = totalReturn(port);
-	report.expectedReturn = expectedReturn(port);
-	report.volatitilty = portfolioVolatility(port);
-	report.breakdowns = breakdown(port);
-	report.testCovariance = assetCovariance(port.viewAssets()[0], port.viewAssets()[1]);
-	report.testCorrelation = assetCorrelation(port.viewAssets()[0], port.viewAssets()[1]);
-	report.cov_matrix = computeCovarianceMatrix(port);
-
-	return report;
-}
 
 
 double RiskEngine::totalReturn(Portfolio port) {
 
 	double sum = 0;
-	for (Asset a : port.viewAssets()) {
+	for (Position pos : port.viewPositions()) {
 
-		sum += a.marketValue();
+		sum += pos.quantity * pos.asset->currentPrice();
 	}
 
 	return sum;
 }
 
 
-double RiskEngine::expectedReturn(Portfolio port) {
+double RiskEngine::expectedReturn(Portfolio port, TimeFrame tf) {
 
 	auto ws = port.weights();
 	double sum = 0;
+	int i = 0;
 
-	for (int i = 0; i < ws.size(); i++) {
+	for (Position pos : port.viewPositions()) {
 
-		sum += ws[i] * expectedReturn(port.viewAssets()[i]);
+		sum += ws[i] * expectedReturn(pos, tf);
+		i++;
 	}
 
 	return sum;
 }
 
 
-double RiskEngine::portfolioVolatility(Portfolio port) {
+double RiskEngine::portfolioVolatility(Portfolio port, TimeFrame tf) {
 
 	auto weights = port.weights();
-	Eigen::MatrixXd cov_matrix = computeCovarianceMatrix(port).data();
+	Eigen::MatrixXd cov_matrix = computeCovarianceMatrix(port, tf).data();
 	Eigen::Map<Eigen::MatrixXd> weights_matrix(weights.data(), port.size(), 1);
 	double variance = (weights_matrix.transpose() * cov_matrix * weights_matrix).value();
-
-	return variance;
+	return  sqrt(variance);
 }
 
-CovarianceMatrix RiskEngine::computeCovarianceMatrix(Portfolio port) {
 
-	std::vector<Asset> assets = port.viewAssets();
-	size_t size = assets.size();
-	CovarianceMatrix cov_matrix(port.assetLabels());
+CovarianceMatrix RiskEngine::computeCovarianceMatrix(Portfolio port, TimeFrame tf){
+
+	std::vector<Position> positions = port.viewPositions();
+	size_t size = positions.size();
+	CovarianceMatrix cov_matrix(port.viewAssetLabels());
 
 	for (size_t i = 0; i < size; i++) {
 
 		for (size_t j = i; j < size; j++) {
 
-			double covariance = assetCovariance(assets[i], assets[j]);
+			double covariance = assetCovariance(positions[i], positions[j], tf);
 			cov_matrix(i, j) = covariance;
 			cov_matrix(j, i) = covariance;
 		}
@@ -111,65 +114,35 @@ CovarianceMatrix RiskEngine::computeCovarianceMatrix(Portfolio port) {
 }
 
 
-double RiskEngine::assetCovariance(Asset first, Asset second) {
+double RiskEngine::assetCovariance(Position first, Position second, TimeFrame tf) {
 
-	std::vector<double> f_returns = periodicReturns(first);
-	std::vector<double> s_returns = periodicReturns(second);
+	RiskStatistics stats;
+	std::vector<double> f_returns = periodicReturns(first, tf);
+	std::vector<double> s_returns = periodicReturns(second, tf);
 
 	return stats.covariance(f_returns, s_returns);
 }
 
 
-double RiskEngine::assetCorrelation(Asset first, Asset second) {
+double RiskEngine::assetCorrelation(Position first, Position second, TimeFrame tf) {
 
-	std::vector<double> f_returns = periodicReturns(first);
-	std::vector<double> s_returns = periodicReturns(second);
+	RiskStatistics stats;
+	std::vector<double> f_returns = periodicReturns(first,  tf);
+	std::vector<double> s_returns = periodicReturns(second, tf);
 
 	return stats.correlation(f_returns, s_returns);
-
 }
 
 
-std::vector<AssetRiskReport> RiskEngine::breakdown(Portfolio port) {
+std::vector<AssetRiskReport> RiskEngine::breakdown(Portfolio port, TimeFrame tf) {
 
 	std::vector<AssetRiskReport> breakdowns;
-	for (Asset a : port.viewAssets()) {
+	for (Position pos : port.viewPositions()) {
 
-		breakdowns.push_back(analyseAsset(a));
+		breakdowns.push_back(analyseAsset(pos, tf));
 	}
 
 	return breakdowns;
 }
 
 
-void displayPortfolioReport(PortfolioRiskReport report) {
-
-	printf("Portfolio ID : %s \n", report.ID.c_str());
-	printf("Total Return : %f \n", report.total_return);
-	printf("Expected Return : %f \n", report.expectedReturn);
-	printf("Volatility : %f \n", report.volatitilty);
-	printf("Test Covariance : %f \n", report.testCovariance);
-	printf("Test Correlation : %f \n \n", report.testCorrelation);
-
-	printf("----- Assets Breakdown ----- \n\n");
-	printf("Total Number of Assets : %zu \n\n", report.breakdowns.size());
-
-	for (int i = 0; i < report.breakdowns.size(); i++) {
-
-		printf("Asset %d \n", i + 1);
-		displayAssetReport(report.breakdowns[i]);
-		printf("\n");
-	}
-
-	printf(" ----- Covariance Matrix ------ \n\n");
-	std::cout << report.cov_matrix.data() << "\n\n";
-}
-
-
-void displayAssetReport(AssetRiskReport report) {
-
-	printf("Asset ID : %s \n", report.ID.c_str());
-	printf("Volatility : %g \n", report.volatility);
-	printf("Market Value : %f \n", report.market_value );
-	printf("Expected Return : %f \n", report.expected_return);
-}

@@ -10,8 +10,6 @@ class CovarianceMatrix {
 
 	public:
 
-
-		CovarianceMatrix();
 		CovarianceMatrix(std::vector<std::string>);
 		double& operator()(size_t, size_t);
 

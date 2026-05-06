@@ -2,76 +2,88 @@
 
 
 
-Portfolio::Portfolio() :assets{ {} } {};
+Portfolio::Portfolio(std::string n) : ID{ n } {}
+
+Position Portfolio::viewPosition(std::string symbol) {
+
+    return positions.find(symbol)->second;
+}
 
 
-Portfolio::Portfolio(std::string n, std::vector<Asset> as) : name{ n }, assets { as } {};
+std::vector<Position> Portfolio::viewPositions() {
+
+    std::vector<Position> ps;
+    for (std::pair pos : positions) {
+
+        ps.push_back(pos.second);
+    }
+
+    return ps;
+}
 
 
-std::vector<Asset> Portfolio::viewAssets() { return assets; }
+std::vector<Asset> Portfolio::viewAssets() {
+    
+    std::vector<Asset> assets;
+
+    for (std::pair p : positions) {
+
+        assets.push_back(*p.second.asset);
+    }
+
+    return assets;
+}
 
 
-std::vector<std::string> Portfolio::assetLabels() {
+std::vector<std::string> Portfolio::viewAssetLabels() {
 
     std::vector<std::string> labels;
 
-    for (Asset a : assets) {
+    for (std::pair p : positions) {
 
-        labels.push_back(a.symbol());
+        labels.push_back(p.first);
     }
 
     return labels;
 }
 
 
-std::string Portfolio::viewName() { return name; }
+std::string Portfolio::viewID() { return ID; }
 
 
-void Portfolio::add(Asset a) { assets.push_back(a); }
+void Portfolio::addPosition(Position p ) { positions.emplace(p.asset->symbol(), p); }
 
 
-void Portfolio::remove(std::string n) {
-
-    for (Asset a : assets) {
-        int i = 0;
-
-        if (a.symbol() == n) {
-
-            assets.erase(assets.begin() + i);
-            break;
-        }
-
-        i++;
-    }
-}
+void Portfolio::removePosition(std::string symbol) { positions.erase(symbol); }
 
 
-void Portfolio::changeName(std::string newName) { name = newName; }
+void Portfolio::changeID(std::string new_ID) { ID = new_ID; }
 
 
 double Portfolio::expectedReturn() {
 
     double sum = 0;
 
-    for (Asset a : assets) {
+    for (std::pair p : positions) {
 
-        sum += a.marketValue();
+        sum += p.second.quantity * p.second.asset->currentPrice();
     }
 
     return sum;
 }
+
 
 std::vector<double> Portfolio::weights() {
 
     std::vector<double> ws;
     double value = expectedReturn();
 
-    for (Asset a : assets) {
+    for (std::pair p : positions) {
 
-        ws.push_back(a.marketValue() / value);
+        ws.push_back(((p.second.quantity * p.second.asset->currentPrice()) / value));
     }
 
     return ws;
 }
 
-size_t Portfolio::size() { return assets.size(); }
+size_t Portfolio::size() { return positions.size(); }

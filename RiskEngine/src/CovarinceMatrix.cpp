@@ -2,9 +2,6 @@
 
 
 
-CovarianceMatrix::CovarianceMatrix() :cov_matrix{ Eigen::MatrixXd::Zero(1,1) }, asset_labels{ {""} }{}
-
-
 CovarianceMatrix::CovarianceMatrix(std::vector<std::string> assets) {
 
 	size_t size = assets.size();

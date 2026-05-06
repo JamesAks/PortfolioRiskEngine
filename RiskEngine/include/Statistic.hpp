@@ -7,6 +7,7 @@ class RiskStatistics {
     public:
 
         double mean(std::vector<double>);
+        std::vector<double> periodicReturns(std::vector<double>);
         double standardDeviation(std::vector<double>);
         double variance(std::vector<double>);
         double covariance(std::vector<double>, std::vector<double>);

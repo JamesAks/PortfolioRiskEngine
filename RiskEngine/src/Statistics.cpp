@@ -14,6 +14,19 @@ double RiskStatistics::mean(std::vector<double> data) {
 }
 
 
+std::vector<double> RiskStatistics::periodicReturns(std::vector<double> data) {
+
+    std::vector<double> asset_returns;
+
+    for (size_t i = 1; i < data.size(); i++) {
+
+        asset_returns.push_back((data[i] - data[i - 1]) / data[i - 1]);
+    }
+
+    return asset_returns;
+}
+
+
 double RiskStatistics::variance(std::vector<double> data) {
 
     double m = mean(data);

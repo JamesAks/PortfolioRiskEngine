@@ -1,6 +1,7 @@
 ﻿#include "Statistic.hpp"
 #include "Portfolio.hpp"
 #include "CovarianceMatrix.hpp"
+#include "MarketDataManager.hpp"
 
 
 
@@ -19,8 +20,6 @@ struct PortfolioRiskReport {
 	double total_return = 0;
 	double expectedReturn = 0;
 	double volatitilty = 0;
-	double testCovariance = 0;
-	double testCorrelation = 0;
 	std::vector<AssetRiskReport> breakdowns = {};
 	CovarianceMatrix cov_matrix;
 };
@@ -31,50 +30,43 @@ class RiskEngine {
 	
 	private:
 
-		RiskStatistics stats;
+		MarketDataManager& market_data_manager;
 
 	public:
 
-		RiskEngine();
-		RiskEngine(RiskStatistics);
+		RiskEngine(MarketDataManager&);
 		
 		// Returns a report containing the riskmetrics of an asset.
-		AssetRiskReport analyseAsset(Asset);
+		AssetRiskReport analyseAsset(Position, TimeFrame);
 
 		// Returns a report containing the riskmetrics of a portfolio.
-		PortfolioRiskReport analysePortfolio(Portfolio);
+		PortfolioRiskReport analysePortfolio(Portfolio, TimeFrame tf);
 
 		// The changes in the price over a period of time.
-		std::vector<double> periodicReturns(Asset);
+		std::vector<double>periodicReturns(Position, TimeFrame);
 
 		// The mean percentage change of the asset.
-		double expectedReturn(Asset);
+		double expectedReturn(Position, TimeFrame);
 
 		// Total return of a portfolio. The sum total of the market values of each asset.
 		double totalReturn(Portfolio);
 
 		// The expected percentage return on investment
-		double expectedReturn(Portfolio);
+		double expectedReturn(Portfolio, TimeFrame);
 
 		// The risk of the portfolio using the variance-covariance formula.
-		double portfolioVolatility(Portfolio);
+		double portfolioVolatility(Portfolio, TimeFrame);
 
 		// Computes the covariance matrix of a givenm portfolio.
-		CovarianceMatrix computeCovarianceMatrix(Portfolio);
+		CovarianceMatrix computeCovarianceMatrix(Portfolio, TimeFrame);
 
 		// The covaraince between two seperate assets.
-		double assetCovariance(Asset, Asset);
+		double assetCovariance(Position, Position, TimeFrame);
 
 		// The correlation between two assets using their covariances.
-		double assetCorrelation(Asset, Asset);
+		double assetCorrelation(Position, Position, TimeFrame);
 
 		// A list containing anylysis of all the assets within a portfolio.
-		std::vector<AssetRiskReport> breakdown(Portfolio);
+		std::vector<AssetRiskReport> breakdown(Portfolio, TimeFrame);
 
 };
-
-// Methods for printing a portfolios risk report.
-void displayPortfolioReport(PortfolioRiskReport);
-
-// Method for printing an assets risk report.
-void displayAssetReport(AssetRiskReport);

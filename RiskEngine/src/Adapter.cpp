@@ -18,46 +18,71 @@ std::string AlphaVantageAdapter::request(std::string url) {
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 
 	result = curl_easy_perform(curl);
+
+	// TO DO: Error handling - If the provided symbol is invalid or other connection/API related issues
 	curl_easy_cleanup(curl);
 
 	return response;
 }
 
 
-std::pair<std::vector<std::string>, std::vector<double>>  AlphaVantageAdapter::historicalDaily(std::string symbol) {
 
-	std::string hey = base_url + symbol;
+TimeSeries AlphaVantageAdapter::historicalData(std::string symbol, TimeFrame tf) {
 
-	std::string url = base_url + std::string("function=TIME_SERIES_DAILY&symbol=") + symbol + std::string("&apikey=") + API_key;
-	printf("%s", url.c_str());
+	std::string function;
+	TimeSeries  historical_data;
+	std::string title;
+
+	switch (tf) {
+
+		case TimeFrame::DAILY:
+
+			function = "TIME_SERIES_DAILY";
+			title = "Time Series (Daily)";
+			break;
+
+		case TimeFrame::WEEKLY:
+
+			function = "TIME_SERIES_WEEKLY";
+			title = "Weekly Time Series";
+			break;
+
+		case TimeFrame::MONTHLY:
+
+			function = "TIME_SERIES_MONTHLY";
+			title = "Monthly Time Series";
+			break;
+	}
+
+
+	std::string url = base_url + std::string("function=") + function + std::string("&symbol=") + symbol + std::string("&apikey=") + API_key;
+	std::string response = request(url);
+	auto response_json = parse(response);
+
+	auto& data = response_json[title.c_str()];
+	for (auto& [date, daily_data] : data.items()) {
+
+		double price = std::stod(std::string(daily_data["4. close"]));
+		historical_data.dates.push_back(date);
+		historical_data.prices.push_back(price);
+	}
+
+	return historical_data;
+
+}
+
+
+double AlphaVantageAdapter::latestPrice(std::string symbol) {
+
+	std::string url = base_url + std::string("function=GLOBAL_QUOTE&symbol=") + symbol + std::string("&apikey=") + API_key;
 
 	std::string response = request(url);
 	auto response_json = parse(response);
 
-	auto& data = response_json["Time Series (Daily)"];
-	std::pair<std::vector<std::string>, std::vector<double>>  historical_data;
+	auto& data = response_json["Global Quote"];
+	double lastestData = std::stod(std::string(data["05. price"]));
 
-	for (auto& [date, daily_data] : data.items()) {
-
-		double price = std::stod(std::string(daily_data["4. close"]));
-		historical_data.first.push_back(date);
-		historical_data.second.push_back(price);
-	}
-
- 	return historical_data;
-}
-
-
-std::pair<std::vector<std::string>, std::vector<double>> AlphaVantageAdapter::historicalMonthly(std::string) {
-
-	std::pair<std::vector<std::string>, std::vector<double>> ph;
-
-	return ph;
-}
-
-std::string AlphaVantageAdapter::formURL(std::string ) {
-
-	return "";
+	return lastestData;
 }
 
 

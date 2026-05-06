@@ -1,15 +1,5 @@
 #include <string>
-#include <chrono>
-
-
-
-struct TimeSeries {
-
-    // Struct that holds the actual historical data of an asset
-    std::vector<std::chrono::year_month_day> dates;
-    std::vector<double> prices;
-};
-
+#include <vector>
 
 class Asset {
 
@@ -17,30 +7,20 @@ class Asset {
 
     private:
 
-        std::string name;
-        size_t quant;
-        TimeSeries hist_data;
+        std::string asset_symbol;
+        double current_price;
 
     public:
+        
 
-        Asset(std::string&, size_t, TimeSeries);
+        Asset(std::string, double);
 
         // Returns the current/latest price of the asset.
         double currentPrice();
 
-        // Returns the market value of the total asset including its quantity.
-        double marketValue();
-
-        // Returns quantity of the asset currently purchased.
-        int quantity();
+        // Updates the current price of the asset.
+        void updatePrice(double);
 
         // Returns the symbol/ID if the asset.
-        std::string symbol();
-
-        // Returns the historical data of the asset.
-        TimeSeries historicData();
-
-        
-        
-        
+        std::string symbol();  
 };
