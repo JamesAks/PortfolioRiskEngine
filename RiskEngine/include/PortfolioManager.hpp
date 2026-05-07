@@ -12,6 +12,7 @@ class PortfolioManager {
         AlphaVantageAdapter adp;
         MarketDataManager market_data_manager;
         RiskEngine risk_engine;
+        std::map<std::string,std::shared_ptr<Asset>> asset_store;
 
 
         void displayPortfolioReport(PortfolioRiskReport);

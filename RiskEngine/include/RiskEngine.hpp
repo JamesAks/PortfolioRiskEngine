@@ -8,8 +8,8 @@
 struct AssetRiskReport {
 
 	std::string ID = "";
-	double volatility = 0;
 	double market_value = 0;
+	double volatility = 0;
 	double expected_return = 0;
 };
 

@@ -15,13 +15,11 @@ class MarketDataManager {
 		void checkHistoricData(std::string);
 		void checkLatestPrices(std::string);
 
-
 		TimeSeries dailyData(std::string);
 		TimeSeries weeklyData(std::string);
 		TimeSeries monthlyData(std::string);
 
 	public:
-
 
 		MarketDataManager(Adapter&);
 
@@ -33,6 +31,6 @@ class MarketDataManager {
 		double currentPrice(std::string);
 
 		void updateHistoricData();
-		void changeAdapter(Adapter*);
+		void changeAdapter(Adapter&);
 
 };

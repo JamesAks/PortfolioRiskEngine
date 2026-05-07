@@ -31,13 +31,14 @@ void PortfolioManager::displayAssetReport(AssetRiskReport report) {
 
 	printf("Asset ID : %s \n", report.ID.c_str());
 	printf("Volatility : %g \n", report.volatility);
-	printf("Market Value : %f \n", report.market_value);
+	printf("Current Market Value : %f \n", report.market_value);
 	printf("Expected Return : %f \n", report.expected_return);
 }
 
 std::string PortfolioManager::avApiKey() {
 
 	const char* API_KEY = getenv("ALPHA_VANTAGE_API_KEY");
+	return API_KEY;
 }
 
 // ----- Public -----
@@ -83,11 +84,23 @@ void PortfolioManager::addPosition(size_t quant, std::string symbol, std::string
 	market_data_manager.addHistoricData(symbol);
 	market_data_manager.addLatestPrice(symbol);
 
-	Asset* as = new Asset(symbol, market_data_manager.currentPrice(symbol));
-		
-	Position pos{quant,as};
+	auto as = asset_store.find(symbol);
+	Position p;
 
-	portfolios.find(portfolio_ID)->second.addPosition(pos);
+	p.quantity = quant;
+
+	if (as == asset_store.end()) {
+		
+		
+		p.asset = std::make_shared<Asset>(new Asset(symbol, market_data_manager.currentPrice(symbol)));
+		asset_store.emplace(symbol, p.asset);
+	}
+	else {
+
+		p.asset = as->second;
+	}
+
+	portfolios.find(portfolio_ID)->second.addPosition(p);
 }
 
 

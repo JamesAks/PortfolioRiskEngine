@@ -11,8 +11,6 @@ void MarketDataManager::checkHistoricData(std::string symbol) {
 		printf("Fetching historical data.");
 		addHistoricData(symbol);
 	}
-
-	printf("Data found in store.");
 }
 
 void MarketDataManager::checkLatestPrices(std::string symbol) {
@@ -24,23 +22,6 @@ void MarketDataManager::checkLatestPrices(std::string symbol) {
 	}
 }
 
-
-void MarketDataManager::addHistoricData(std::string symbol) {
-
-	HistoricData hd;
- 	hd.daily = adapter.historicalData(symbol, TimeFrame::DAILY);
-	hd.weekly = adapter.historicalData(symbol, TimeFrame::WEEKLY);
-	hd.monthly = adapter.historicalData(symbol, TimeFrame::MONTHLY);
-
-	historicData.emplace(symbol, hd);
-}
-
-
-void MarketDataManager::addLatestPrice(std::string symbol) {
-
-	double lp = adapter.latestPrice(symbol);
-	latestPrices.emplace(symbol, lp);
-}
 
 
 TimeSeries MarketDataManager::dailyData(std::string symbol) {
@@ -66,6 +47,25 @@ TimeSeries MarketDataManager::monthlyData(std::string symbol) {
 // ---- Public Members -----
 
 MarketDataManager::MarketDataManager(Adapter& adp) : adapter{ adp } {}
+
+
+void MarketDataManager::addHistoricData(std::string symbol) {
+
+	HistoricData hd;
+	hd.daily = adapter.historicalData(symbol, TimeFrame::DAILY);
+	hd.weekly = adapter.historicalData(symbol, TimeFrame::WEEKLY);
+	hd.monthly = adapter.historicalData(symbol, TimeFrame::MONTHLY);
+
+	historicData.emplace(symbol, hd);
+}
+
+
+void MarketDataManager::addLatestPrice(std::string symbol) {
+
+	double lp = adapter.latestPrice(symbol);
+	latestPrices.emplace(symbol, lp);
+}
+
 
 HistoricData MarketDataManager::historicalData(std::string symbol) {
 

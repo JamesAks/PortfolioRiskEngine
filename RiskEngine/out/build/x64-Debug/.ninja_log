@@ -37,3 +37,12 @@
 19	5389	7997774708029493	CMakeFiles/PortfolioRiskEngine.dir/src/PortfolioManager.cpp.obj	a57c48cdd1c4b8f7
 11	6776	7997774721874306	CMakeFiles/PortfolioRiskEngine.dir/src/RiskEngine.cpp.obj	c9dc79f2e915d94
 6777	7571	7997774724325276	PortfolioRiskEngine.exe	1f0039ba56427dde
+43	3642	7998411625205361	CMakeFiles/PortfolioRiskEngine.dir/src/CovarinceMatrix.cpp.obj	7910bd6b31f0647c
+35	5831	7998411647187587	CMakeFiles/PortfolioRiskEngine.dir/src/Adapter.cpp.obj	7036f0d7a5a0dda7
+4	6678	7998411655675404	CMakeFiles/PortfolioRiskEngine.dir/C_/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/test.cpp.obj	4d8d0f2dc7f8b9d5
+12	8308	7998411671971285	CMakeFiles/PortfolioRiskEngine.dir/src/RiskEngine.cpp.obj	c9dc79f2e915d94
+27	4800	7998413738567573	CMakeFiles/PortfolioRiskEngine.dir/src/MarketDataManager.cpp.obj	1796b4e5d5599770
+12	5437	7998413745042795	CMakeFiles/PortfolioRiskEngine.dir/C_/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/test.cpp.obj	4d8d0f2dc7f8b9d5
+19	5637	7998413747030289	CMakeFiles/PortfolioRiskEngine.dir/src/PortfolioManager.cpp.obj	a57c48cdd1c4b8f7
+5	6845	7998413759090231	CMakeFiles/PortfolioRiskEngine.dir/src/RiskEngine.cpp.obj	c9dc79f2e915d94
+6845	8334	7998413762454602	PortfolioRiskEngine.exe	1f0039ba56427dde

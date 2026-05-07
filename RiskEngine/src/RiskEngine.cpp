@@ -15,8 +15,8 @@ AssetRiskReport RiskEngine::analyseAsset(Position pos, TimeFrame tf) {
 	AssetRiskReport report{
 
 		symbol,
-		pos.asset->currentPrice() * pos.quantity,
-		stats.variance(data),
+		pos.asset->currentPrice(),
+		sqrt(stats.variance(data)),
 		expectedReturn(pos, tf)
 	};
 

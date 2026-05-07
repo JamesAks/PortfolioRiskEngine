@@ -5,7 +5,7 @@
 struct Position {
 
     size_t quantity = 0;
-    Asset* asset;
+    std::shared_ptr<Asset> asset;
 };
 
 class Portfolio {
