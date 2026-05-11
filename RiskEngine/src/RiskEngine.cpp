@@ -5,18 +5,17 @@
 RiskEngine::RiskEngine(MarketDataManager& mdm): market_data_manager{ mdm }{}
 
 
-AssetRiskReport RiskEngine::analyseAsset(Position pos, TimeFrame tf) {
+AssetRiskReport RiskEngine::analyseAsset(const Position& pos, TimeFrame tf) const {
 
 	
 	RiskStatistics stats;
 	std::string symbol = pos.asset->symbol();
-	std::vector<double> data = market_data_manager.periodicData(symbol, tf).prices;
 	
 	AssetRiskReport report{
 
 		symbol,
 		pos.asset->currentPrice(),
-		sqrt(stats.variance(data)),
+		stats.standardDeviation(periodicReturns(pos, tf)),
 		expectedReturn(pos, tf)
 	};
 
@@ -24,7 +23,7 @@ AssetRiskReport RiskEngine::analyseAsset(Position pos, TimeFrame tf) {
 }
 
 
-PortfolioRiskReport RiskEngine::analysePortfolio(Portfolio port, TimeFrame tf) {
+PortfolioRiskReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFrame tf) const {
 
 	PortfolioRiskReport report{
 
@@ -40,14 +39,14 @@ PortfolioRiskReport RiskEngine::analysePortfolio(Portfolio port, TimeFrame tf) {
 }
 
 
-std::vector<double> RiskEngine::periodicReturns(Position pos, TimeFrame tf) {
+std::vector<double> RiskEngine::periodicReturns(const Position& pos, TimeFrame tf) const {
 	
 	RiskStatistics stats;
 	return stats.periodicReturns(market_data_manager.periodicData(pos.asset->symbol(), tf).prices);
 }
 	
 
-double RiskEngine::expectedReturn(Position pos, TimeFrame tf) {
+double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf) const {
 	
 	RiskStatistics stats;
 	return stats.mean(periodicReturns(pos, tf));
@@ -55,7 +54,7 @@ double RiskEngine::expectedReturn(Position pos, TimeFrame tf) {
 
 
 
-double RiskEngine::totalReturn(Portfolio port) {
+double RiskEngine::totalReturn(const Portfolio& port) const {
 
 	double sum = 0;
 	for (Position pos : port.viewPositions()) {
@@ -67,7 +66,7 @@ double RiskEngine::totalReturn(Portfolio port) {
 }
 
 
-double RiskEngine::expectedReturn(Portfolio port, TimeFrame tf) {
+double RiskEngine::expectedReturn(const Portfolio& port, TimeFrame tf) const {
 
 	auto ws = port.weights();
 	double sum = 0;
@@ -83,19 +82,19 @@ double RiskEngine::expectedReturn(Portfolio port, TimeFrame tf) {
 }
 
 
-double RiskEngine::portfolioVolatility(Portfolio port, TimeFrame tf) {
+double RiskEngine::portfolioVolatility(const Portfolio& port, TimeFrame tf) const {
 
 	auto weights = port.weights();
-	Eigen::MatrixXd cov_matrix = computeCovarianceMatrix(port, tf).data();
+	Eigen::MatrixXd cov_matrix = computeCovarianceMatrix(port, tf).matrixData();
 	Eigen::Map<Eigen::MatrixXd> weights_matrix(weights.data(), port.size(), 1);
 	double variance = (weights_matrix.transpose() * cov_matrix * weights_matrix).value();
 	return  sqrt(variance);
 }
 
 
-CovarianceMatrix RiskEngine::computeCovarianceMatrix(Portfolio port, TimeFrame tf){
+CovarianceMatrix RiskEngine::computeCovarianceMatrix(const Portfolio& port, TimeFrame tf) const {
 
-	std::vector<Position> positions = port.viewPositions();
+	auto positions = port.viewPositions();
 	size_t size = positions.size();
 	CovarianceMatrix cov_matrix(port.viewAssetLabels());
 
@@ -103,7 +102,7 @@ CovarianceMatrix RiskEngine::computeCovarianceMatrix(Portfolio port, TimeFrame t
 
 		for (size_t j = i; j < size; j++) {
 
-			double covariance = assetCovariance(positions[i], positions[j], tf);
+			double covariance = assetCovariance(positions [i], positions[j], tf);
 			cov_matrix(i, j) = covariance;
 			cov_matrix(j, i) = covariance;
 		}
@@ -114,7 +113,7 @@ CovarianceMatrix RiskEngine::computeCovarianceMatrix(Portfolio port, TimeFrame t
 }
 
 
-double RiskEngine::assetCovariance(Position first, Position second, TimeFrame tf) {
+double RiskEngine::assetCovariance(const Position& first, const Position& second, TimeFrame tf) const {
 
 	RiskStatistics stats;
 	std::vector<double> f_returns = periodicReturns(first, tf);
@@ -124,7 +123,7 @@ double RiskEngine::assetCovariance(Position first, Position second, TimeFrame tf
 }
 
 
-double RiskEngine::assetCorrelation(Position first, Position second, TimeFrame tf) {
+double RiskEngine::assetCorrelation(const Position& first, const Position& second, TimeFrame tf) const {
 
 	RiskStatistics stats;
 	std::vector<double> f_returns = periodicReturns(first,  tf);
@@ -134,7 +133,7 @@ double RiskEngine::assetCorrelation(Position first, Position second, TimeFrame t
 }
 
 
-std::vector<AssetRiskReport> RiskEngine::breakdown(Portfolio port, TimeFrame tf) {
+std::vector<AssetRiskReport> RiskEngine::breakdown(const Portfolio& port, TimeFrame tf) const {
 
 	std::vector<AssetRiskReport> breakdowns;
 	for (Position pos : port.viewPositions()) {

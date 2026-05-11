@@ -30,43 +30,43 @@ class RiskEngine {
 	
 	private:
 
-		MarketDataManager& market_data_manager;
+		const MarketDataManager& market_data_manager;
 
 	public:
 
 		RiskEngine(MarketDataManager&);
 		
 		// Returns a report containing the riskmetrics of an asset.
-		AssetRiskReport analyseAsset(Position, TimeFrame);
+		AssetRiskReport analyseAsset(const Position&, TimeFrame) const;
 
 		// Returns a report containing the riskmetrics of a portfolio.
-		PortfolioRiskReport analysePortfolio(Portfolio, TimeFrame tf);
+		PortfolioRiskReport analysePortfolio(const Portfolio&, TimeFrame) const ;
 
 		// The changes in the price over a period of time.
-		std::vector<double>periodicReturns(Position, TimeFrame);
+		std::vector<double>periodicReturns(const Position&, TimeFrame) const;
 
 		// The mean percentage change of the asset.
-		double expectedReturn(Position, TimeFrame);
+		double expectedReturn(const Position&, TimeFrame) const;
 
 		// Total return of a portfolio. The sum total of the market values of each asset.
-		double totalReturn(Portfolio);
+		double totalReturn(const Portfolio&) const;
 
 		// The expected percentage return on investment
-		double expectedReturn(Portfolio, TimeFrame);
+		double expectedReturn(const Portfolio&, TimeFrame) const;
 
 		// The risk of the portfolio using the variance-covariance formula.
-		double portfolioVolatility(Portfolio, TimeFrame);
+		double portfolioVolatility(const Portfolio&, TimeFrame) const;
 
 		// Computes the covariance matrix of a givenm portfolio.
-		CovarianceMatrix computeCovarianceMatrix(Portfolio, TimeFrame);
+		CovarianceMatrix computeCovarianceMatrix(const Portfolio&, TimeFrame) const;
 
 		// The covaraince between two seperate assets.
-		double assetCovariance(Position, Position, TimeFrame);
+		double assetCovariance(const Position&, const Position&, TimeFrame) const;
 
 		// The correlation between two assets using their covariances.
-		double assetCorrelation(Position, Position, TimeFrame);
+		double assetCorrelation(const Position&, const Position&, TimeFrame) const;
 
 		// A list containing anylysis of all the assets within a portfolio.
-		std::vector<AssetRiskReport> breakdown(Portfolio, TimeFrame);
+		std::vector<AssetRiskReport> breakdown(const Portfolio&, TimeFrame) const;
 
 };

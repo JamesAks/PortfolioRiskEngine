@@ -1,5 +1,6 @@
 #include "Asset.hpp"
 #include <map>
+#include <memory>
 
 
 struct Position {
@@ -21,19 +22,19 @@ class Portfolio {
         Portfolio(std::string);
 
         // Returns a given position.
-        Position viewPosition(std::string);
+        Position viewPosition(std::string) const;
 
         //Returns the positions held in the portfolio.
-        std::vector<Position> viewPositions();
+        std::vector<Position> viewPositions() const;
 
         // Returns the assets stored within the portfolio.
-        std::vector<Asset> viewAssets();
+        std::vector<std::shared_ptr<Asset>> viewAssets() const;
 
         // Returns the label of all assets in the portfolio.
-        std::vector<std::string> viewAssetLabels();
+        std::vector<std::string> viewAssetLabels() const;
 
         // Returns the symbol/ID of the portfolio.
-        std::string viewID();
+        std::string viewID() const;
 
         // Adds an asset to the portfolio.
         void addPosition(Position);
@@ -45,10 +46,10 @@ class Portfolio {
         void changeID(std::string);
         
         // Return the expected return of the portfolio.
-        double expectedReturn();
+        double expectedReturn() const;
 
         // Returns the weights of the assets in the portfolio.
-        std::vector<double> weights();
+        std::vector<double> weights() const;
 
-        size_t size();
+        size_t size() const;
     };

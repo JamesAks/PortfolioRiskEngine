@@ -1,7 +1,9 @@
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
+#include <chrono>
 
 enum class TimeFrame { DAILY, WEEKLY, MONTHLY };
+enum class RequestError { NONE, INVALIDSYMBOL, RATELIMIT, NETWORKERROR };
 
 struct TimeSeries {
 
@@ -10,23 +12,22 @@ struct TimeSeries {
 	std::vector<double> prices;
 };
 
-struct HistoricData {
 
-	TimeSeries daily;
-	TimeSeries weekly;
-	TimeSeries monthly;
+struct RequestResult {
 
+	std::optional<TimeSeries> historicData;
+	RequestError requestError;
+	std::string message;
+	double price;
 };
-
-
+#include <iostream>
 
 class Adapter {
 
 	public:
 
-		virtual std::string request(std::string) = 0;
-		virtual TimeSeries historicalData(std::string, TimeFrame) = 0;
-		virtual double latestPrice(std::string) = 0;
+		virtual RequestResult historicalData(std::string, TimeFrame) const = 0;
+		virtual RequestResult latestPrice(std::string) const = 0;
 };
 
 
@@ -36,16 +37,16 @@ class AlphaVantageAdapter: public Adapter {
 
 		std::string API_key;
 		std::string base_url = "https://www.alphavantage.co/query?";
-		std::string request(std::string);
+		std::string request(std::string) const;
 
 	public:
 
 		AlphaVantageAdapter(std::string);
 		
-		TimeSeries historicalData(std::string, TimeFrame);
-		double latestPrice(std::string);
+		RequestResult historicalData(std::string, TimeFrame) const;
+		RequestResult latestPrice(std::string) const;
 
-		nlohmann::json parse(std::string);
+		nlohmann::json parse(std::string) const;
 };
 
 

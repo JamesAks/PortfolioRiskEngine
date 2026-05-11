@@ -2,35 +2,48 @@
 #include <string>
 #include "Adapter.hpp"
 
+struct HistoricData {
 
- 
+	TimeSeries daily;
+	TimeSeries weekly;
+	TimeSeries monthly;
+
+};
+
+struct RequestStatus {
+
+	RequestError resquest_error;
+	std::string error_message;
+};
+
 class MarketDataManager {
 
 	private:
 
 		std::map<std::string, HistoricData> historicData;
 		std::map<std::string, double> latestPrices;
-		Adapter& adapter;
+		const Adapter& adapter;
 
 		void checkHistoricData(std::string);
 		void checkLatestPrices(std::string);
-
-		TimeSeries dailyData(std::string);
-		TimeSeries weeklyData(std::string);
-		TimeSeries monthlyData(std::string);
+		RequestResult requestHistoricData(std::string);
 
 	public:
 
 		MarketDataManager(Adapter&);
 
-		void addHistoricData(std::string);
-		void addLatestPrice(std::string);
+		RequestStatus addHistoricData(std::string);
+		RequestStatus addLatestPrice(std::string);
 
-		HistoricData historicalData(std::string);
-		TimeSeries periodicData(std::string, TimeFrame);
-		double currentPrice(std::string);
+		HistoricData historicalData(std::string) const;
+		TimeSeries periodicData(std::string, TimeFrame) const;
+		const double& currentPrice(std::string) const;
 
-		void updateHistoricData();
-		void changeAdapter(Adapter&);
+		RequestStatus updateHistoricData(std::string);
+		RequestStatus updateLatestData(std::string);
+
+		const std::map<std::string, HistoricData>& viewHistoricData() const;
+		const std::map<std::string, double>& viewLatestPrices() const;
+		std::vector<std::string> viewSymbols() const;
 
 };

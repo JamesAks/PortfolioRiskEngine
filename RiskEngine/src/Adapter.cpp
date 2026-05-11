@@ -5,7 +5,7 @@
 AlphaVantageAdapter::AlphaVantageAdapter(std::string key) : API_key{ key }{}
 
 
-std::string AlphaVantageAdapter::request(std::string url) {
+std::string AlphaVantageAdapter::request(std::string url) const {
 
 	CURL* curl;
 	CURLcode result;
@@ -18,16 +18,16 @@ std::string AlphaVantageAdapter::request(std::string url) {
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 
 	result = curl_easy_perform(curl);
-
-	// TO DO: Error handling - If the provided symbol is invalid or other connection/API related issues
 	curl_easy_cleanup(curl);
+
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	return response;
 }
 
 
 
-TimeSeries AlphaVantageAdapter::historicalData(std::string symbol, TimeFrame tf) {
+RequestResult AlphaVantageAdapter::historicalData (std::string symbol, TimeFrame tf) const  {
 
 	std::string function;
 	TimeSeries  historical_data;
@@ -59,6 +59,31 @@ TimeSeries AlphaVantageAdapter::historicalData(std::string symbol, TimeFrame tf)
 	std::string response = request(url);
 	auto response_json = parse(response);
 
+	if (response_json.contains("Error Message")) {
+
+		RequestResult result{
+
+			std::nullopt,
+			RequestError::INVALIDSYMBOL,
+			response_json["Error Message"]
+		};
+
+		return result;
+	}
+
+	if (response_json.contains("Note")) {
+
+		RequestResult result{
+
+			std::nullopt,
+			RequestError::RATELIMIT,
+			response_json["Note"]
+		};
+
+		return result;
+	}
+
+
 	auto& data = response_json[title.c_str()];
 	for (auto& [date, daily_data] : data.items()) {
 
@@ -67,26 +92,70 @@ TimeSeries AlphaVantageAdapter::historicalData(std::string symbol, TimeFrame tf)
 		historical_data.prices.push_back(price);
 	}
 
-	return historical_data;
+	RequestResult result{
+
+		historical_data,  
+		RequestError::NONE,
+		"Successfully retrieved data",
+		0
+	};
+
+	return result;
 
 }
 
 
-double AlphaVantageAdapter::latestPrice(std::string symbol) {
+RequestResult AlphaVantageAdapter::latestPrice(std::string symbol) const {
 
 	std::string url = base_url + std::string("function=GLOBAL_QUOTE&symbol=") + symbol + std::string("&apikey=") + API_key;
-
+	
+	
 	std::string response = request(url);
+	std::cout << response;
 	auto response_json = parse(response);
 
-	auto& data = response_json["Global Quote"];
-	double lastestData = std::stod(std::string(data["05. price"]));
+	if (response_json.contains("Error Message")) {
 
-	return lastestData;
+		RequestResult result{
+
+			std::nullopt,
+			RequestError::INVALIDSYMBOL,
+			response_json["Error Message"],
+			0
+		};
+
+		return result;
+	}
+
+	if (response_json.contains("Note")) {
+
+		RequestResult result{
+
+			std::nullopt,
+			RequestError::RATELIMIT,
+			response_json["Note"],
+			0
+		};
+
+		return result;
+	}
+
+	auto& data = response_json["Global Quote"];
+	double price = std::stod(data["05. price"].get<std::string>());
+	
+	RequestResult result{
+
+		std::nullopt,
+		RequestError::NONE,
+		"Successfully retrieved data.",
+		price
+	};
+
+	return result;
 }
 
 
-nlohmann::json AlphaVantageAdapter::parse(std::string response){
+nlohmann::json AlphaVantageAdapter::parse(std::string response) const {
 
 	return nlohmann::json::parse(response);
 }

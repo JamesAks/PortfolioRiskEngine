@@ -11,19 +11,17 @@ class PortfolioManager {
         std::map<std::string, Portfolio> portfolios;
         AlphaVantageAdapter adp;
         MarketDataManager market_data_manager;
-        RiskEngine risk_engine;
+        const RiskEngine risk_engine;
         std::map<std::string,std::shared_ptr<Asset>> asset_store;
 
-
-        void displayPortfolioReport(PortfolioRiskReport);
-        void displayAssetReport(AssetRiskReport);
-        std::string avApiKey();
-
+        void displayPortfolioReport(PortfolioRiskReport) const;
+        void displayAssetReport(AssetRiskReport) const;
+        std::string avApiKey() const;
 
     public:
 
         PortfolioManager();
-        void analysePortfolio(std::string, TimeFrame);
+        void analysePortfolio(std::string, TimeFrame) const;
 
         void createPortfolio(std::string);
         void removePortfolio(std::string);
@@ -31,7 +29,8 @@ class PortfolioManager {
         void addPosition(size_t, std::string, std::string);
         void removePosition(std::string, std::string);
 
-        void updateHistoricMarketData();
+        void updateMarketData();
+
 };
 
  

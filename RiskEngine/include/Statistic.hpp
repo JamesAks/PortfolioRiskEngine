@@ -6,10 +6,10 @@ class RiskStatistics {
 
     public:
 
-        double mean(std::vector<double>);
-        std::vector<double> periodicReturns(std::vector<double>);
-        double standardDeviation(std::vector<double>);
-        double variance(std::vector<double>);
-        double covariance(std::vector<double>, std::vector<double>);
-        double correlation(std::vector<double>, std::vector<double>);
+        double mean(std::vector<double>) const;
+        std::vector<double> periodicReturns(std::vector<double>) const;
+        double standardDeviation(std::vector<double>) const;
+        double variance(std::vector<double>) const;
+        double covariance(std::vector<double>, std::vector<double>) const;
+        double correlation(std::vector<double>, std::vector<double>) const;
     };

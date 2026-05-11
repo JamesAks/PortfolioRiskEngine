@@ -16,11 +16,8 @@ class Asset {
         Asset(std::string, double);
 
         // Returns the current/latest price of the asset.
-        double currentPrice();
-
-        // Updates the current price of the asset.
-        void updatePrice(double);
+        double currentPrice() const;
 
         // Returns the symbol/ID if the asset.
-        std::string symbol();  
+        std::string symbol() const;  
 };

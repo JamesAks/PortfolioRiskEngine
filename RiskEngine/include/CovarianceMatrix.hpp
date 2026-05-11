@@ -13,7 +13,7 @@ class CovarianceMatrix {
 		CovarianceMatrix(std::vector<std::string>);
 		double& operator()(size_t, size_t);
 
-		Eigen::MatrixXd data();
-		void validate();
-
+		Eigen::MatrixXd matrixData() const;
+		void validateMatrix() const;
+	
 };

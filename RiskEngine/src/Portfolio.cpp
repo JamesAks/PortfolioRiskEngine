@@ -4,13 +4,13 @@
 
 Portfolio::Portfolio(std::string n) : ID{ n } {}
 
-Position Portfolio::viewPosition(std::string symbol) {
+Position Portfolio::viewPosition(std::string symbol) const {
 
     return positions.find(symbol)->second;
 }
 
 
-std::vector<Position> Portfolio::viewPositions() {
+std::vector<Position> Portfolio::viewPositions() const {
 
     std::vector<Position> ps;
     for (std::pair pos : positions) {
@@ -22,20 +22,20 @@ std::vector<Position> Portfolio::viewPositions() {
 }
 
 
-std::vector<Asset> Portfolio::viewAssets() {
+std::vector<std::shared_ptr<Asset>> Portfolio::viewAssets() const {
     
-    std::vector<Asset> assets;
+    std::vector<std::shared_ptr<Asset>> assets;
 
     for (std::pair p : positions) {
 
-        assets.push_back(*p.second.asset);
+        assets.push_back(p.second.asset);
     }
 
     return assets;
 }
 
 
-std::vector<std::string> Portfolio::viewAssetLabels() {
+std::vector<std::string> Portfolio::viewAssetLabels() const {
 
     std::vector<std::string> labels;
 
@@ -48,7 +48,7 @@ std::vector<std::string> Portfolio::viewAssetLabels() {
 }
 
 
-std::string Portfolio::viewID() { return ID; }
+std::string Portfolio::viewID() const { return ID; }
 
 
 void Portfolio::addPosition(Position p ) { positions.emplace(p.asset->symbol(), p); }
@@ -60,7 +60,7 @@ void Portfolio::removePosition(std::string symbol) { positions.erase(symbol); }
 void Portfolio::changeID(std::string new_ID) { ID = new_ID; }
 
 
-double Portfolio::expectedReturn() {
+double Portfolio::expectedReturn() const {
 
     double sum = 0;
 
@@ -73,7 +73,7 @@ double Portfolio::expectedReturn() {
 }
 
 
-std::vector<double> Portfolio::weights() {
+std::vector<double> Portfolio::weights() const {
 
     std::vector<double> ws;
     double value = expectedReturn();
@@ -86,4 +86,4 @@ std::vector<double> Portfolio::weights() {
     return ws;
 }
 
-size_t Portfolio::size() { return positions.size(); }
+size_t Portfolio::size() const { return positions.size(); }

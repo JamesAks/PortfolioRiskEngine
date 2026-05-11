@@ -6,14 +6,17 @@
 
 void MarketDataManager::checkHistoricData(std::string symbol) {
 
+
 	if (historicData.find(symbol) == historicData.end()) {
 
 		printf("Fetching historical data.");
 		addHistoricData(symbol);
 	}
+
 }
 
 void MarketDataManager::checkLatestPrices(std::string symbol) {
+
 
 	if (latestPrices.find(symbol) == latestPrices.end()) {
 
@@ -22,94 +25,163 @@ void MarketDataManager::checkLatestPrices(std::string symbol) {
 	}
 }
 
-
-
-TimeSeries MarketDataManager::dailyData(std::string symbol) {
-	
-	checkHistoricData(symbol);
-	return historicData.find(symbol)->second.daily;
-}
-
-
-TimeSeries MarketDataManager::weeklyData(std::string symbol) {
-
-	checkHistoricData(symbol);
-	return historicData.find(symbol)->second.weekly;
-}
-
-
-TimeSeries MarketDataManager::monthlyData(std::string symbol) {
-
-	checkHistoricData(symbol);
-	return historicData.find(symbol)->second.monthly;
-}
-
 // ---- Public Members -----
 
 MarketDataManager::MarketDataManager(Adapter& adp) : adapter{ adp } {}
 
 
-void MarketDataManager::addHistoricData(std::string symbol) {
+RequestStatus MarketDataManager::addHistoricData(std::string symbol) {
 
 	HistoricData hd;
-	hd.daily = adapter.historicalData(symbol, TimeFrame::DAILY);
-	hd.weekly = adapter.historicalData(symbol, TimeFrame::WEEKLY);
-	hd.monthly = adapter.historicalData(symbol, TimeFrame::MONTHLY);
+
+	RequestResult daily = adapter.historicalData(symbol, TimeFrame::DAILY);
+	if (daily.requestError != RequestError::NONE) {
+
+		return { daily.requestError, daily.message };
+	}
+
+	RequestResult weekly = adapter.historicalData(symbol, TimeFrame::WEEKLY);
+	if (weekly.requestError != RequestError::NONE) {
+
+		return { weekly.requestError, daily.message };
+	}
+
+	RequestResult monthly = adapter.historicalData(symbol, TimeFrame::MONTHLY);
+	if (monthly.requestError != RequestError::NONE) {
+
+		return { monthly.requestError, daily.message };
+	}
+
+	hd.daily = daily.historicData.value();
+	hd.weekly = weekly.historicData.value();
+	hd.monthly = monthly.historicData.value();
 
 	historicData.emplace(symbol, hd);
+
+	return { RequestError::NONE, "" };
 }
 
 
-void MarketDataManager::addLatestPrice(std::string symbol) {
 
-	double lp = adapter.latestPrice(symbol);
-	latestPrices.emplace(symbol, lp);
-}
+RequestStatus MarketDataManager::addLatestPrice(std::string symbol) {
 
+	RequestResult lp = adapter.latestPrice(symbol);
 
-HistoricData MarketDataManager::historicalData(std::string symbol) {
+	if (lp.requestError == RequestError::NONE) {
 
-	checkHistoricData(symbol);
-	return historicData.find(symbol)->second;
-}
+		latestPrices.emplace(symbol, lp.price);
+		return  { RequestError::NONE, "" };
+	
+	}
+	else {
 
-TimeSeries MarketDataManager::periodicData(std::string symbol, TimeFrame tf) {
-
-	switch (tf)
-	{
-	case TimeFrame::DAILY:
-
-		return dailyData(symbol);
-		break;
-
-	case TimeFrame::WEEKLY:
-
-		return weeklyData(symbol);
-		break;
-
-	case TimeFrame::MONTHLY:
-
-		return monthlyData(symbol);
-		break;
+		return { lp.requestError, lp.message };
 	}
 }
 
 
-double MarketDataManager::currentPrice(std::string symbol) {
+HistoricData MarketDataManager::historicalData(std::string symbol) const {
 
-	checkLatestPrices(symbol);
+	auto result = historicData.find(symbol);
+	return result->second;
+}
+
+
+TimeSeries MarketDataManager::periodicData(std::string symbol, TimeFrame tf) const {
+
+	auto pd = historicData.find(symbol);
+	switch (tf)
+	{
+	case TimeFrame::DAILY:
+
+		return pd->second.daily;
+		break;
+
+	case TimeFrame::WEEKLY:
+
+		return pd->second.weekly;
+		break;
+
+	case TimeFrame::MONTHLY:
+
+		return pd->second.monthly;
+		break;
+
+	default:
+
+		throw std::runtime_error("Invalid timeframe given.");
+	}
+}
+
+
+const double& MarketDataManager::currentPrice(std::string symbol) const {
+
 	return latestPrices.find(symbol)->second;
 }
 
 
-void MarketDataManager::updateHistoricData() {
+RequestStatus MarketDataManager::updateHistoricData(std::string symbol) {
 
 	for (std::pair hd : historicData) {
 
 		hd.second = historicalData(hd.first);
 	}
+
+	HistoricData hd = historicData.find(symbol)->second;
+
+	RequestResult daily = adapter.historicalData(symbol, TimeFrame::DAILY);
+	if (daily.requestError != RequestError::NONE) {
+
+		return { daily.requestError, daily.message };
+	}
+
+	RequestResult weekly = adapter.historicalData(symbol, TimeFrame::WEEKLY);
+	if (weekly.requestError != RequestError::NONE) {
+
+		return { weekly.requestError, daily.message };
+	}
+
+	RequestResult monthly = adapter.historicalData(symbol, TimeFrame::MONTHLY);
+	if (monthly.requestError != RequestError::NONE) {
+
+		return { monthly.requestError, daily.message };
+	}
+
+	hd.daily = daily.historicData.value();
+	hd.weekly = weekly.historicData.value();
+	hd.monthly = monthly.historicData.value();
+
+	historicData[symbol] = hd;
+
+	return { RequestError::NONE, "" };
 }
+
+
+RequestStatus MarketDataManager::updateLatestData(std::string symbol) {
+
+	RequestResult res = adapter.latestPrice(symbol);
+
+	if (res.requestError != RequestError::NONE) {
+
+		return { res.requestError, res.message };
+	}
+
+	latestPrices[symbol] = res.price;
+	return { res.requestError, "" };
+}
+
+
+const std::map<std::string, HistoricData>& MarketDataManager::viewHistoricData() const { return historicData; }
+
+const std::map<std::string, double>& MarketDataManager::viewLatestPrices() const { return latestPrices; }
+
+std::vector<std::string> MarketDataManager::viewSymbols() const {
 	
+	std::vector<std::string> symbols;
+	for (std::pair d : historicData) {
 
-void MarketDataManager::changeAdapter(Adapter& adp_pointer) { adapter = adp_pointer; }
+		symbols.push_back(d.first);
+	}
 
+	return symbols;
+}
