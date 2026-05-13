@@ -24,26 +24,22 @@ class MarketDataManager {
 		std::map<std::string, double> latestPrices;
 		const Adapter& adapter;
 
-		void checkHistoricData(std::string);
-		void checkLatestPrices(std::string);
-		RequestResult requestHistoricData(std::string);
+		RequestError updateHistoricData(std::string);
+		RequestError updateLatestPrice(std::string);
 
 	public:
 
 		MarketDataManager(Adapter&);
 
-		RequestStatus addHistoricData(std::string);
-		RequestStatus addLatestPrice(std::string);
+		RequestError addMarketData(std::string);
 
-		HistoricData historicalData(std::string) const;
-		TimeSeries periodicData(std::string, TimeFrame) const;
+		const HistoricData& historicalData(std::string) const;
+		const TimeSeries& periodicData(std::string, TimeFrame) const;
 		const double& currentPrice(std::string) const;
-
-		RequestStatus updateHistoricData(std::string);
-		RequestStatus updateLatestData(std::string);
 
 		const std::map<std::string, HistoricData>& viewHistoricData() const;
 		const std::map<std::string, double>& viewLatestPrices() const;
 		std::vector<std::string> viewSymbols() const;
+		void update();
 
 };

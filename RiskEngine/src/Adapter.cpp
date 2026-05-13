@@ -2,8 +2,7 @@
 
 
 
-AlphaVantageAdapter::AlphaVantageAdapter(std::string key) : API_key{ key }{}
-
+// ----- Private Members -----
 
 std::string AlphaVantageAdapter::request(std::string url) const {
 
@@ -20,14 +19,44 @@ std::string AlphaVantageAdapter::request(std::string url) const {
 	result = curl_easy_perform(curl);
 	curl_easy_cleanup(curl);
 
+	Logger::logDebug("Waiting one second for rate limit");
 	std::this_thread::sleep_for(std::chrono::seconds(1));
+	Logger::logDebug("Waiting finished");      
 
 	return response;
 }
 
 
+RequestError AlphaVantageAdapter::validateResponse(std::string symbol, const nlohmann::json& response_json) const {
 
-RequestResult AlphaVantageAdapter::historicalData (std::string symbol, TimeFrame tf) const  {
+	if (response_json.contains("Error Message")) {
+
+		Logger::logError("Could not fetch data. \"" + symbol + "\" is an invalid symbol. Adapter error message: \n" + response_json["Error Message"].get<std::string>());
+		return RequestError::INVALIDSYMBOL;
+	}
+
+	if (response_json.contains("Note")) {
+
+		Logger::logError("Could not fetch data. Rate limit reached for this adapter. Adapter Error Message: \n" + response_json["Note"].get<std::string>());
+		return RequestError::RATELIMIT;
+	}
+
+	if (response_json.contains("Information")) {
+
+		Logger::logError("Could not fetch data. Rate limit reached for this adapter. Adapter Error Message: \n" + response_json["Information"].get<std::string>());
+		return RequestError::RATELIMIT;
+	}
+
+	return RequestError::NONE;
+}
+
+// ----- Public Members -----
+
+
+AlphaVantageAdapter::AlphaVantageAdapter(std::string key) : API_key{ key } {}
+
+
+RequestResult AlphaVantageAdapter::periodicData (std::string symbol, TimeFrame tf) const  {
 
 	std::string function;
 	TimeSeries  historical_data;
@@ -39,55 +68,43 @@ RequestResult AlphaVantageAdapter::historicalData (std::string symbol, TimeFrame
 
 			function = "TIME_SERIES_DAILY";
 			title = "Time Series (Daily)";
+			Logger::logInfo("Fetching daily data for \"" + symbol + "\".");
 			break;
 
 		case TimeFrame::WEEKLY:
 
 			function = "TIME_SERIES_WEEKLY";
 			title = "Weekly Time Series";
+			Logger::logInfo("Fetching weekly data for \"" + symbol + "\".");
 			break;
 
 		case TimeFrame::MONTHLY:
 
 			function = "TIME_SERIES_MONTHLY";
 			title = "Monthly Time Series";
+			Logger::logInfo("Fetching monthly data for \"" + symbol + "\".");
 			break;
-	}
 
+		default:
+
+			throw std::runtime_error("Missing TimeFrame. ");
+	}
 
 	std::string url = base_url + std::string("function=") + function + std::string("&symbol=") + symbol + std::string("&apikey=") + API_key;
 	std::string response = request(url);
 	auto response_json = parse(response);
 
-	if (response_json.contains("Error Message")) {
-
-		RequestResult result{
-
-			std::nullopt,
-			RequestError::INVALIDSYMBOL,
-			response_json["Error Message"]
-		};
-
-		return result;
-	}
-
-	if (response_json.contains("Note")) {
-
-		RequestResult result{
-
-			std::nullopt,
-			RequestError::RATELIMIT,
-			response_json["Note"]
-		};
-
-		return result;
-	}
-
+	auto vr = validateResponse(symbol, response_json);
+	if (vr != RequestError::NONE) { return { std::nullopt, vr }; }
+	
+	if (!response_json.contains(title.c_str())) { throw std::runtime_error("Missing market data for \"" + symbol + "\"."); }
 
 	auto& data = response_json[title.c_str()];
+	
 	for (auto& [date, daily_data] : data.items()) {
 
-		double price = std::stod(std::string(daily_data["4. close"]));
+		if (!daily_data.contains("4. close")) { throw std::runtime_error("Missing prices for \"" + symbol + "\"."); }
+		double price = std::stod(daily_data["4. close"].get<std::string>());
 		historical_data.dates.push_back(date);
 		historical_data.prices.push_back(price);
 	}
@@ -96,58 +113,36 @@ RequestResult AlphaVantageAdapter::historicalData (std::string symbol, TimeFrame
 
 		historical_data,  
 		RequestError::NONE,
-		"Successfully retrieved data",
 		0
 	};
 
 	return result;
-
 }
 
 
 RequestResult AlphaVantageAdapter::latestPrice(std::string symbol) const {
 
+	Logger::logInfo("Fethcing Latest data for \"" + symbol + "\".");
+
 	std::string url = base_url + std::string("function=GLOBAL_QUOTE&symbol=") + symbol + std::string("&apikey=") + API_key;
-	
-	
 	std::string response = request(url);
-	std::cout << response;
 	auto response_json = parse(response);
 
-	if (response_json.contains("Error Message")) {
+	auto vr = validateResponse(symbol, response_json);
+	if (vr != RequestError::NONE) { return { std::nullopt, vr }; }
 
-		RequestResult result{
-
-			std::nullopt,
-			RequestError::INVALIDSYMBOL,
-			response_json["Error Message"],
-			0
-		};
-
-		return result;
-	}
-
-	if (response_json.contains("Note")) {
-
-		RequestResult result{
-
-			std::nullopt,
-			RequestError::RATELIMIT,
-			response_json["Note"],
-			0
-		};
-
-		return result;
-	}
+	if (!response_json.contains("Global Quote")) { throw std::runtime_error("Missing global quote."); }
 
 	auto& data = response_json["Global Quote"];
+
+	if (!data.contains("05. price")) { throw std::runtime_error("Missing price."); }
+
 	double price = std::stod(data["05. price"].get<std::string>());
-	
+
 	RequestResult result{
 
 		std::nullopt,
 		RequestError::NONE,
-		"Successfully retrieved data.",
 		price
 	};
 
@@ -161,7 +156,7 @@ nlohmann::json AlphaVantageAdapter::parse(std::string response) const {
 }
 
 
-size_t memoryWriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+static size_t memoryWriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
 
 	((std::string*)userp)->append((char*)contents, size * nmemb);
 	return size * nmemb;

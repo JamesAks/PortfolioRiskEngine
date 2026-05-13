@@ -46,24 +46,32 @@ std::string PortfolioManager::avApiKey() const {
 PortfolioManager::PortfolioManager() : adp(avApiKey()), market_data_manager(adp), risk_engine(market_data_manager) {}
 		
 
-void PortfolioManager::analysePortfolio(std::string port, TimeFrame tf) const {
+void PortfolioManager::analysePortfolio(std::string portfolio_ID, TimeFrame tf) const {
 
-	auto p = portfolios.find(port);
+	auto p = portfolios.find(portfolio_ID);
 	if (p == portfolios.end()) {
 
-		printf("There is no portfolio called \"%s\" \n", port.c_str());
+		Logger::logError("Portfolio \"" + portfolio_ID + "\" not found.");
 		return;
 	}
 
  	PortfolioRiskReport report = risk_engine.analysePortfolio(p->second, tf);
 	displayPortfolioReport(report);
+
 }
 
 
 void PortfolioManager::createPortfolio(std::string portfolio_ID) {
 
+	if (portfolios.find(portfolio_ID) != portfolios.end()) {
+
+		Logger::logError("Portfolio \"" + portfolio_ID + "\" already exist.");
+		return;
+	}
+
 	Portfolio pf(portfolio_ID);
 	portfolios.emplace(portfolio_ID, pf);
+	Logger::logInfo("Created portfolio \"" + portfolio_ID + "\".");
 }
 
 
@@ -71,13 +79,13 @@ void PortfolioManager::removePortfolio(std::string portfolio_ID) {
 
 	if (portfolios.find(portfolio_ID) == portfolios.end()) {
 
-		printf("There is no Portfolio called \"%s\". \n", portfolio_ID.c_str());
+		Logger::logError("Portfolio \"" + portfolio_ID + "\" not found.");
 	}
-	else {
 
-		portfolios.erase(portfolio_ID);
-		printf("Portfolio successfully deleted. \n");
-	}
+
+	portfolios.erase(portfolio_ID);
+	Logger::logInfo("Deleted portfolio \"" + portfolio_ID + "\".");
+	
 }
 
 
@@ -85,88 +93,78 @@ void PortfolioManager::addPosition(size_t quant, std::string symbol, std::string
 
 	if (symbol.empty()) {
 
-		printf("Asset not added. Symbol cannot be empty. \n");
+		Logger::logError("Asset not added.Symbol cannot be empty.");
 		return;
 	}
 
-	auto historicResult = market_data_manager.addHistoricData(symbol);
+	auto port = portfolios.find(portfolio_ID);
 
-	if (historicResult.resquest_error != RequestError::NONE) {
+	if (port == portfolios.end()) {
 
-		printf("Asset not added. Error with fetching historic market data for \"%s\". Adapter error message: \n %s \n", symbol.c_str(), historicResult.error_message.c_str());
+		Logger::logError("Portfolio \"" + portfolio_ID + "\" not found.");
 		return;
-	}
-
-	auto latestResult = market_data_manager.addLatestPrice(symbol);
-
-	if (historicResult.resquest_error != RequestError::NONE) {
-
-		printf("Asset not added. Error with fetching latest market quote for \"%s\", Adapter error message: \n %s \n", symbol.c_str(), latestResult.error_message.c_str());
-		return;
-
 	}
 
 	auto as = asset_store.find(symbol);
-	Position p;
+	if (as != asset_store.end()) {
 
-	p.quantity = quant;
+		Logger::logInfo("Asset found in asset store. Using previously stored asset data to construct position...");
+		Position p{ quant, as->second };
+		portfolios.find(portfolio_ID)->second.addPosition(p);
+		Logger::logInfo("Added position \"" + symbol + "\" to \"" + portfolio_ID + "\".");
 
-	if (as == asset_store.end()) {
-		
-		p.asset = std::make_shared<Asset>(symbol, market_data_manager.currentPrice(symbol));
-		asset_store.emplace(symbol, p.asset);
+		return;
 	}
-	else {
 
-		p.asset = as->second;
+	Logger::logInfo("Atempting to fetch historic data for \"" + symbol + "\" and add to data store.");
+
+	auto historicResult = market_data_manager.addMarketData(symbol);
+	if (historicResult != RequestError::NONE) {
+
+		Logger::logError("Asset not added. Error with fetching market data for \"" + symbol + "\".");
+		return;
 	}
+
+	Position p{
+
+		quant,
+		std::make_shared<Asset>(symbol, market_data_manager.currentPrice(symbol))
+	};
+
+	asset_store.emplace(symbol, p.asset);
+	Logger::logInfo("Added \"" + symbol + "\" to asset store.");
 
 	portfolios.find(portfolio_ID)->second.addPosition(p);
+	Logger::logInfo("Added position \"" + symbol + "\" to \"" + portfolio_ID + "\".");
+	return;
 }
 
 
 void PortfolioManager::removePosition(std::string portfolio_ID, std::string symbol){
 
+
+
 	auto p = portfolios.find(portfolio_ID);
 	if (p == portfolios.end()) {
 
-		printf("Portfolio \"%s\"not found. \n", portfolio_ID.c_str());
+		Logger::logError("Could not remove \"" + symbol + "\". Portfolio \"" + portfolio_ID + "\" not found. Check spelling.");
 		return;
 	}
 
-	for (Position pos : p->second.viewPositions()) {
+	std::map<std::string,Position> pos = p->second.viewPositions();
 
-		if (pos.asset->symbol() == symbol) {
-
-			p->second.removePosition(symbol);
-			return;
-		}
+	if (pos.find(symbol) == pos.end()) {
+		 
+		Logger::logError("Could not remove \"" + symbol + "\". Position \"" + symbol + "\" not found in portfolio \"" + portfolio_ID + "\". Check spelling.");
+		return;
 	}
 
-	printf("Position \"%s\" not found in portfolio. \n", symbol.c_str());
+	p->second.removePosition(symbol);
+
+	Logger::logInfo("Successfuly removed \"" + symbol + "\" from \"" + portfolio_ID + "\".");
 	return;
 }
 
 
-void PortfolioManager::updateMarketData() { 
-
-	for (std::pair<std::string,HistoricData> hd : market_data_manager.viewHistoricData()) {
-
-		auto result = market_data_manager.updateHistoricData(hd.first);
-		if (result.resquest_error != RequestError::NONE){
-
-			printf("Could not update data for \"%s\". Adapter error message: \n \"%s\". \n", hd.first.c_str(), result.error_message.c_str());
-			return;
-		}
-		
-		printf("Updated Historic Data for \"%s\". \n", hd.first.c_str());
-
-		auto lr = market_data_manager.updateLatestData(hd.first);
-		if (lr.resquest_error != RequestError::NONE) {
-
-			printf("Could not update data for \"%s\". Adapter error message: \n \"%s\". \n", hd.first.c_str(), lr.error_message.c_str());
-			return;
-		}
-	};   
-}
+void PortfolioManager::updateMarketData() { market_data_manager.update(); }
 

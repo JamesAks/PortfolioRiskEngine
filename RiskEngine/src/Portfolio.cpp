@@ -10,16 +10,7 @@ Position Portfolio::viewPosition(std::string symbol) const {
 }
 
 
-std::vector<Position> Portfolio::viewPositions() const {
-
-    std::vector<Position> ps;
-    for (std::pair pos : positions) {
-
-        ps.push_back(pos.second);
-    }
-
-    return ps;
-}
+const std::map<std::string,Position>& Portfolio::viewPositions() const { return positions; }
 
 
 std::vector<std::shared_ptr<Asset>> Portfolio::viewAssets() const {

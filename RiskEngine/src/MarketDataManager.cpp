@@ -1,28 +1,23 @@
 #include "../include/MarketDataManager.hpp"
 
 
+
 // ---- Private Members -----
 
+RequestError MarketDataManager::updateLatestPrice(std::string symbol) {
 
-void MarketDataManager::checkHistoricData(std::string symbol) {
+	RequestResult res = adapter.latestPrice(symbol);
 
+	if (res.requestError != RequestError::NONE) {
 
-	if (historicData.find(symbol) == historicData.end()) {
-
-		printf("Fetching historical data.");
-		addHistoricData(symbol);
+		Logger::logError("Could not update data for \"" + symbol + "\".");
+		return res.requestError;
 	}
 
-}
+	latestPrices[symbol] = res.price;
+	Logger::logInfo("Successfully updated the latest price for \"" + symbol + "\".");
 
-void MarketDataManager::checkLatestPrices(std::string symbol) {
-
-
-	if (latestPrices.find(symbol) == latestPrices.end()) {
-
-		printf("Fetching latest markest data.");
-		addLatestPrice(symbol);
-	}
+	return res.requestError;
 }
 
 // ---- Public Members -----
@@ -30,64 +25,61 @@ void MarketDataManager::checkLatestPrices(std::string symbol) {
 MarketDataManager::MarketDataManager(Adapter& adp) : adapter{ adp } {}
 
 
-RequestStatus MarketDataManager::addHistoricData(std::string symbol) {
+RequestError MarketDataManager::addMarketData(std::string symbol) {
 
+	// Fetching and validating historic data.
 	HistoricData hd;
 
-	RequestResult daily = adapter.historicalData(symbol, TimeFrame::DAILY);
+	RequestResult daily = adapter.periodicData(symbol, TimeFrame::DAILY);
 	if (daily.requestError != RequestError::NONE) {
 
-		return { daily.requestError, daily.message };
+		Logger::logError("Failed to fetch market data. Could not add \"" + symbol + "\" historic daily data to data store.");
+		return daily.requestError;
 	}
 
-	RequestResult weekly = adapter.historicalData(symbol, TimeFrame::WEEKLY);
+	RequestResult weekly = adapter.periodicData(symbol, TimeFrame::WEEKLY);
 	if (weekly.requestError != RequestError::NONE) {
 
-		return { weekly.requestError, daily.message };
+		Logger::logError("Failed to fetch market data. Could not add \"" + symbol + "\" historic weekly data to data store.");
+		return weekly.requestError;
 	}
 
-	RequestResult monthly = adapter.historicalData(symbol, TimeFrame::MONTHLY);
+	RequestResult monthly = adapter.periodicData(symbol, TimeFrame::MONTHLY);
 	if (monthly.requestError != RequestError::NONE) {
 
-		return { monthly.requestError, daily.message };
+		Logger::logError("Failed to fetch market data. Could not add \"" + symbol + "\" historic monthly data to data store.");
+		return monthly.requestError ;
 	}
 
 	hd.daily = daily.historicData.value();
 	hd.weekly = weekly.historicData.value();
 	hd.monthly = monthly.historicData.value();
 
-	historicData.emplace(symbol, hd);
-
-	return { RequestError::NONE, "" };
-}
-
-
-
-RequestStatus MarketDataManager::addLatestPrice(std::string symbol) {
-
+	// Fetching and validating latest price.
 	RequestResult lp = adapter.latestPrice(symbol);
 
-	if (lp.requestError == RequestError::NONE) {
+	if (lp.requestError != RequestError::NONE) {
 
-		latestPrices.emplace(symbol, lp.price);
-		return  { RequestError::NONE, "" };
+		Logger::logError("Failed to fetch market data. Could not add \"" + symbol + "\" latest price to data store.");
+		return lp.requestError;
+	};
+
+	historicData.emplace(symbol, hd);
+	latestPrices.emplace(symbol, lp.price);
 	
-	}
-	else {
-
-		return { lp.requestError, lp.message };
-	}
+	Logger::logInfo("Added  \"" + symbol + "\" market data to the data store.");
+	return RequestError::NONE;
 }
 
 
-HistoricData MarketDataManager::historicalData(std::string symbol) const {
+const HistoricData& MarketDataManager::historicalData(std::string symbol) const {
 
 	auto result = historicData.find(symbol);
 	return result->second;
 }
 
 
-TimeSeries MarketDataManager::periodicData(std::string symbol, TimeFrame tf) const {
+const TimeSeries& MarketDataManager::periodicData(std::string symbol, TimeFrame tf) const {
 
 	auto pd = historicData.find(symbol);
 	switch (tf)
@@ -109,7 +101,7 @@ TimeSeries MarketDataManager::periodicData(std::string symbol, TimeFrame tf) con
 
 	default:
 
-		throw std::runtime_error("Invalid timeframe given.");
+		throw std::runtime_error("Missing TimeFrame.");
 	}
 }
 
@@ -120,60 +112,11 @@ const double& MarketDataManager::currentPrice(std::string symbol) const {
 }
 
 
-RequestStatus MarketDataManager::updateHistoricData(std::string symbol) {
-
-	for (std::pair hd : historicData) {
-
-		hd.second = historicalData(hd.first);
-	}
-
-	HistoricData hd = historicData.find(symbol)->second;
-
-	RequestResult daily = adapter.historicalData(symbol, TimeFrame::DAILY);
-	if (daily.requestError != RequestError::NONE) {
-
-		return { daily.requestError, daily.message };
-	}
-
-	RequestResult weekly = adapter.historicalData(symbol, TimeFrame::WEEKLY);
-	if (weekly.requestError != RequestError::NONE) {
-
-		return { weekly.requestError, daily.message };
-	}
-
-	RequestResult monthly = adapter.historicalData(symbol, TimeFrame::MONTHLY);
-	if (monthly.requestError != RequestError::NONE) {
-
-		return { monthly.requestError, daily.message };
-	}
-
-	hd.daily = daily.historicData.value();
-	hd.weekly = weekly.historicData.value();
-	hd.monthly = monthly.historicData.value();
-
-	historicData[symbol] = hd;
-
-	return { RequestError::NONE, "" };
-}
-
-
-RequestStatus MarketDataManager::updateLatestData(std::string symbol) {
-
-	RequestResult res = adapter.latestPrice(symbol);
-
-	if (res.requestError != RequestError::NONE) {
-
-		return { res.requestError, res.message };
-	}
-
-	latestPrices[symbol] = res.price;
-	return { res.requestError, "" };
-}
-
-
 const std::map<std::string, HistoricData>& MarketDataManager::viewHistoricData() const { return historicData; }
 
+
 const std::map<std::string, double>& MarketDataManager::viewLatestPrices() const { return latestPrices; }
+
 
 std::vector<std::string> MarketDataManager::viewSymbols() const {
 	
@@ -184,4 +127,65 @@ std::vector<std::string> MarketDataManager::viewSymbols() const {
 	}
 
 	return symbols;
+}
+
+
+void MarketDataManager::update() {
+
+	Logger::logInfo("Updating Market Data Store.....");
+
+	int updated = 0;
+	for (std::pair<std::string, HistoricData> entry : historicData) {
+		std::string symbol = entry.first;
+
+		HistoricData hd = historicData.find(symbol)->second;
+
+		RequestResult daily = adapter.periodicData(symbol, TimeFrame::DAILY);
+		if (daily.requestError != RequestError::NONE) {
+
+			Logger::logError("Could not update the daily data for \"" + symbol + "\". Aborting Update...");
+			continue;
+		}
+
+		RequestResult weekly = adapter.periodicData(symbol, TimeFrame::WEEKLY);
+		if (weekly.requestError != RequestError::NONE) {
+
+			Logger::logError("Could not update the weekly data for \"" + symbol + "\". Aborting Update...");
+			continue;
+		}
+
+		RequestResult monthly = adapter.periodicData(symbol, TimeFrame::MONTHLY);
+		if (monthly.requestError != RequestError::NONE) {
+
+			Logger::logError("Could not update the monthly data for \"" + symbol + "\". Aborting Update...");
+			continue;
+		}
+
+		hd.daily = daily.historicData.value();
+		hd.weekly = weekly.historicData.value();
+		hd.monthly = monthly.historicData.value();
+
+		RequestResult lp = adapter.latestPrice(symbol);
+
+		if (lp.requestError != RequestError::NONE) {
+
+			Logger::logError("Could not update latest price of \"" + symbol + "\". Aborting Update...");
+			continue;
+		};
+
+		historicData[symbol] = hd;
+		latestPrices[symbol] = lp.price;
+
+		Logger::logInfo("Successfully updated historic data for \"" + symbol + "\".");
+		updated++;
+	}
+
+	size_t size = historicData.size();
+	if (updated == size) {
+
+		Logger::logInfo("Data store fully updated: " + std::to_string(updated) + "/" + std::to_string(size) + " Updated.");
+		return;
+	}
+
+	Logger::logWarning("Data store not fully updated: " + std::to_string(updated) + "/" + std::to_string(size) + " Updated.");
 }

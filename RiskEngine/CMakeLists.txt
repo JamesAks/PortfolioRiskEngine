@@ -18,7 +18,7 @@ FetchContent_MakeAvailable(json)
 
 
 # Add source to this project's executable.
-add_executable (PortfolioRiskEngine "../test.cpp" "src/RiskEngine.cpp" "include/RiskEngine.hpp" "src/Asset.cpp"  "include/PortfolioManager.hpp"  "src/Portfolio.cpp"  "src/PortfolioManager.cpp"  "src/RiskEngine.cpp" "src/Statistics.cpp" "include/CovarianceMatrix.hpp" "src/CovarinceMatrix.cpp" "src/Adapter.cpp" "include/Adapter.hpp" "include/MarketDataManager.hpp" "src/MarketDataManager.cpp")
+add_executable (PortfolioRiskEngine "../test.cpp" "src/RiskEngine.cpp" "include/RiskEngine.hpp" "src/Asset.cpp"  "include/PortfolioManager.hpp"  "src/Portfolio.cpp"  "src/PortfolioManager.cpp"  "src/RiskEngine.cpp" "src/Statistics.cpp" "include/CovarianceMatrix.hpp" "src/CovarinceMatrix.cpp" "src/Adapter.cpp" "include/Adapter.hpp" "include/MarketDataManager.hpp" "src/MarketDataManager.cpp" "include/Logger.hpp" "src/Logger.cpp")
 
 target_compile_features(PortfolioRiskEngine PRIVATE cxx_std_20)
 target_include_directories(PortfolioRiskEngine PRIVATE "C:/libs/C++/eigen-5.0.0" )

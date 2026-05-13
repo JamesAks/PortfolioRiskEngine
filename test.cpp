@@ -1,9 +1,5 @@
-#include "RiskEngine/include/RiskEngine.hpp"
-#include <stdio.h>
-#include <chrono>
-#include <Eigen/Dense>
-#include <iostream>
-#include "RiskEngine/include/Adapter.hpp"
+
+#include "RiskEngine/include/PortfolioManager.hpp"
 #include <fstream>
 #include <filesystem>
 
@@ -15,53 +11,66 @@ int main() {
     auto var = "ALPHA_VANTAGE_API_KEY";
     const char* API_KEY = getenv(var);
 
-    curl_global_init(CURL_GLOBAL_WIN32);
-    auto a = std::chrono::year{ 2012 } / 2 / 3;
-    std::vector<std::chrono::year_month_day> days{ a, std::chrono::year{2012} / 2 / 3, std::chrono::year{2012} / 2 / 4 };
-    std::vector<double> prices{ 12.5, 16.4, 18.9 };
-    std::string name1 = "AMD";
-    std::string name2 = "APPL";
-    std::string name3 = "TSL";
-    std::string name4 = "SSG";
-    TimeSeries hist{ days, prices };
-    RiskStatistics r_stats;
-    RiskEngine risk_engine{ r_stats };
+    //curl_global_init(CURL_GLOBAL_WIN32);
+    //auto a = std::chrono::year{ 2012 } / 2 / 3;
+    //std::vector<std::chrono::year_month_day> days{ a, std::chrono::year{2012} / 2 / 3, std::chrono::year{2012} / 2 / 4 };
+    //std::vector<double> prices{ 12.5, 16.4, 18.9 };
+    //std::string name1 = "AMD";
+    //std::string name2 = "APPL";
+    //std::string name3 = "TSL";
+    //std::string name4 = "SSG";
+    //TimeSeries hist{ days, prices };
+    //RiskStatistics r_stats;
+    //RiskEngine risk_engine{ r_stats };
 
-    for (auto x : hist.prices) {
+    //for (auto x : hist.prices) {
 
-        printf("%g \n", x);
-    }
+    //    printf("%g \n", x);
+    //}
 
-    Asset asset1{ name1, 1, hist };
-    Asset asset2{ name2, 2, hist };
-    Asset asset3{ name3, 3, hist };
-    Asset asset4{ name4, 4, hist };
+    //Asset asset1{ name1, 1, hist };
+    //Asset asset2{ name2, 2, hist };
+    //Asset asset3{ name3, 3, hist };
+    //Asset asset4{ name4, 4, hist };
 
-    Portfolio portfolio;
+    //Portfolio portfolio;
 
-    portfolio.add(asset1);
-    portfolio.add(asset2);
-    portfolio.add(asset3);
-    portfolio.add(asset4);
+    //portfolio.add(asset1);
+    //portfolio.add(asset2);
+    //portfolio.add(asset3);
+    //portfolio.add(asset4);
 
-    auto report = risk_engine.analysePortfolio(portfolio);
-    displayPortfolioReport(report);
+    //auto report = risk_engine.analysePortfolio(portfolio);
+    //displayPortfolioReport(report);
 
-    printf("Size of portfolio: %d \n", int(portfolio.size()));
+    //printf("Size of portfolio: %d \n", int(portfolio.size()));
 
-    printf("Current Asset price: %g \n", asset1.currentPrice());
+    //printf("Current Asset price: %g \n", asset1.currentPrice());
 
-    portfolio.remove(name1);
+    //portfolio.remove(name1);
 
-    printf("Size of portfolio: %d \n", int(portfolio.size()));
+    //printf("Size of portfolio: %d \n", int(portfolio.size()));
 
-    AlphaVantageAdapter adp(API_KEY);
+    //AlphaVantageAdapter adp(API_KEY);
 
-    auto hista = adp.historicalDaily("AAPL");
+    //auto hista = adp.historicalData("AAPL", TimeFrame::DAILY);
 
-    for (double i : hista.second) {
+    //for (double price : hista.prices) {
 
-        printf("Apple price : %g \n", i);
-    }
+    //    printf("Apple Price - %g", price);
+    //}
 
+  
+
+    PortfolioManager port_manager;
+
+    port_manager.createPortfolio("port1");
+
+    port_manager.addPosition(5, "AAPL", "port1");
+
+    port_manager.addPosition(10, "IBM", "port1");
+
+    port_manager.analysePortfolio("port1", TimeFrame::DAILY);
+
+    port_manager.updateMarketData(); 
 }

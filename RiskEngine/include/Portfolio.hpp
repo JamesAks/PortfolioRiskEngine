@@ -25,7 +25,7 @@ class Portfolio {
         Position viewPosition(std::string) const;
 
         //Returns the positions held in the portfolio.
-        std::vector<Position> viewPositions() const;
+        const std::map<std::string, Position>& viewPositions() const;
 
         // Returns the assets stored within the portfolio.
         std::vector<std::shared_ptr<Asset>> viewAssets() const;
