@@ -3,7 +3,7 @@
 
 
 
-double RiskStatistics::mean(std::vector<double> data) const {
+double RiskStatistics::mean(std::vector<double> data) {
 
     double sum = 0;
 
@@ -14,7 +14,7 @@ double RiskStatistics::mean(std::vector<double> data) const {
 }
 
 
-std::vector<double> RiskStatistics::periodicReturns(std::vector<double> data) const {
+std::vector<double> RiskStatistics::periodicReturns(std::vector<double> data) {
 
     std::vector<double> asset_returns;
 
@@ -27,7 +27,7 @@ std::vector<double> RiskStatistics::periodicReturns(std::vector<double> data) co
 }
 
 
-double RiskStatistics::variance(std::vector<double> data) const {
+double RiskStatistics::variance(std::vector<double> data) {
 
     double m = mean(data);
     double temp = 0;
@@ -41,13 +41,13 @@ double RiskStatistics::variance(std::vector<double> data) const {
 }
 
 
-double RiskStatistics::standardDeviation(std::vector<double> data) const {
+double RiskStatistics::standardDeviation(std::vector<double> data) {
 
     return sqrt(variance(data));
 }
  
 
-double RiskStatistics::covariance(std::vector<double> first, std::vector<double> second) const {
+double RiskStatistics::covariance(std::vector<double> first, std::vector<double> second) {
 
     double f_expected = mean(first);
     double s_expected = mean(second);
@@ -61,7 +61,7 @@ double RiskStatistics::covariance(std::vector<double> first, std::vector<double>
     return sum / (first.size());
 }
 
-double RiskStatistics::correlation(std::vector<double> first, std::vector<double> second) const {
+double RiskStatistics::correlation(std::vector<double> first, std::vector<double> second) {
 
     double covar = covariance(first, second);
     double f_std = standardDeviation(first);

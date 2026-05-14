@@ -50,18 +50,10 @@ PortfolioRiskReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFram
 }
 
 
-std::vector<double> RiskEngine::periodicReturns(const Position& pos, TimeFrame tf) const {
-	
-	RiskStatistics stats;
-	return stats.periodicReturns(market_data_manager.periodicData(pos.asset->symbol(), tf).prices);
-}
+std::vector<double> RiskEngine::periodicReturns(const Position& pos, TimeFrame tf) const { return RiskStatistics::periodicReturns(market_data_manager.periodicData(pos.asset->symbol(), tf).prices); }
 	
 
-double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf) const {
-	
-	RiskStatistics stats;
-	return stats.mean(periodicReturns(pos, tf));
-}
+double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf) const { return RiskStatistics::mean(periodicReturns(pos, tf)); }
 
 
 double RiskEngine::totalReturn(const Portfolio& port) const {
@@ -130,21 +122,19 @@ CovarianceMatrix RiskEngine::computeCovarianceMatrix(const Portfolio& port, Time
 
 double RiskEngine::assetCovariance(const Position& first, const Position& second, TimeFrame tf) const {
 
-	RiskStatistics stats;
 	std::vector<double> f_returns = periodicReturns(first, tf);
 	std::vector<double> s_returns = periodicReturns(second, tf);
 
-	return stats.covariance(f_returns, s_returns);
+	return RiskStatistics::covariance(f_returns, s_returns);
 }
 
 
 double RiskEngine::assetCorrelation(const Position& first, const Position& second, TimeFrame tf) const {
 
-	RiskStatistics stats;
 	std::vector<double> f_returns = periodicReturns(first,  tf);
 	std::vector<double> s_returns = periodicReturns(second, tf);
 
-	return stats.correlation(f_returns, s_returns);
+	return RiskStatistics::correlation(f_returns, s_returns);
 }
 
 
