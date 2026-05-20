@@ -1,0 +1,17 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/Apps/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/Apps/PortfolioApp/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/RiskEngine/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/_deps/json-build/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/Core/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/MarketDataStore/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/PricingEngine/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/QuantitativeLibrary/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/tests/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/tests/RiskEngineTests/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

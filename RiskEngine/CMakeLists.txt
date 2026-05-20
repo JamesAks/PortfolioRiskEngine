@@ -1,8 +1,42 @@
 ﻿# CMakeList.txt : CMake project for RiskEngine, include source and define
 # project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
-project ("PortfolioRiskEngine")
+
+
+
+# cmake_minimum_required (VERSION 3.8)
+# project ("PortfolioRiskEngine")
+
+
+set(RE_SOURCES
+    
+    src/RiskEngine.cpp
+    src/Asset.cpp
+    src/Portfolio.cpp
+    src/PortfolioManager.cpp
+    src/RiskEngine.cpp 
+    src/Statistics.cpp
+    src/CovarianceMatrix.cpp
+    src/Adapter.cpp
+    src/MarketDataManager.cpp
+    src/Logger.cpp
+    src/Position.cpp
+)
+
+
+set(RE_HEADERS
+
+    includes/RiskEngine.hpp
+    includes/Asset.hpp
+    includes/Portfolio.hpp
+    includes/PortfolioManager.hpp
+    includes/RiskEngine.hpp 
+    includes/Statistic.hpp
+    includes/CovarianceMatrix.hpp
+    includes/Adapter.hpp
+    includes/MarketDataManager.hpp
+    includes/Logger.hpp
+    includes/Position.hpp
+)
 
 include(FetchContent)
 
@@ -15,14 +49,22 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(json)
+add_library(RiskEngine STATIC ${RE_SOURCES} ${RE_HEADERS})
+target_compile_features(RiskEngine PRIVATE cxx_std_20)
 
 
-# Add source to this project's executable.
-add_executable (PortfolioRiskEngine "../test.cpp" "src/RiskEngine.cpp" "include/RiskEngine.hpp" "src/Asset.cpp"  "include/PortfolioManager.hpp"  "src/Portfolio.cpp"  "src/PortfolioManager.cpp"  "src/RiskEngine.cpp" "src/Statistics.cpp" "include/CovarianceMatrix.hpp" "src/CovarinceMatrix.cpp" "src/Adapter.cpp" "include/Adapter.hpp" "include/MarketDataManager.hpp" "src/MarketDataManager.cpp" "include/Logger.hpp" "src/Logger.cpp")
+target_include_directories(RiskEngine 
+    
+    PUBLIC
+        "C:/libs/C++/eigen-5.0.0" 
+        includes
+)
 
-target_compile_features(PortfolioRiskEngine PRIVATE cxx_std_20)
-target_include_directories(PortfolioRiskEngine PRIVATE "C:/libs/C++/eigen-5.0.0" )
-target_link_libraries(PortfolioRiskEngine PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(PortfolioRiskEngine PRIVATE CURL::libcurl)
 
-# TODO: Add tests and install targets if needed.
+target_link_libraries(RiskEngine PUBLIC 
+
+    nlohmann_json::nlohmann_json 
+    CURL::libcurl
+)
+
+

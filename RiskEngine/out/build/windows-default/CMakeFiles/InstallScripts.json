@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/windows-default/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/windows-default/_deps/json-build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "windows-debug",
+      "displayName": "Windows Debug",
+      "generator": "Visual Studio 18 2026",
+      "binaryDir": "${sourceDir}/out/build/windows-default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_TOOLCHAIN_FILE": "C:/Users/james/Source/Repos/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      }
+
+    }
+  ]
+}

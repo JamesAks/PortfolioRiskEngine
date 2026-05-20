@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\RiskEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\Portfolio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\PortfolioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\Statistics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\CovarianceMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\Adapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\MarketDataManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\Position.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\RiskEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\Asset.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\Portfolio.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\PortfolioManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\Statistic.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\CovarianceMatrix.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\Adapter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\MarketDataManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\Logger.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\includes\Position.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\_deps\json-src\nlohmann_json.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{A2C9F373-1BCC-330B-AF66-A3D8061942AF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D1B79EB9-8FAC-3054-A2E8-A6E527D5391D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

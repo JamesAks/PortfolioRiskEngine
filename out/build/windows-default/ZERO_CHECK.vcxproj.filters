@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\CMakeFiles\7719df16ddf6bf6aebf3a54db20d1ce9\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{403E37E4-A500-3776-AC56-B9319542809B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

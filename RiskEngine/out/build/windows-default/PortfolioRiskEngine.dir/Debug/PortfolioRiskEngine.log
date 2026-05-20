@@ -1,0 +1,48 @@
+﻿  Building Custom Rule C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/CMakeLists.txt
+  CMake is re-running because C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/windows-default/CMakeFiles/generate.stamp is out-of-date.
+    the file 'C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/CMakeLists.txt'
+    is newer than 'C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/windows-default/CMakeFiles/generate.stamp.depend'
+    result='-1'
+  CMake Warning (dev) in CMakeLists.txt:
+    No project() command is present.  The top-level CMakeLists.txt file must
+    contain a literal, direct call to the project() command.  Add a line of
+    code such as
+  
+      project(ProjectName)
+  
+    near the top of the file, but after cmake_minimum_required().
+  
+    CMake is pretending there is a "project(Project)" command on the first
+    line.
+  This warning is for project developers.  Use -Wno-dev to suppress it.
+  
+  CMake Warning (dev) in CMakeLists.txt:
+    cmake_minimum_required() should be called prior to this top-level project()
+    call.  Please see the cmake-commands(7) manual for usage documentation of
+    both commands.
+  This warning is for project developers.  Use -Wno-dev to suppress it.
+  
+  -- Running vcpkg install
+  Failed to load manifest from directory C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine
+C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\vcpkg.json : error : calling read_contents failed with 2 (no such file or directory)
+  -- Running vcpkg install - failed
+  CMake Error at C:/Users/james/Source/Repos/vcpkg/scripts/buildsystems/vcpkg.cmake:953 (message):
+    vcpkg install failed.  See logs for more information:
+    C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\out\build\windows-default\vcpkg-manifest-install.log
+  Call Stack (most recent call first):
+    out/build/windows-default/CMakeFiles/4.2.3-msvc3/CMakeSystem.cmake:6 (include)
+    CMakeLists.txt
+  
+  
+  CMake Error in CMakeLists.txt:
+    No cmake_minimum_required command is present.  A line of code such as
+  
+      cmake_minimum_required(VERSION 4.2)
+  
+    should be added at the top of the file.  The version specified may be lower
+    if you wish to support older CMake versions for this project.  For more
+    information run "cmake --help-policy CMP0000".
+  
+  
+  -- Configuring incomplete, errors occurred!
+C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180\Microsoft.CppCommon.targets(254,5): error MSB8066: Custom build for 'C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\CMakeLists.txt' exited with code 1.

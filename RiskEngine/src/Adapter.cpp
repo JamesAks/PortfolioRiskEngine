@@ -1,4 +1,4 @@
-# include "../include/Adapter.hpp"
+# include "../includes/Adapter.hpp"
 
 
 
@@ -19,9 +19,9 @@ std::string AlphaVantageAdapter::request(std::string url) const {
 	result = curl_easy_perform(curl);
 	curl_easy_cleanup(curl);
 
-	Logger::logDebug("Waiting one second for rate limit");
+	//Logger::logDebug("Waiting one second for rate limit");
 	std::this_thread::sleep_for(std::chrono::seconds(1));
-	Logger::logDebug("Waiting finished");      
+	//Logger::logDebug("Waiting finished");      
 
 	return response;
 }

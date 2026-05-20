@@ -1,4 +1,4 @@
-#include "../include/Portfolio.hpp"
+#include "../includes/Portfolio.hpp"
 
 
 
@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<Asset>> Portfolio::viewAssets() const {
 
     for (std::pair p : positions) {
 
-        assets.push_back(p.second.asset);
+        assets.push_back(p.second.viewAsset());
     }
 
     return assets;
@@ -42,7 +42,7 @@ std::vector<std::string> Portfolio::viewAssetLabels() const {
 std::string Portfolio::viewID() const { return ID; }
 
 
-void Portfolio::addPosition(Position p ) { positions.emplace(p.asset->symbol(), p); }
+void Portfolio::addPosition(Position p ) { positions.emplace(p.viewID(), p); }
 
 
 void Portfolio::removePosition(std::string symbol) { positions.erase(symbol); }
@@ -51,13 +51,13 @@ void Portfolio::removePosition(std::string symbol) { positions.erase(symbol); }
 void Portfolio::changeID(std::string new_ID) { ID = new_ID; }
 
 
-double Portfolio::expectedReturn() const {
+double Portfolio::totalMarketValue() const {
 
     double sum = 0;
 
     for (std::pair p : positions) {
 
-        sum += p.second.quantity * p.second.asset->currentPrice();
+        sum += p.second.marketValue();
     }
 
     return sum;
@@ -67,11 +67,11 @@ double Portfolio::expectedReturn() const {
 std::vector<double> Portfolio::weights() const {
 
     std::vector<double> ws;
-    double value = expectedReturn();
+    double value = totalMarketValue();
 
     for (std::pair p : positions) {
 
-        ws.push_back(((p.second.quantity * p.second.asset->currentPrice()) / value));
+        ws.push_back((p.second.marketValue()/ value));
     }
 
     return ws;

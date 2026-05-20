@@ -1,4 +1,4 @@
-#include "../include/Logger.hpp"
+#include "../includes/Logger.hpp"
 
 void Logger::logError(std::string message) {
 

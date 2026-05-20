@@ -1,0 +1,1512 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::ZLIB::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__ZLIB-Debug-84663b1265cbe43dc4e2.json",
+					"name" : "CURL::ZLIB",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::libcurl_shared::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__libcurl_shared-Debug-563d33b0b9fa815b624c.json",
+					"name" : "CURL::libcurl_shared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::win32_winsock::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__win32_winsock-Debug-9dfbf8b53ea7dc999f14.json",
+					"name" : "CURL::win32_winsock",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Git::Git::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-Git__Git-Debug-fc58dfed04a4f4f1970d.json",
+					"name" : "Git::Git",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "QuantitativeLibrary::@0b7c70f09f5881f31bc7",
+					"jsonFile" : "target-QuantitativeLibrary-Debug-890d36b42135fb9c559c.json",
+					"name" : "QuantitativeLibrary",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ZLIB::ZLIB::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-ZLIB__ZLIB-Debug-e251cd876cfa2dc09d9c.json",
+					"name" : "ZLIB::ZLIB",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nlohmann_json::@1f73e43ed239fe3d59ae",
+					"jsonFile" : "target-nlohmann_json-Debug-2316450fe4246b6c69b3.json",
+					"name" : "nlohmann_json",
+					"projectIndex" : 1
+				}
+			],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"jsonFile" : "directory-.-Debug-f6f22219c74102c3da70.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						8
+					]
+				},
+				{
+					"build" : "Apps",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-Apps-Debug-d9acd7024158d695c89d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Apps"
+				},
+				{
+					"build" : "Apps/PortfolioApp",
+					"jsonFile" : "directory-Apps.PortfolioApp-Debug-0072a162f340888336e7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "Apps/PortfolioApp",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5
+					],
+					"build" : "RiskEngine",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-RiskEngine-Debug-ad8b3ecfe86bd0326ce2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "RiskEngine",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						6
+					],
+					"build" : "_deps/json-build",
+					"jsonFile" : "directory-_deps.json-build-Debug-9bcec44fbed496dee49c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "out/build/windows-default/_deps/json-src",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "Core",
+					"jsonFile" : "directory-Core-Debug-d7803e10c1d3b635374e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Core",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "MarketDataStore",
+					"jsonFile" : "directory-MarketDataStore-Debug-22576659b996aba001af.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MarketDataStore",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "PricingEngine",
+					"jsonFile" : "directory-PricingEngine-Debug-502d4d5bc6c3bcb46af2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "PricingEngine",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						4
+					],
+					"build" : "QuantitativeLibrary",
+					"jsonFile" : "directory-QuantitativeLibrary-Debug-ba2996040829ab20efe6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "QuantitativeLibrary"
+				},
+				{
+					"build" : "tests",
+					"childIndexes" : 
+					[
+						10
+					],
+					"jsonFile" : "directory-tests-Debug-74d1b11f0521a8d27dd5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests"
+				},
+				{
+					"build" : "tests/RiskEngineTests",
+					"jsonFile" : "directory-tests.RiskEngineTests-Debug-fbc1517937b563715de2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 9,
+					"projectIndex" : 0,
+					"source" : "tests/RiskEngineTests",
+					"targetIndexes" : 
+					[
+						7
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					],
+					"name" : "PortfolioRiskEngine",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						6
+					],
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "nlohmann_json",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Debug-d72f78c9a093059e06d0.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "ALL_BUILD::@1f73e43ed239fe3d59ae",
+					"jsonFile" : "target-ALL_BUILD-Debug-304df0faa66e1cd8c8d2.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "Core::@94795ff35dabbbd3a8ca",
+					"jsonFile" : "target-Core-Debug-68985c94dbf762f9f335.json",
+					"name" : "Core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "MarketDataStore::@b39677050f85ca97ee48",
+					"jsonFile" : "target-MarketDataStore-Debug-50fc60f5ec2e6cc076b3.json",
+					"name" : "MarketDataStore",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "PortfolioApp::@18c9da2655d58a88df26",
+					"jsonFile" : "target-PortfolioApp-Debug-6e5ffb1ac92b9add9d7d.json",
+					"name" : "PortfolioApp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "PricingEngine::@9e2f57e16eda04b0e7c9",
+					"jsonFile" : "target-PricingEngine-Debug-a106ee4adc3b65d1ebe8.json",
+					"name" : "PricingEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RiskEngine::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-RiskEngine-Debug-a0cbadec50b944b495c0.json",
+					"name" : "RiskEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "RiskEngineTest::@5ef41d27409f5f70a87a",
+					"jsonFile" : "target-RiskEngineTest-Debug-bba6ddcac373cba8aa3b.json",
+					"name" : "RiskEngineTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Debug-729c2aef806ef0b51652.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::ZLIB::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__ZLIB-Release-84663b1265cbe43dc4e2.json",
+					"name" : "CURL::ZLIB",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::libcurl_shared::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__libcurl_shared-Release-b6ef5972c97f6daccb58.json",
+					"name" : "CURL::libcurl_shared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::win32_winsock::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__win32_winsock-Release-9dfbf8b53ea7dc999f14.json",
+					"name" : "CURL::win32_winsock",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Git::Git::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-Git__Git-Release-fc58dfed04a4f4f1970d.json",
+					"name" : "Git::Git",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "QuantitativeLibrary::@0b7c70f09f5881f31bc7",
+					"jsonFile" : "target-QuantitativeLibrary-Release-890d36b42135fb9c559c.json",
+					"name" : "QuantitativeLibrary",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ZLIB::ZLIB::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-ZLIB__ZLIB-Release-e251cd876cfa2dc09d9c.json",
+					"name" : "ZLIB::ZLIB",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nlohmann_json::@1f73e43ed239fe3d59ae",
+					"jsonFile" : "target-nlohmann_json-Release-2316450fe4246b6c69b3.json",
+					"name" : "nlohmann_json",
+					"projectIndex" : 1
+				}
+			],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"jsonFile" : "directory-.-Release-f6f22219c74102c3da70.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						8
+					]
+				},
+				{
+					"build" : "Apps",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-Apps-Release-d9acd7024158d695c89d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Apps"
+				},
+				{
+					"build" : "Apps/PortfolioApp",
+					"jsonFile" : "directory-Apps.PortfolioApp-Release-0072a162f340888336e7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "Apps/PortfolioApp",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5
+					],
+					"build" : "RiskEngine",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-RiskEngine-Release-ad8b3ecfe86bd0326ce2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "RiskEngine",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						6
+					],
+					"build" : "_deps/json-build",
+					"jsonFile" : "directory-_deps.json-build-Release-9bcec44fbed496dee49c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "out/build/windows-default/_deps/json-src",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "Core",
+					"jsonFile" : "directory-Core-Release-d7803e10c1d3b635374e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Core",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "MarketDataStore",
+					"jsonFile" : "directory-MarketDataStore-Release-22576659b996aba001af.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MarketDataStore",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "PricingEngine",
+					"jsonFile" : "directory-PricingEngine-Release-502d4d5bc6c3bcb46af2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "PricingEngine",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						4
+					],
+					"build" : "QuantitativeLibrary",
+					"jsonFile" : "directory-QuantitativeLibrary-Release-ba2996040829ab20efe6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "QuantitativeLibrary"
+				},
+				{
+					"build" : "tests",
+					"childIndexes" : 
+					[
+						10
+					],
+					"jsonFile" : "directory-tests-Release-74d1b11f0521a8d27dd5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests"
+				},
+				{
+					"build" : "tests/RiskEngineTests",
+					"jsonFile" : "directory-tests.RiskEngineTests-Release-fbc1517937b563715de2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 9,
+					"projectIndex" : 0,
+					"source" : "tests/RiskEngineTests",
+					"targetIndexes" : 
+					[
+						7
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					],
+					"name" : "PortfolioRiskEngine",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						6
+					],
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "nlohmann_json",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Release-d72f78c9a093059e06d0.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "ALL_BUILD::@1f73e43ed239fe3d59ae",
+					"jsonFile" : "target-ALL_BUILD-Release-304df0faa66e1cd8c8d2.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "Core::@94795ff35dabbbd3a8ca",
+					"jsonFile" : "target-Core-Release-b7f0206fd79f743292b5.json",
+					"name" : "Core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "MarketDataStore::@b39677050f85ca97ee48",
+					"jsonFile" : "target-MarketDataStore-Release-7084eff6f3f620d24ca4.json",
+					"name" : "MarketDataStore",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "PortfolioApp::@18c9da2655d58a88df26",
+					"jsonFile" : "target-PortfolioApp-Release-c6c90c67bbe72c8fe3e5.json",
+					"name" : "PortfolioApp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "PricingEngine::@9e2f57e16eda04b0e7c9",
+					"jsonFile" : "target-PricingEngine-Release-32d5f4850256cf152809.json",
+					"name" : "PricingEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RiskEngine::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-RiskEngine-Release-5204c0e11eb1f4f77861.json",
+					"name" : "RiskEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "RiskEngineTest::@5ef41d27409f5f70a87a",
+					"jsonFile" : "target-RiskEngineTest-Release-96d630206040f01d84f3.json",
+					"name" : "RiskEngineTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Release-729c2aef806ef0b51652.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::ZLIB::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__ZLIB-MinSizeRel-84663b1265cbe43dc4e2.json",
+					"name" : "CURL::ZLIB",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::libcurl_shared::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__libcurl_shared-MinSizeRel-b6ef5972c97f6daccb58.json",
+					"name" : "CURL::libcurl_shared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::win32_winsock::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__win32_winsock-MinSizeRel-9dfbf8b53ea7dc999f14.json",
+					"name" : "CURL::win32_winsock",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Git::Git::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-Git__Git-MinSizeRel-fc58dfed04a4f4f1970d.json",
+					"name" : "Git::Git",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "QuantitativeLibrary::@0b7c70f09f5881f31bc7",
+					"jsonFile" : "target-QuantitativeLibrary-MinSizeRel-890d36b42135fb9c559c.json",
+					"name" : "QuantitativeLibrary",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ZLIB::ZLIB::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-ZLIB__ZLIB-MinSizeRel-e251cd876cfa2dc09d9c.json",
+					"name" : "ZLIB::ZLIB",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nlohmann_json::@1f73e43ed239fe3d59ae",
+					"jsonFile" : "target-nlohmann_json-MinSizeRel-2316450fe4246b6c69b3.json",
+					"name" : "nlohmann_json",
+					"projectIndex" : 1
+				}
+			],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"jsonFile" : "directory-.-MinSizeRel-f6f22219c74102c3da70.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						8
+					]
+				},
+				{
+					"build" : "Apps",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-Apps-MinSizeRel-d9acd7024158d695c89d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Apps"
+				},
+				{
+					"build" : "Apps/PortfolioApp",
+					"jsonFile" : "directory-Apps.PortfolioApp-MinSizeRel-0072a162f340888336e7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "Apps/PortfolioApp",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5
+					],
+					"build" : "RiskEngine",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-RiskEngine-MinSizeRel-ad8b3ecfe86bd0326ce2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "RiskEngine",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						6
+					],
+					"build" : "_deps/json-build",
+					"jsonFile" : "directory-_deps.json-build-MinSizeRel-9bcec44fbed496dee49c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "out/build/windows-default/_deps/json-src",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "Core",
+					"jsonFile" : "directory-Core-MinSizeRel-d7803e10c1d3b635374e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Core",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "MarketDataStore",
+					"jsonFile" : "directory-MarketDataStore-MinSizeRel-22576659b996aba001af.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MarketDataStore",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "PricingEngine",
+					"jsonFile" : "directory-PricingEngine-MinSizeRel-502d4d5bc6c3bcb46af2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "PricingEngine",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						4
+					],
+					"build" : "QuantitativeLibrary",
+					"jsonFile" : "directory-QuantitativeLibrary-MinSizeRel-ba2996040829ab20efe6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "QuantitativeLibrary"
+				},
+				{
+					"build" : "tests",
+					"childIndexes" : 
+					[
+						10
+					],
+					"jsonFile" : "directory-tests-MinSizeRel-74d1b11f0521a8d27dd5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests"
+				},
+				{
+					"build" : "tests/RiskEngineTests",
+					"jsonFile" : "directory-tests.RiskEngineTests-MinSizeRel-fbc1517937b563715de2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 9,
+					"projectIndex" : 0,
+					"source" : "tests/RiskEngineTests",
+					"targetIndexes" : 
+					[
+						7
+					]
+				}
+			],
+			"name" : "MinSizeRel",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					],
+					"name" : "PortfolioRiskEngine",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						6
+					],
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "nlohmann_json",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-d72f78c9a093059e06d0.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "ALL_BUILD::@1f73e43ed239fe3d59ae",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-304df0faa66e1cd8c8d2.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "Core::@94795ff35dabbbd3a8ca",
+					"jsonFile" : "target-Core-MinSizeRel-846a04fee50b5d2ed1d6.json",
+					"name" : "Core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "MarketDataStore::@b39677050f85ca97ee48",
+					"jsonFile" : "target-MarketDataStore-MinSizeRel-ba1a3988639b03b3f94d.json",
+					"name" : "MarketDataStore",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "PortfolioApp::@18c9da2655d58a88df26",
+					"jsonFile" : "target-PortfolioApp-MinSizeRel-7d2dd35eb6db72d11c77.json",
+					"name" : "PortfolioApp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "PricingEngine::@9e2f57e16eda04b0e7c9",
+					"jsonFile" : "target-PricingEngine-MinSizeRel-badf17cf2ec97450dfec.json",
+					"name" : "PricingEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RiskEngine::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-RiskEngine-MinSizeRel-3e5e6006085869e518e7.json",
+					"name" : "RiskEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "RiskEngineTest::@5ef41d27409f5f70a87a",
+					"jsonFile" : "target-RiskEngineTest-MinSizeRel-8c853796402dc6a2fe39.json",
+					"name" : "RiskEngineTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-MinSizeRel-729c2aef806ef0b51652.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::ZLIB::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__ZLIB-RelWithDebInfo-84663b1265cbe43dc4e2.json",
+					"name" : "CURL::ZLIB",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::libcurl_shared::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__libcurl_shared-RelWithDebInfo-b6ef5972c97f6daccb58.json",
+					"name" : "CURL::libcurl_shared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "CURL::win32_winsock::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-CURL__win32_winsock-RelWithDebInfo-9dfbf8b53ea7dc999f14.json",
+					"name" : "CURL::win32_winsock",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Git::Git::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-Git__Git-RelWithDebInfo-fc58dfed04a4f4f1970d.json",
+					"name" : "Git::Git",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "QuantitativeLibrary::@0b7c70f09f5881f31bc7",
+					"jsonFile" : "target-QuantitativeLibrary-RelWithDebInfo-890d36b42135fb9c559c.json",
+					"name" : "QuantitativeLibrary",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ZLIB::ZLIB::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-ZLIB__ZLIB-RelWithDebInfo-e251cd876cfa2dc09d9c.json",
+					"name" : "ZLIB::ZLIB",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "nlohmann_json::@1f73e43ed239fe3d59ae",
+					"jsonFile" : "target-nlohmann_json-RelWithDebInfo-2316450fe4246b6c69b3.json",
+					"name" : "nlohmann_json",
+					"projectIndex" : 1
+				}
+			],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"jsonFile" : "directory-.-RelWithDebInfo-f6f22219c74102c3da70.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						8
+					]
+				},
+				{
+					"build" : "Apps",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-Apps-RelWithDebInfo-d9acd7024158d695c89d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Apps"
+				},
+				{
+					"build" : "Apps/PortfolioApp",
+					"jsonFile" : "directory-Apps.PortfolioApp-RelWithDebInfo-0072a162f340888336e7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "Apps/PortfolioApp",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5
+					],
+					"build" : "RiskEngine",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-RiskEngine-RelWithDebInfo-ad8b3ecfe86bd0326ce2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "RiskEngine",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						6
+					],
+					"build" : "_deps/json-build",
+					"jsonFile" : "directory-_deps.json-build-RelWithDebInfo-9bcec44fbed496dee49c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "out/build/windows-default/_deps/json-src",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "Core",
+					"jsonFile" : "directory-Core-RelWithDebInfo-d7803e10c1d3b635374e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Core",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "MarketDataStore",
+					"jsonFile" : "directory-MarketDataStore-RelWithDebInfo-22576659b996aba001af.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MarketDataStore",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "PricingEngine",
+					"jsonFile" : "directory-PricingEngine-RelWithDebInfo-502d4d5bc6c3bcb46af2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "PricingEngine",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						4
+					],
+					"build" : "QuantitativeLibrary",
+					"jsonFile" : "directory-QuantitativeLibrary-RelWithDebInfo-ba2996040829ab20efe6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "QuantitativeLibrary"
+				},
+				{
+					"build" : "tests",
+					"childIndexes" : 
+					[
+						10
+					],
+					"jsonFile" : "directory-tests-RelWithDebInfo-74d1b11f0521a8d27dd5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests"
+				},
+				{
+					"build" : "tests/RiskEngineTests",
+					"jsonFile" : "directory-tests.RiskEngineTests-RelWithDebInfo-fbc1517937b563715de2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 9,
+					"projectIndex" : 0,
+					"source" : "tests/RiskEngineTests",
+					"targetIndexes" : 
+					[
+						7
+					]
+				}
+			],
+			"name" : "RelWithDebInfo",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					],
+					"name" : "PortfolioRiskEngine",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						6
+					],
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "nlohmann_json",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-d72f78c9a093059e06d0.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "ALL_BUILD::@1f73e43ed239fe3d59ae",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-304df0faa66e1cd8c8d2.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "Core::@94795ff35dabbbd3a8ca",
+					"jsonFile" : "target-Core-RelWithDebInfo-c63d1af2c79fec939f4e.json",
+					"name" : "Core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "MarketDataStore::@b39677050f85ca97ee48",
+					"jsonFile" : "target-MarketDataStore-RelWithDebInfo-88555af21ebb89243c7f.json",
+					"name" : "MarketDataStore",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "PortfolioApp::@18c9da2655d58a88df26",
+					"jsonFile" : "target-PortfolioApp-RelWithDebInfo-21d7e809750474cd2ce6.json",
+					"name" : "PortfolioApp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "PricingEngine::@9e2f57e16eda04b0e7c9",
+					"jsonFile" : "target-PricingEngine-RelWithDebInfo-7da2ea7ac22020c98bf3.json",
+					"name" : "PricingEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RiskEngine::@9161a2b7db0bff3a63f8",
+					"jsonFile" : "target-RiskEngine-RelWithDebInfo-0152347b9f7c7afb482f.json",
+					"name" : "RiskEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "RiskEngineTest::@5ef41d27409f5f70a87a",
+					"jsonFile" : "target-RiskEngineTest-RelWithDebInfo-de4be6db2b50602270a6.json",
+					"name" : "RiskEngineTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-RelWithDebInfo-729c2aef806ef0b51652.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default",
+		"source" : "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 9
+	}
+}

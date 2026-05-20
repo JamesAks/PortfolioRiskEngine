@@ -1,0 +1,2 @@
+Failed to load manifest from directory C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine
+C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\vcpkg.json: error: calling read_contents failed with 2 (no such file or directory)

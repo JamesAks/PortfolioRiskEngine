@@ -1,4 +1,4 @@
-#include "../include/Statistic.hpp"
+#include "../includes/Statistic.hpp"
 #include <math.h>
 
 

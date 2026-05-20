@@ -1,21 +1,28 @@
-﻿#include "../include/RiskEngine.hpp"
+﻿#include "../includes/RiskEngine.hpp"
 #include <iostream>
 
 
 RiskEngine::RiskEngine(MarketDataManager& mdm): market_data_manager{ mdm }{}
 
 
-AssetRiskReport RiskEngine::analyseAsset(const Position& pos, TimeFrame tf) const {
+PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf) const {
 
 	
-	Logger::logInfo("Analysing asset \"" + pos.asset->symbol() + "\".");
+	Logger::logInfo("Analysing asset \"" + pos.viewID() + "\".");
 	RiskStatistics stats;
-	std::string symbol = pos.asset->symbol();
+	std::string symbol = pos.viewID();
 	
-	AssetRiskReport report{
+	PositionRiskReport report{
 
-		symbol,
-		pos.asset->currentPrice(),
+		pos.viewID(),
+		pos.viewQuantity(),
+		pos.viewPriceBoughtAt(),
+		pos.marketValue(),
+		pos.initialInvestment(),
+		pos.unrealizedGains(),
+
+		pos.viewAsset()->symbol(),
+		pos.viewAsset()->currentPrice(),
 		stats.standardDeviation(periodicReturns(pos, tf)),
 		expectedReturn(pos, tf)
 	};
@@ -50,7 +57,7 @@ PortfolioRiskReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFram
 }
 
 
-std::vector<double> RiskEngine::periodicReturns(const Position& pos, TimeFrame tf) const { return RiskStatistics::periodicReturns(market_data_manager.periodicData(pos.asset->symbol(), tf).prices); }
+std::vector<double> RiskEngine::periodicReturns(const Position& pos, TimeFrame tf) const { return RiskStatistics::periodicReturns(market_data_manager.periodicData(pos.viewAsset()->symbol(), tf).prices); }
 	
 
 double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf) const { return RiskStatistics::mean(periodicReturns(pos, tf)); }
@@ -61,7 +68,7 @@ double RiskEngine::totalReturn(const Portfolio& port) const {
 	double sum = 0;
 	for (std::pair pos : port.viewPositions()) {
 
-		sum += pos.second.quantity * pos.second.asset->currentPrice();
+		sum += pos.second.marketValue();
 	}
 
 	return sum;
@@ -138,12 +145,12 @@ double RiskEngine::assetCorrelation(const Position& first, const Position& secon
 }
 
 
-std::vector<AssetRiskReport> RiskEngine::breakdown(const Portfolio& port, TimeFrame tf) const {
+std::vector<PositionRiskReport> RiskEngine::breakdown(const Portfolio& port, TimeFrame tf) const {
 
-	std::vector<AssetRiskReport> breakdowns;
+	std::vector<PositionRiskReport> breakdowns;
 	for (std::pair pos : port.viewPositions()) {
 
-		breakdowns.push_back(analyseAsset(pos.second, tf));
+		breakdowns.push_back(analysePosition(pos.second, tf));
 	}
 
 	return breakdowns;
