@@ -1,8 +1,8 @@
-﻿#include "../includes/RiskEngine.hpp"
+﻿#include "../include/RiskEngine.hpp"
 #include <iostream>
 
 
-RiskEngine::RiskEngine(MarketDataManager& mdm): market_data_manager{ mdm }{}
+RiskEngine::RiskEngine(){}
 
 
 PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf) const {
@@ -22,7 +22,7 @@ PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf
 		pos.unrealizedGains(),
 
 		pos.viewAsset()->symbol(),
-		pos.viewAsset()->currentPrice(),
+		pos.viewAsset()->latestPrice(),
 		stats.standardDeviation(periodicReturns(pos, tf)),
 		expectedReturn(pos, tf)
 	};
@@ -57,7 +57,11 @@ PortfolioRiskReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFram
 }
 
 
-std::vector<double> RiskEngine::periodicReturns(const Position& pos, TimeFrame tf) const { return RiskStatistics::periodicReturns(market_data_manager.periodicData(pos.viewAsset()->symbol(), tf).prices); }
+std::vector<double> RiskEngine::periodicReturns(const Position& pos, TimeFrame tf) const {
+
+	return RiskStatistics::periodicReturns(pos.viewAsset()->periodicData(tf).prices);
+}
+
 	
 
 double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf) const { return RiskStatistics::mean(periodicReturns(pos, tf)); }

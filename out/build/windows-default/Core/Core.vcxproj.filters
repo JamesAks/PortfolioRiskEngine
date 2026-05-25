@@ -1,12 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\src\Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\src\Core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\src\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\src\Portfolio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\src\Position.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\src\Statistics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\include\Asset.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\include\Core.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\include\Logger.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\include\Portfolio.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\include\Position.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\include\Statistics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\include\HistoricData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\Core\include\TimeSeries.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

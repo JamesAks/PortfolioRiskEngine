@@ -4,7 +4,7 @@ target_link_libraries(QuantitativeLibrary
 
 	INTERFACE
 		RiskEngine
-		MarketDataStore
+		MarketDataServices
 		PricingEngine
 		Core
 )

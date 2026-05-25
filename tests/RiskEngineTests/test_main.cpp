@@ -1,17 +1,33 @@
-#include "PortfolioManager.hpp"
+#include "RiskEngine.hpp"
+#include "GenericDataStore.hpp"
+#include "AlphaVantageProvider.hpp"
+
 
 void main() {
 	 
-	PortfolioManager port_manager;
-	port_manager.createPortfolio("TestPort1");
-	port_manager.addPosition("Test1", 15, "APPL", 150, PositionType::LONG, "TestPort1");
-	port_manager.addPosition("Test2", 5, "IBM", 100, PositionType::SHORT, "TestPort1");
+	GenericDataStore market_data_store;
+	AlphaVantagProvider market_data_provider(getenv("ALPHA_VANTAGE_API_KEY"));
+	RiskEngine test_risk_engine;
+	Portfolio test_portfolio("TestPortfolio1");
 
-	port_manager.analysePortfolio("TestPort1",TimeFrame::DAILY);
+	auto hd = std::make_shared<HistoricData>();
 
-	port_manager.removePosition("Test1", "TestPort1");
-	std::cout << "Number of positions in \"TestPort1\": " << port_manager.portfolioSize("TestPort1") << "\n";
-	port_manager.removePortfolio("TestPort1");
-	std::cout << "Number of Portfolios: " << port_manager.numbPortfolio() << "\n";
-	
-}
+	HistoricData hd;
+
+	hd->daily = market_data_provider.periodicData("AAPL", TimeFrame::DAILY).historicData.value();
+	hd->weekly = market_data_provider.periodicData("AAPL", TimeFrame::WEEKLY).historicData.value();
+	hd->monthly = market_data_provider.periodicData("AAPL", TimeFrame::MONTHLY).historicData.value();
+
+	auto lp = std::make_shared<double>(market_data_provider.latestPrice("AAPL").price);
+
+	market_data_store.addHistoricalData("AAPL", *hd);
+	market_data_store.addLatestPrice("AAPL", *lp);
+
+
+	auto test1 = std::make_shared<Asset>("AAPL", lp, hd);
+	Position testPosition("TestPosition1", 10, test1, 100, PositionType::LONG);
+
+	test_portfolio.addPosition(testPosition);
+	test_risk_engine.analysePortfolio(test_portfolio, TimeFrame::DAILY);
+
+}  

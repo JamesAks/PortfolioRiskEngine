@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(Apps)
 add_subdirectory(RiskEngine)
 add_subdirectory(Core)
-add_subdirectory(MarketDataStore)
+add_subdirectory(MarketDataServices)
 add_subdirectory(PricingEngine)
 add_subdirectory(QuantitativeLibrary)
 

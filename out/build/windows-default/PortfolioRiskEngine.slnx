@@ -9,7 +9,7 @@
 	</Configurations>
 	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="614b5b57-2500-300b-8836-0a3301b66459" DefaultStartup="true">
 		<BuildDependency Project="Core/Core.vcxproj"/>
-		<BuildDependency Project="MarketDataStore/MarketDataStore.vcxproj"/>
+		<BuildDependency Project="MarketDataServices/MarketDataServices.vcxproj"/>
 		<BuildDependency Project="Apps/PortfolioApp/PortfolioApp.vcxproj"/>
 		<BuildDependency Project="PricingEngine/PricingEngine.vcxproj"/>
 		<BuildDependency Project="RiskEngine/RiskEngine.vcxproj"/>
@@ -23,10 +23,13 @@
 	<Project Path="Core/Core.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="e3c2c767-296d-3919-8693-09ef7e0d07c5">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
-	<Project Path="MarketDataStore/MarketDataStore.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="7f5d8878-21e9-3cc4-9637-46541f09fc12">
+	<Project Path="MarketDataServices/MarketDataServices.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="192ec87b-82a1-3527-a50c-e9d6074093ed">
+		<BuildDependency Project="Core/Core.vcxproj"/>
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
 	<Project Path="Apps/PortfolioApp/PortfolioApp.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="e8e17cc4-5650-39d8-8b0a-e88fc3a41e5c">
+		<BuildDependency Project="Core/Core.vcxproj"/>
+		<BuildDependency Project="MarketDataServices/MarketDataServices.vcxproj"/>
 		<BuildDependency Project="RiskEngine/RiskEngine.vcxproj"/>
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
@@ -34,11 +37,13 @@
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
 	<Project Path="RiskEngine/RiskEngine.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="df1305b3-e37c-3d60-9fff-064a1232dbbf">
+		<BuildDependency Project="Core/Core.vcxproj"/>
+		<BuildDependency Project="MarketDataServices/MarketDataServices.vcxproj"/>
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
 	<Project Path="tests/RiskEngineTests/RiskEngineTest.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="15b1de9c-6ff7-32ee-a6dc-2ab06990d8c6">
 		<BuildDependency Project="Core/Core.vcxproj"/>
-		<BuildDependency Project="MarketDataStore/MarketDataStore.vcxproj"/>
+		<BuildDependency Project="MarketDataServices/MarketDataServices.vcxproj"/>
 		<BuildDependency Project="PricingEngine/PricingEngine.vcxproj"/>
 		<BuildDependency Project="RiskEngine/RiskEngine.vcxproj"/>
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
