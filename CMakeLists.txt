@@ -14,3 +14,4 @@ add_subdirectory(PricingEngine)
 add_subdirectory(QuantitativeLibrary)
 
 add_subdirectory(tests)
+add_subdirectory(DataLoader)

@@ -7,6 +7,9 @@
     <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\src\GenericDataStore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\src\CSVDataProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\include\GenericDataStore.hpp">
@@ -19,6 +22,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\include\AlphaVantageProvider.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\include\CSVDataProvider.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

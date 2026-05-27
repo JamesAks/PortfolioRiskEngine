@@ -311,10 +311,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\src\AlphaVantageProvider.cpp" />
     <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\src\GenericDataStore.cpp" />
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\src\CSVDataProvider.cpp" />
     <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\include\GenericDataStore.hpp" />
     <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\include\MarketDataStore.hpp" />
     <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\include\MarketDataProvider.hpp" />
     <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\include\AlphaVantageProvider.hpp" />
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\MarketDataServices\include\CSVDataProvider.hpp" />
     <Natvis Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\_deps\json-src\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>

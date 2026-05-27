@@ -17,17 +17,17 @@ const TimeSeries& Asset::periodicData(TimeFrame tf) const {
 	{
 	case TimeFrame::DAILY:
 
-		return hist_data->daily;
+		return hist_data.get()->daily;
 		break;
 
 	case TimeFrame::WEEKLY:
 
-		return hist_data->weekly;
+		return hist_data.get()->weekly;
 		break;
 
 	case TimeFrame::MONTHLY:
 
-		return hist_data->monthly;
+		return hist_data.get()->monthly;
 		break;
 
 	default:

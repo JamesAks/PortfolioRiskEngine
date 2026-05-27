@@ -4,7 +4,7 @@
 
 // ----- Private Members -----
 
-std::string AlphaVantagProvider::request(std::string url) const {
+std::string AlphaVantageProvider::request(std::string url) const {
 
 	CURL* curl;
 	CURLcode result;
@@ -27,7 +27,7 @@ std::string AlphaVantagProvider::request(std::string url) const {
 }
 
 
-RequestError AlphaVantagProvider::validateResponse(std::string symbol, const nlohmann::json& response_json) const {
+RequestError AlphaVantageProvider::validateResponse(std::string symbol, const nlohmann::json& response_json) const {
 
 	if (response_json.contains("Error Message")) {
 
@@ -53,10 +53,10 @@ RequestError AlphaVantagProvider::validateResponse(std::string symbol, const nlo
 // ----- Public Members -----
 
 
-AlphaVantagProvider::AlphaVantagProvider(std::string key) : API_key{ key } {}
+AlphaVantageProvider::AlphaVantageProvider(std::string key) : API_key{ key } {}
 
 
-RequestResult AlphaVantagProvider::periodicData (std::string symbol, TimeFrame tf) const  {
+RequestResult AlphaVantageProvider::periodicData (std::string symbol, TimeFrame tf, size_t quantity) const  {
 
 	std::string function;
 	TimeSeries  historical_data;
@@ -100,13 +100,25 @@ RequestResult AlphaVantagProvider::periodicData (std::string symbol, TimeFrame t
 	if (!response_json.contains(title.c_str())) { throw std::runtime_error("Missing market data for \"" + symbol + "\"."); }
 
 	auto& data = response_json[title.c_str()];
+
+	Logger::logDebug("Data size: " + std::to_string(data.size()));
+
+	if (data.size() < quantity) {
+
+		quantity = data.size();
+		Logger::logWarning("The quantity requested was more than what was provided. Returning" + std::to_string(quantity) + " entrys.");
+	}
 	
+	int count = 0;
 	for (auto& [date, daily_data] : data.items()) {
+
+		if (count >= quantity) { break; }
 
 		if (!daily_data.contains("4. close")) { throw std::runtime_error("Missing prices for \"" + symbol + "\"."); }
 		double price = std::stod(daily_data["4. close"].get<std::string>());
 		historical_data.dates.push_back(date);
 		historical_data.prices.push_back(price);
+		count++;
 	}
 
 	RequestResult result{
@@ -120,7 +132,7 @@ RequestResult AlphaVantagProvider::periodicData (std::string symbol, TimeFrame t
 }
 
 
-RequestResult AlphaVantagProvider::latestPrice(std::string symbol) const {
+RequestResult AlphaVantageProvider::latestPrice(std::string symbol) const {
 
 	Logger::logInfo("Fethcing Latest data for \"" + symbol + "\".");
 
@@ -150,7 +162,7 @@ RequestResult AlphaVantagProvider::latestPrice(std::string symbol) const {
 }
 
 
-nlohmann::json AlphaVantagProvider::parse(std::string response) const {
+nlohmann::json AlphaVantageProvider::parse(std::string response) const {
 
 	return nlohmann::json::parse(response);
 }

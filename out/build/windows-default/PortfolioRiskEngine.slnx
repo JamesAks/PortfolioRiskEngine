@@ -9,6 +9,8 @@
 	</Configurations>
 	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="614b5b57-2500-300b-8836-0a3301b66459" DefaultStartup="true">
 		<BuildDependency Project="Core/Core.vcxproj"/>
+		<BuildDependency Project="DataLoader/DataLoader.vcxproj"/>
+		<BuildDependency Project="tests/MarketDataProviderTests/MDProviderTests.vcxproj"/>
 		<BuildDependency Project="MarketDataServices/MarketDataServices.vcxproj"/>
 		<BuildDependency Project="Apps/PortfolioApp/PortfolioApp.vcxproj"/>
 		<BuildDependency Project="PricingEngine/PricingEngine.vcxproj"/>
@@ -21,6 +23,16 @@
 		<Build Solution="RelWithDebInfo|*" Project="false"/>
 	</Project>
 	<Project Path="Core/Core.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="e3c2c767-296d-3919-8693-09ef7e0d07c5">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="DataLoader/DataLoader.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="42d2c4f4-c4e5-3ba3-ba15-02e0ea1913ca">
+		<BuildDependency Project="Core/Core.vcxproj"/>
+		<BuildDependency Project="MarketDataServices/MarketDataServices.vcxproj"/>
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="tests/MarketDataProviderTests/MDProviderTests.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="3e368679-3d85-3a7c-95d2-b64c7f4ebaa6">
+		<BuildDependency Project="Core/Core.vcxproj"/>
+		<BuildDependency Project="MarketDataServices/MarketDataServices.vcxproj"/>
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
 	<Project Path="MarketDataServices/MarketDataServices.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="192ec87b-82a1-3527-a50c-e9d6074093ed">

@@ -3,6 +3,7 @@ set(MDS_SOURCES
     
 	src/AlphaVantageProvider.cpp
 	src/GenericDataStore.cpp
+	src/CSVDataProvider.cpp
 )
 
 set(MDS_HEADERS
@@ -11,6 +12,7 @@ set(MDS_HEADERS
 	include/MarketDataStore.hpp
 	include/MarketDataProvider.hpp
 	include/AlphaVantageProvider.hpp
+	include/CSVDataProvider.hpp
 
 
 )

@@ -11,7 +11,7 @@
 #include "MarketDataProvider.hpp"
 
 
-class AlphaVantagProvider: MarketDataProvider {
+class AlphaVantageProvider: MarketDataProvider {
 
 	private:
 
@@ -20,16 +20,17 @@ class AlphaVantagProvider: MarketDataProvider {
 	 
 		std::string request(std::string) const;
 		RequestError validateResponse(std::string, const nlohmann::json&) const;
+		nlohmann::json parse(std::string) const;
 
 	public:
 
-		AlphaVantagProvider(std::string);
+		AlphaVantageProvider(std::string);
 		
-		RequestResult periodicData(std::string, TimeFrame) const;
+		RequestResult periodicData(std::string, TimeFrame, size_t) const;
 		RequestResult latestPrice(std::string) const;
 
 
-		nlohmann::json parse(std::string) const;
+		
 };
 
 static size_t memoryWriteCallback(void*, size_t, size_t, void*);

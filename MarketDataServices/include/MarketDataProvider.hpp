@@ -1,6 +1,8 @@
 #ifndef MARKET_DATA_PROVIDER_INTERFACE_HPP
 #define MARKET_DATA_PROVIDER_INTERFACE_HPP
 
+#include <optional>
+#include "Core.hpp"
 
 
 struct RequestResult {
@@ -15,7 +17,7 @@ class MarketDataProvider {
 
 	public:
 
-		virtual RequestResult periodicData(std::string, TimeFrame) const = 0;
+		virtual RequestResult periodicData(std::string, TimeFrame, size_t) const = 0;
 		virtual RequestResult latestPrice(std::string) const = 0;
 };
 

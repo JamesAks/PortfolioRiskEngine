@@ -178,6 +178,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{E3C2C767-296D-3919-8693-09EF7E0D07C5}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\DataLoader\DataLoader.vcxproj">
+      <Project>{42D2C4F4-C4E5-3BA3-BA15-02E0EA1913CA}</Project>
+      <Name>DataLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\tests\MarketDataProviderTests\MDProviderTests.vcxproj">
+      <Project>{3E368679-3D85-3A7C-95D2-B64C7F4EBAA6}</Project>
+      <Name>MDProviderTests</Name>
+    </ProjectReference>
     <ProjectReference Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\MarketDataServices\MarketDataServices.vcxproj">
       <Project>{192EC87B-82A1-3527-A50C-E9D6074093ED}</Project>
       <Name>MarketDataServices</Name>

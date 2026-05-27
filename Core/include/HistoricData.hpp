@@ -1,6 +1,7 @@
-#ifndef HISTORICA_DATA
-#define HISTORICA_DATA
+#ifndef HISTORIC_DATA_HPP
+#define HISTORIC_DATA_HPP
 
+#include "TimeSeries.hpp"
 
 enum class TimeFrame { DAILY, WEEKLY, MONTHLY };
 
