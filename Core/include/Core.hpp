@@ -11,8 +11,6 @@
 #include "HistoricData.hpp"
 #include "TimeSeries.hpp"
 
-enum class RequestError { NONE, INVALIDSYMBOL, RATELIMIT, NETWORKERROR };
-
 #endif // !CORE_HPP
 
 

@@ -182,7 +182,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{42D2C4F4-C4E5-3BA3-BA15-02E0EA1913CA}</Project>
       <Name>DataLoader</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\tests\MarketDataProviderTests\MDProviderTests.vcxproj">
+    <ProjectReference Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\tests\MarketDataServicesTests\MDProviderTests.vcxproj">
       <Project>{3E368679-3D85-3A7C-95D2-B64C7F4EBAA6}</Project>
       <Name>MDProviderTests</Name>
     </ProjectReference>

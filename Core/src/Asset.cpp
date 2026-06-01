@@ -1,6 +1,11 @@
-#include "../include/Asset.hpp"
+#include "Asset.hpp"
+#include "HistoricData.hpp"
+#include "TimeSeries.hpp"
 
 
+// ----- Private Class -----
+
+// ----- Public Class -----
 
 Asset::Asset(std::string s, std::shared_ptr<double> price, std::shared_ptr<HistoricData> hd):asset_symbol{ s }, latest_price{ price }, hist_data{hd}{}
 
@@ -17,17 +22,17 @@ const TimeSeries& Asset::periodicData(TimeFrame tf) const {
 	{
 	case TimeFrame::DAILY:
 
-		return hist_data.get()->daily;
+		return hist_data->dailyData();
 		break;
 
 	case TimeFrame::WEEKLY:
 
-		return hist_data.get()->weekly;
+		return hist_data->weeklyData();
 		break;
 
 	case TimeFrame::MONTHLY:
 
-		return hist_data.get()->monthly;
+		return hist_data->monthlyData();
 		break;
 
 	default:

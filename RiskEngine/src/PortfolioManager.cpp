@@ -1,4 +1,4 @@
-#include "../includes/PortfolioManager.hpp"
+#include "../include/PortfolioManager.hpp"
 
 
 
@@ -55,7 +55,7 @@ std::string PortfolioManager::avApiKey() const {
 
 // ----- Public -----
 
-PortfolioManager::PortfolioManager() : adp(avApiKey()), market_data_manager(adp), risk_engine(market_data_manager) {}
+PortfolioManager::PortfolioManager() : adp(avApiKey()), market_data_manager{}, risk_engine{} {}
 		
 
 void PortfolioManager::analysePortfolio(std::string portfolio_ID, TimeFrame tf) const {
@@ -131,7 +131,7 @@ void PortfolioManager::addPosition(std::string position_ID, size_t quantity, std
 
 	Logger::logInfo("Atempting to fetch historic data for \"" + asset_ID + "\" and add to data store.");
 
-	auto historicResult = market_data_manager.addMarketData(asset_ID);
+	auto historicResult = market_data_manager.addHistoricalData(asset_ID,);//addMarketData(asset_ID);
 	if (historicResult != RequestError::NONE) {
 
 		Logger::logError("Asset not added. Error with fetching market data for \"" + asset_ID + "\".");

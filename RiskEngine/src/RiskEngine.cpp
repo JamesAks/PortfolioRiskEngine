@@ -1,5 +1,13 @@
-﻿#include "../include/RiskEngine.hpp"
+﻿#include "Asset.hpp"
+#include "Logger.hpp"
+#include "Portfolio.hpp"
+#include "Position.hpp"
+#include "RiskEngine.hpp"
+#include "Statistics.hpp"
+#include "TimeSeries.hpp"
+
 #include <iostream>
+
 
 
 RiskEngine::RiskEngine(){}
@@ -7,7 +15,6 @@ RiskEngine::RiskEngine(){}
 
 PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf) const {
 
-	
 	Logger::logInfo("Analysing asset \"" + pos.viewID() + "\".");
 	RiskStatistics stats;
 	std::string symbol = pos.viewID();
@@ -59,7 +66,7 @@ PortfolioRiskReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFram
 
 std::vector<double> RiskEngine::periodicReturns(const Position& pos, TimeFrame tf) const {
 
-	return RiskStatistics::periodicReturns(pos.viewAsset()->periodicData(tf).prices);
+	return RiskStatistics::periodicReturns(pos.viewAsset()->periodicData(tf).prices());
 }
 
 	

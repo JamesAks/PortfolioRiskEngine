@@ -1,2 +1,2 @@
 add_subdirectory(RiskEngineTests)
-add_subdirectory(MarketDataProviderTests)
+add_subdirectory(MarketDataServicesTests)

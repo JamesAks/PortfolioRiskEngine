@@ -1,9 +1,16 @@
 ﻿#ifndef RISK_ENGINE_CPP
 #define RISK_ENGINE_CPP
 
-#include "Core.hpp"
 #include "CovarianceMatrix.hpp"
 
+#include <string>
+#include <vector>
+
+
+
+enum class TimeFrame;
+class Position;
+class Portfolio;
 
 
 struct PositionRiskReport {
@@ -77,9 +84,7 @@ class RiskEngine {
 		double assetCorrelation(const Position&, const Position&, TimeFrame) const;
 
 		// Returns a list containing anylysis of all the assets within a portfolio.
-		std::vector<PositionRiskReport> breakdown(const Portfolio&, TimeFrame) const;
-
-		
+		std::vector<PositionRiskReport> breakdown(const Portfolio&, TimeFrame) const;	
 };
 
 #endif // !RISK_ENGINE_CPP

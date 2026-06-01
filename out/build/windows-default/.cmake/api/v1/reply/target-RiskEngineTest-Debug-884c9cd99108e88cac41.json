@@ -1,0 +1,269 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "tests/RiskEngineTests/Debug/RiskEngineTest.exe"
+		},
+		{
+			"path" : "tests/RiskEngineTests/Debug/RiskEngineTest.pdb"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_executable",
+			"add_executable",
+			"target_link_libraries",
+			"add_custom_command"
+		],
+		"files" : 
+		[
+			"C:/Users/james/Source/Repos/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"tests/RiskEngineTests/CMakeLists.txt",
+			"QuantitativeLibrary/CMakeLists.txt",
+			"MarketDataServices/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 612,
+				"parent" : 1
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 3,
+				"parent" : 3
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 3,
+				"line" : 35,
+				"parent" : 5
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 3,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 626,
+				"parent" : 1
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 9
+	},
+	"compileDependencies" : 
+	[
+		{
+			"backtrace" : 7,
+			"id" : "QuantitativeLibrary::@0b7c70f09f5881f31bc7"
+		}
+	],
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++20 -MDd"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "C:/libs/C++/eigen-5.0.0"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/Core/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/MarketDataServices/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/_deps/json-src/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/PricingEngine/$(SOURCE_DIR)/include"
+				},
+				{
+					"backtrace" : 7,
+					"isSystem" : true,
+					"path" : "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/vcpkg_installed/x64-windows/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					7
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 7,
+			"id" : "RiskEngine::@9161a2b7db0bff3a63f8"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "Core::@94795ff35dabbbd3a8ca"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MarketDataServices::@6124097cc0a1642f1969"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "PricingEngine::@9e2f57e16eda04b0e7c9"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "RiskEngineTest::@5ef41d27409f5f70a87a",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /debug /INCREMENTAL",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\RiskEngine\\Debug\\RiskEngine.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\MarketDataServices\\Debug\\MarketDataServices.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "..\\..\\vcpkg_installed\\x64-windows\\debug\\lib\\libcurl-d.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\PricingEngine\\Debug\\PricingEngine.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\Core\\Debug\\Core.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"linkLibraries" : 
+	[
+		{
+			"backtrace" : 7,
+			"id" : "QuantitativeLibrary::@0b7c70f09f5881f31bc7"
+		}
+	],
+	"name" : "RiskEngineTest",
+	"nameOnDisk" : "RiskEngineTest.exe",
+	"orderDependencies" : 
+	[
+		{
+			"backtrace" : 8,
+			"id" : "RiskEngineTest::@5ef41d27409f5f70a87a"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "tests/RiskEngineTests",
+		"source" : "tests/RiskEngineTests"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "tests/RiskEngineTests/test_main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 7,
+			"path" : "out/build/windows-default/_deps/json-src/nlohmann_json.natvis",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}

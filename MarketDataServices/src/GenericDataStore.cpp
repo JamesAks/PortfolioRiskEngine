@@ -1,6 +1,8 @@
-#include "../include/GenericDataStore.hpp"
+#include "GenericDataStore.hpp"
+#include "HistoricData.hpp"
 #include "Logger.hpp"
-
+#include "TimeSeries.hpp"
+#include <stdexcept>
 
 
 // ---- Private Members -----
@@ -8,81 +10,32 @@
 
 // ---- Public Members -----
 
-GenericDataStore::GenericDataStore() : historic_data_store{ {} }, latest_price_store{ {} } {}
+GenericDataStore::GenericDataStore() : historic_data_store{}, latest_price_store{} {}
 
 
-void GenericDataStore::addHistoricalData(std::string symbol, HistoricData hist_data) {
+void GenericDataStore::addHistoricalData(std::string symbol, TimeSeries& daily, TimeSeries& weekly, TimeSeries& monthly) {
 
-	// Fetching and validating historic data.
 
-	auto hd = historic_data_store.find(symbol);
-	if (hd != historic_data_store.end()) {
+	if (historic_data_store.find(symbol) != historic_data_store.end()) {
 
 		Logger::logError("Data for \"" + symbol + "\" is already stored in the data store. Try updateHistoricalData() method instead.");
 		return;
 	}
 
-	historic_data_store.emplace(symbol, hist_data);
-
+	historic_data_store.emplace(symbol, std::make_shared<HistoricData>(daily, weekly, monthly));
 	Logger::logInfo("Added historical data for \"" + symbol + "\" to data store.");
-
-	return;
-
-/*	HistoricData hd;
-
-	RequestResult daily = adapter.periodicData(symbol, TimeFrame::DAILY);
-	if (daily.requestError != RequestError::NONE) {
-
-		Logger::logError("Failed to fetch market data. Could not add \"" + symbol + "\" historic daily data to data store.");
-		return daily.requestError;
-	}
-
-	RequestResult weekly = adapter.periodicData(symbol, TimeFrame::WEEKLY);
-	if (weekly.requestError != RequestError::NONE) {
-
-		Logger::logError("Failed to fetch market data. Could not add \"" + symbol + "\" historic weekly data to data store.");
-		return weekly.requestError;
-	}  
-
-
-	RequestResult monthly = adapter.periodicData(symbol, TimeFrame::MONTHLY);
-	if (monthly.requestError != RequestError::NONE) {
-
-		Logger::logError("Failed to fetch market data. Could not add \"" + symbol + "\" historic monthly data to data store.");
-		return monthly.requestError ;
-	}
-
-	hd.daily = daily.historicData.value();
-	hd.weekly = weekly.historicData.value();
-	hd.monthly = monthly.historicData.value();
-
-	// Fetching and validating latest price.
-	RequestResult lp = adapter.latestPrice(symbol);
-
-	if (lp.requestError != RequestError::NONE) {
-
-		Logger::logError("Failed to fetch market data. Could not add \"" + symbol + "\" latest price to data store.");
-		return lp.requestError;
-	};
-
-	historicData.emplace(symbol, hd);
-	latestPrices.emplace(symbol, lp.price);
-	
-	Logger::logInfo("Added  \"" + symbol + "\" market data to the data store.");
-	return RequestError::NONE;*/
 }
 
 
 void GenericDataStore::addLatestPrice(std::string symbol, double price) {
 
-	auto lp = latest_price_store.find(symbol);
-	if (lp != latest_price_store.end()) {
+	if (latest_price_store.find(symbol) != latest_price_store.end()) {
 
 		Logger::logError("Data for \"" + symbol + "\" is already stored in the data store. Try updateLatestlPrice() method instead.");
 		return;
 	}
 
-	latest_price_store.emplace(symbol, price);
+	latest_price_store.emplace(symbol, std::make_shared<double>(price));
 	Logger::logInfo("Added latest price for \"" + symbol + "\" to data store.");
 
 	return;
@@ -91,10 +44,7 @@ void GenericDataStore::addLatestPrice(std::string symbol, double price) {
 
 void GenericDataStore::removeMarketData(std::string symbol) {
 
-	auto hd = historic_data_store.find(symbol);
-	auto lp = latest_price_store.find(symbol);
-
-	if (hd == historic_data_store.end() || lp == latest_price_store.end()) {
+	if (historic_data_store.find(symbol) == historic_data_store.end() || latest_price_store.find(symbol) == latest_price_store.end()) {
 
 		Logger::logError("Could not find data entry for \"" + symbol + "\" inside data store.");
 
@@ -108,37 +58,55 @@ void GenericDataStore::removeMarketData(std::string symbol) {
 }
 
 
-const HistoricData& GenericDataStore::historicalData(std::string symbol) const {
+const std::shared_ptr<HistoricData> GenericDataStore::historicalData(std::string symbol) const {
 
 	auto result = historic_data_store.find(symbol);
 	if (result == historic_data_store.end()) {
 
-		Logger::logError("Could not find data for \"" + symbol + "\" inside data store.");
-		return {};
+		Logger::logError("Could not find historical data for \"" + symbol + "\" inside data store.");
+		return nullptr;
 	}
 
 	return result->second;
 }
 
+const std::shared_ptr<double> GenericDataStore::latestPrice(std::string symbol) const {
 
-const TimeSeries& GenericDataStore::periodicData(std::string symbol, TimeFrame tf) const {
+	auto result = latest_price_store.find(symbol);
+	if (result == latest_price_store.end()) {
 
-	auto pd = historic_data_store.find(symbol);
+		Logger::logError("Could not find latest price for \"" + symbol + "\" inside data store.");
+		return nullptr;
+	}
+
+	return latest_price_store.find(symbol)->second;
+}
+
+
+const TimeSeries& GenericDataStore::periodicData(std::string asset_ID, TimeFrame tf) const {
+
+	auto pd = historic_data_store.find(asset_ID);
+	if (pd == historic_data_store.end()) {
+
+		Logger::logError("Could not find asset " + asset_ID + " in store.");
+		return {};
+	}
+
 	switch (tf)
 	{
 	case TimeFrame::DAILY:
 
-		return pd->second.daily;
+		return pd->second->dailyData();
 		break;
 
 	case TimeFrame::WEEKLY:
 
-		return pd->second.weekly;
+		return pd->second->weeklyData();
 		break;
 
 	case TimeFrame::MONTHLY:
 
-		return pd->second.monthly;
+		return pd->second->monthlyData();
 		break;
 
 	default:
@@ -148,16 +116,10 @@ const TimeSeries& GenericDataStore::periodicData(std::string symbol, TimeFrame t
 }
 
 
-const double& GenericDataStore::currentPrice(std::string symbol) const {
-
-	return latest_price_store.find(symbol)->second;
-}
+const std::map<std::string, std::shared_ptr<HistoricData>>& GenericDataStore::viewHistoricData() const { return historic_data_store; }
 
 
-const std::map<std::string, HistoricData>& GenericDataStore::viewHistoricData() const { return historic_data_store; }
-
-
-const std::map<std::string, double>& GenericDataStore::viewLatestPrices() const { return latest_price_store; }
+const std::map<std::string, std::shared_ptr<double>>& GenericDataStore::viewLatestPrices() const { return latest_price_store; }
 
 
 std::vector<std::string> GenericDataStore::viewSymbols() const {
@@ -172,7 +134,7 @@ std::vector<std::string> GenericDataStore::viewSymbols() const {
 }
 
 
-void GenericDataStore::updateHistoricData(std::string symbol, HistoricData hist_data) {
+void GenericDataStore::updateHistoricData(std::string symbol, TimeSeries& daily, TimeSeries& weekly, TimeSeries& monthly) {
 
 	auto hd = historic_data_store.find(symbol);
 	if (hd == historic_data_store.end()) {
@@ -181,7 +143,8 @@ void GenericDataStore::updateHistoricData(std::string symbol, HistoricData hist_
 		return;
 	}
 
-	historic_data_store[symbol] = hist_data;
+	*hd->second = { daily,weekly,monthly };
+
 	Logger::logInfo("Updated historical data data for \"" + symbol + "\".");
 	return;
 }
@@ -196,7 +159,7 @@ void GenericDataStore::updateLatestPrice(std::string symbol, double price) {
 		return;
 	}
 
-	latest_price_store[symbol] = price;
+	*lp->second = price;
 	Logger::logInfo("Updated latest price for \"" + symbol + "\".");
 	return;
 }

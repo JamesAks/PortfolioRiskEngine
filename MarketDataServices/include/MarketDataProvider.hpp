@@ -1,9 +1,13 @@
 #ifndef MARKET_DATA_PROVIDER_INTERFACE_HPP
 #define MARKET_DATA_PROVIDER_INTERFACE_HPP
 
-#include <optional>
-#include "Core.hpp"
+#include "TimeSeries.hpp"
+#include "HistoricData.hpp"
 
+#include <optional>
+#include <string>
+
+enum class RequestError { NONE, INVALIDSYMBOL, RATELIMIT, NETWORKERROR };
 
 struct RequestResult {
 

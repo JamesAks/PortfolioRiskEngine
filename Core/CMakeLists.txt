@@ -8,6 +8,8 @@ set(CORE_SOURCES
     src/Portfolio.cpp
     src/Position.cpp
     src/Statistics.cpp
+    src/HistoricData.cpp
+    src/TimeSeries.cpp
 )
 
 

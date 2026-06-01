@@ -1,13 +1,11 @@
 #ifndef CSV_DATA_STORE_CPP
 #define CSV_DATA_STORE_CPP
 
-
 #include "MarketDataProvider.hpp"
-#include "Core.hpp"
-#include <iostream>
-#include <fstream>   
-#include <filesystem>
 
+
+
+enum class TimeFrame;
 
 class CSVDataProvider : MarketDataProvider {
 

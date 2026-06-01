@@ -1,10 +1,9 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <iostream>
-#include <string.h>
-#include <chrono>
-#include <sstream>
+#include <string>
+
+
 
 enum class LogLevel { ERR, WARNING, INFO, DEBUG};
 

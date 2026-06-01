@@ -1,4 +1,10 @@
-#include "../include/CSVDataProvider.hpp"
+#include "CSVDataProvider.hpp"
+#include "HistoricData.hpp"
+#include "Logger.hpp"
+
+#include <iostream>
+#include <fstream>   
+#include <filesystem>
 
 
 // ----- Private Members -----
@@ -32,10 +38,10 @@ RequestResult CSVDataProvider::periodicData(std::string asset_ID, TimeFrame tf, 
 		file_name  = "Daily_Market_Data.csv";
 		break;
 	case TimeFrame::WEEKLY:
-		file_name = asset_ID + "Weekly_Market_Data.csv";
+		file_name = "Weekly_Market_Data.csv";
 		break;
 	case TimeFrame::MONTHLY:
-		file_name = asset_ID + " Monthly_Market_Data.csv";
+		file_name = "Monthly_Market_Data.csv";
 		break;
 	default:
 		throw ("Invalid time frame.");
@@ -50,15 +56,15 @@ RequestResult CSVDataProvider::periodicData(std::string asset_ID, TimeFrame tf, 
 		return { std::nullopt, RequestError::INVALIDSYMBOL };
 	}
 
-	TimeSeries result;
+	TimeSeries result(quantity);
 
 	while (std::getline(market_data_file, line) && count < quantity) {
 
 		auto seperator_pos = line.find(",");
-		result.dates.push_back(line.substr(0, seperator_pos));
-		result.prices.push_back(std::stod(line.substr(seperator_pos + 1, line.length())));
+		result.addData(line.substr(0, seperator_pos), std::stod(line.substr(seperator_pos + 1, line.length())));
 		count++;
 	}
+
 	market_data_file.close();
 
 	if (count < quantity) {

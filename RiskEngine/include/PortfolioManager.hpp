@@ -1,4 +1,6 @@
 #include "RiskEngine.hpp"
+#include "AlphaVantageProvider.hpp"
+#include "GenericDataStore.hpp"
 
 
 
@@ -9,8 +11,8 @@ class PortfolioManager {
     private:
 
         std::map<std::string, Portfolio> portfolios;
-        AlphaVantageAdapter adp;
-        MarketDataManager market_data_manager;
+        AlphaVantageProvider adp;
+        GenericDataStore market_data_manager;
         const RiskEngine risk_engine;
         std::map<std::string,std::shared_ptr<Asset>> asset_store;
 

@@ -1,4 +1,8 @@
-#include "../include/Logger.hpp"
+#include "Logger.hpp"
+
+#include <iostream>
+#include <chrono>
+#include <sstream>
 
 void Logger::logError(std::string message) {
 

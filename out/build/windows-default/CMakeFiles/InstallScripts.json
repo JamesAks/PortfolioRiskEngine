@@ -12,7 +12,7 @@
 		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/QuantitativeLibrary/cmake_install.cmake",
 		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/tests/cmake_install.cmake",
 		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/tests/RiskEngineTests/cmake_install.cmake",
-		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/tests/MarketDataProviderTests/cmake_install.cmake",
+		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/tests/MarketDataServicesTests/cmake_install.cmake",
 		"C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/DataLoader/cmake_install.cmake"
 	],
 	"Parallel" : false

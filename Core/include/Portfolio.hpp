@@ -2,9 +2,15 @@
 #define PORTFOLIO_HPP
 
 #include "Position.hpp"
+
 #include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
+
+
+class Asset;
 
 
 class Portfolio {

@@ -10,7 +10,6 @@
 set(RE_SOURCES
     
     src/RiskEngine.cpp
-    src/PortfolioManager.cpp
     src/CovarianceMatrix.cpp
 )
 
@@ -18,7 +17,6 @@ set(RE_SOURCES
 set(RE_HEADERS
 
     include/RiskEngine.hpp
-    include/PortfolioManager.hpp
     include/CovarianceMatrix.hpp
 )
 

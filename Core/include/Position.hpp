@@ -1,15 +1,15 @@
 #ifndef POSITION_HPP
 #define POSITION_HPP
 
-
-
-#include "Asset.hpp"
 #include <map>
 #include <memory>
+#include <string>
 
 
 
+class Asset;
 enum class PositionType { LONG, SHORT, NA };
+
 
 class Position {
 

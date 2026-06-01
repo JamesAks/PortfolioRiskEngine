@@ -4,8 +4,12 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "HistoricData.hpp"
-#include "TimeSeries.hpp"
+
+
+
+class HistoricData;
+class TimeSeries;
+enum class TimeFrame;
 
 
 class Asset {

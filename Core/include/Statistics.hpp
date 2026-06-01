@@ -1,7 +1,8 @@
 #ifndef STATISTICS_HPP
 #define STATISTICS_HPP
 
-#include "vector"
+#include <vector>
+#include <math.h>
 
 
 // A general statistic module that contains the mathematical methods (mean, variance, etc.) for anylsisng a sequence of data.

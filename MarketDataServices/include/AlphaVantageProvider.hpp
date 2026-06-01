@@ -1,14 +1,14 @@
-
 #ifndef MARKET_DATA_PROVIDER_HPP
 #define MARKET_DATA_PROVIDER_HPP
 
-#include <curl/curl.h>
-#include <nlohmann/json.hpp>
-#include <chrono>
-#include <thread>
-#include "Logger.hpp"
-#include "Core.hpp"
 #include "MarketDataProvider.hpp"
+
+#include <nlohmann/json.hpp>
+#include <string>
+
+
+
+enum class TimeFrame;
 
 
 class AlphaVantageProvider: MarketDataProvider {
@@ -28,9 +28,6 @@ class AlphaVantageProvider: MarketDataProvider {
 		
 		RequestResult periodicData(std::string, TimeFrame, size_t) const;
 		RequestResult latestPrice(std::string) const;
-
-
-		
 };
 
 static size_t memoryWriteCallback(void*, size_t, size_t, void*);

@@ -1,6 +1,12 @@
-#include "../include/AlphaVantageProvider.hpp"
+#include "AlphaVantageProvider.hpp"
+#include "HistoricData.hpp"
+#include "Logger.hpp"
+#include "TimeSeries.hpp"
 
 
+#include <chrono>
+#include <curl/curl.h>
+#include <thread>
 
 // ----- Private Members -----
 
@@ -59,7 +65,7 @@ AlphaVantageProvider::AlphaVantageProvider(std::string key) : API_key{ key } {}
 RequestResult AlphaVantageProvider::periodicData (std::string symbol, TimeFrame tf, size_t quantity) const  {
 
 	std::string function;
-	TimeSeries  historical_data;
+	TimeSeries  periodic_data(quantity);
 	std::string title;
 
 	switch (tf) {
@@ -116,19 +122,11 @@ RequestResult AlphaVantageProvider::periodicData (std::string symbol, TimeFrame 
 
 		if (!daily_data.contains("4. close")) { throw std::runtime_error("Missing prices for \"" + symbol + "\"."); }
 		double price = std::stod(daily_data["4. close"].get<std::string>());
-		historical_data.dates.push_back(date);
-		historical_data.prices.push_back(price);
+		periodic_data.addData(date, price);
 		count++;
 	}
 
-	RequestResult result{
-
-		historical_data,  
-		RequestError::NONE,
-		0
-	};
-
-	return result;
+	return { periodic_data, RequestError::NONE, NULL};
 }
 
 

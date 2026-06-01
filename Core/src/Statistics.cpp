@@ -1,7 +1,10 @@
 #include "../include/Statistics.hpp"
-#include <math.h>
 
 
+
+// ----- Private Members -----
+
+// ----- Publlic Members -----
 
 double RiskStatistics::mean(std::vector<double> data) {
 
