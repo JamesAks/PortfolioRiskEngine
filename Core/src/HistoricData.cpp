@@ -49,7 +49,7 @@ void HistoricData::reserve(size_t quantity){
 }
 
 
-void HistoricData::addData(std::string date, double price, TimeFrame tf) {
+void HistoricData::addData(std::chrono::year_month_day date, double price, TimeFrame tf) {
 
 	switch (tf)
 	{
@@ -77,8 +77,8 @@ void HistoricData::updateData(TimeSeries& data, TimeFrame tf){
 	switch (tf)
 	{
 	case TimeFrame::DAILY:
-
 		daily = std::move(data);
+		break;
 	case TimeFrame::WEEKLY:
 		weekly = std::move(data);
 		break;

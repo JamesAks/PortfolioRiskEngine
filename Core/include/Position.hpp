@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 
 
@@ -32,16 +33,14 @@ class Position {
         // Returns the potential profit/loss at the current market value
         double unrealizedGains() const;
 
-
         // Returns how much was originally invested into asset
         double initialInvestment() const;
-        
 
         std::shared_ptr<Asset> viewAsset() const;
         double viewPriceBoughtAt() const;
         PositionType viewPositionType() const;
         size_t viewQuantity() const;
-        std::string viewID() const;
+        const std::string& viewID() const;
 };
 
 #endif // !POSITION_HPP

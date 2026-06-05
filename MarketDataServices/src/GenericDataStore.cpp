@@ -27,6 +27,19 @@ void GenericDataStore::addHistoricalData(std::string symbol, TimeSeries& daily, 
 }
 
 
+void GenericDataStore::addHistoricalData(std::string symbol, HistoricData hd) {
+
+	if (historic_data_store.find(symbol) != historic_data_store.end()) {
+
+		Logger::logError("Data for \"" + symbol + "\" is already stored in the data store. Try updateHistoricalData() method instead.");
+		return;
+	}
+
+	historic_data_store.emplace(symbol, std::make_shared<HistoricData>(std::move(hd)));
+	Logger::logInfo("Added historical data for \"" + symbol + "\" to data store.");
+}
+
+
 void GenericDataStore::addLatestPrice(std::string symbol, double price) {
 
 	if (latest_price_store.find(symbol) != latest_price_store.end()) {

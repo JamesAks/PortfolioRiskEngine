@@ -59,8 +59,8 @@ class RiskEngine {
 		// Returns a report containing the riskmetrics of a portfolio.
 		PortfolioRiskReport analysePortfolio(const Portfolio&, TimeFrame) const ;
 
-		// Returns the percentage periodic change in price of the asset.
-		std::vector<double>periodicReturns(const Position&, TimeFrame) const;
+		// Returns the daily returns of a portfolio
+		std::vector<double> portfolioPeriodicReturns(const Portfolio&, TimeFrame, size_t) const;
 
 		// The mean percentage change of the asset.
 		double expectedReturn(const Position&, TimeFrame) const;

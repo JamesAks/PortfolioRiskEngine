@@ -58,7 +58,6 @@ RequestError AlphaVantageProvider::validateResponse(std::string symbol, const nl
 
 // ----- Public Members -----
 
-
 AlphaVantageProvider::AlphaVantageProvider(std::string key) : API_key{ key } {}
 
 
@@ -122,7 +121,7 @@ RequestResult AlphaVantageProvider::periodicData (std::string symbol, TimeFrame 
 
 		if (!daily_data.contains("4. close")) { throw std::runtime_error("Missing prices for \"" + symbol + "\"."); }
 		double price = std::stod(daily_data["4. close"].get<std::string>());
-		periodic_data.addData(date, price);
+		periodic_data.addData(convertStringDate(date), price);
 		count++;
 	}
 

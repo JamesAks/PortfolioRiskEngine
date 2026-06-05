@@ -24,7 +24,6 @@ class Asset {
 
     public:
         
-
         Asset(std::string, std::shared_ptr<double>, std::shared_ptr<HistoricData>);
 
         // Returns the current/latest price of the asset.
@@ -35,6 +34,8 @@ class Asset {
 
         // Returns specific periodic data for hsitoric data.
         const TimeSeries& periodicData(TimeFrame) const;
+
+        const std::vector<double>& periodicReturns(TimeFrame);
 
         // Returns the symbol/ID if the asset.
         std::string symbol() const;  

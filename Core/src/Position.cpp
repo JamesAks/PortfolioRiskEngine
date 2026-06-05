@@ -3,6 +3,7 @@
 
 
 
+
 // ----- Private Members -----
 
 // ----- Publlic Members -----
@@ -43,6 +44,6 @@ PositionType Position::viewPositionType() const { return position_type; }
 
 size_t Position::viewQuantity() const { return quantity; }
 
-std::string Position::viewID() const { return position_ID; }
+const std::string& Position::viewID() const { return position_ID; }
 
 

@@ -1,32 +1,78 @@
 #include "Asset.hpp"
 #include "Portfolio.hpp"
-
-
+#include "Logger.hpp"
 
 
 
 // ----- Private Members -----
 
+void Portfolio::calculateWeights() {
+
+    if (positions.size() == 0) { return; }
+    double value = totalMarketValue();
+
+    for (auto& p : positions) {
+
+        position_weights[p.first] =  p.second->marketValue() / value;
+    }
+}
+
 // ----- Public Memebers -----
 
-Portfolio::Portfolio(std::string n) : ID{ n } {}
+Portfolio::Portfolio(std::string& n) : ID{ std::move(n) } {}
 
-Position Portfolio::viewPosition(std::string symbol) const {
+Portfolio::Portfolio(std::string n) : ID{ std::move(n) } {}
+
+
+void Portfolio::addPosition(Position& p ) { 
+
+    auto id = p.viewID();
+    positions.emplace(id, std::make_unique<Position>(std::move(p)));
+    calculateWeights();
+}
+
+
+void Portfolio::removePosition(std::string& symbol) { positions.erase(symbol); }
+
+
+void Portfolio::changeID(std::string new_ID) { ID = new_ID; }
+
+
+double Portfolio::totalMarketValue() const {
+
+    double sum = 0;
+
+    for (auto& p : positions) {
+
+        sum += p.second->marketValue();
+    }
+
+    return sum;
+}
+
+
+const std::unique_ptr<Position>& Portfolio::viewPosition(const std::string& symbol) const {
+
+    if (positions.find(symbol) == positions.end()) {
+
+        Logger::logError("Could not find position.");
+        return nullptr;
+    }
 
     return positions.find(symbol)->second;
 }
 
 
-const std::map<std::string,Position>& Portfolio::viewPositions() const { return positions; }
+const std::map<std::string, std::unique_ptr<Position>>& Portfolio::viewPositions() const { return positions; }
 
 
 std::vector<std::shared_ptr<Asset>> Portfolio::viewAssets() const {
-    
+
     std::vector<std::shared_ptr<Asset>> assets;
 
-    for (std::pair p : positions) {
+    for (auto& p : positions) {
 
-        assets.push_back(p.second.viewAsset());
+        assets.push_back(p.second->viewAsset());
     }
 
     return assets;
@@ -37,7 +83,7 @@ std::vector<std::string> Portfolio::viewAssetLabels() const {
 
     std::vector<std::string> labels;
 
-    for (std::pair p : positions) {
+    for (auto& p : positions) {
 
         labels.push_back(p.first);
     }
@@ -46,42 +92,8 @@ std::vector<std::string> Portfolio::viewAssetLabels() const {
 }
 
 
-std::string Portfolio::viewID() const { return ID; }
+const std::string& Portfolio::viewID() const { return ID; }
 
-
-void Portfolio::addPosition(Position p ) { positions.emplace(p.viewID(), p); }
-
-
-void Portfolio::removePosition(std::string symbol) { positions.erase(symbol); }
-
-
-void Portfolio::changeID(std::string new_ID) { ID = new_ID; }
-
-
-double Portfolio::totalMarketValue() const {
-
-    double sum = 0;
-
-    for (std::pair p : positions) {
-
-        sum += p.second.marketValue();
-    }
-
-    return sum;
-}
-
-
-std::vector<double> Portfolio::weights() const {
-
-    std::vector<double> ws;
-    double value = totalMarketValue();
-
-    for (std::pair p : positions) {
-
-        ws.push_back((p.second.marketValue()/ value));
-    }
-
-    return ws;
-}
+const std::map<std::string, double>& Portfolio::weights() const { return position_weights; }
 
 size_t Portfolio::size() const { return positions.size(); }

@@ -16,30 +16,10 @@ double Asset::latestPrice() const { return *latest_price; }
 const HistoricData& Asset::historicData() const { return *hist_data; }
 
 
-const TimeSeries& Asset::periodicData(TimeFrame tf) const {
+const TimeSeries& Asset::periodicData(TimeFrame tf) const { return hist_data->periodicData(tf); }
 
-	switch (tf)
-	{
-	case TimeFrame::DAILY:
 
-		return hist_data->dailyData();
-		break;
-
-	case TimeFrame::WEEKLY:
-
-		return hist_data->weeklyData();
-		break;
-
-	case TimeFrame::MONTHLY:
-
-		return hist_data->monthlyData();
-		break;
-
-	default:
-		throw ("Invalid time frame given");
-		break;
-	}
-}
+const std::vector<double>& Asset::periodicReturns(TimeFrame tf) { return hist_data->periodicData(tf).returns(); }
 
 
 std::string Asset::symbol() const { return asset_symbol; }

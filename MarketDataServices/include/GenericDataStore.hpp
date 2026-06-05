@@ -26,6 +26,7 @@ class GenericDataStore: MarketDataStore {
 		GenericDataStore();
 
 		void addHistoricalData(std::string,TimeSeries&, TimeSeries&, TimeSeries&);
+		void addHistoricalData(std::string, HistoricData);
 		void addLatestPrice(std::string, double);
 		void removeMarketData(std::string);
 		

@@ -61,7 +61,7 @@ RequestResult CSVDataProvider::periodicData(std::string asset_ID, TimeFrame tf, 
 	while (std::getline(market_data_file, line) && count < quantity) {
 
 		auto seperator_pos = line.find(",");
-		result.addData(line.substr(0, seperator_pos), std::stod(line.substr(seperator_pos + 1, line.length())));
+		result.addData(convertStringDate(line.substr(0, seperator_pos)), std::stod(line.substr(seperator_pos + 1, line.length())));
 		count++;
 	}
 

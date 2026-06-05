@@ -31,11 +31,10 @@ class HistoricData {
 		const TimeSeries& periodicData(TimeFrame) const;
 
 		void reserve(size_t);
-		void addData(std::string, double, TimeFrame);
+		void addData(std::chrono::year_month_day, double, TimeFrame);
 		void updateData(TimeSeries&, TimeFrame);
 
-		size_t size();
-		
+		size_t size(); 
 	};
 
 #endif // !HISTORICA_DATA
