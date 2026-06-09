@@ -72,3 +72,35 @@ double RiskStatistics::correlation(std::vector<double> first, std::vector<double
 
     return covar / (f_std * s_std);
 }
+
+
+double RiskStatistics::zScores(ConfidenceLevel cl) {
+
+    switch (cl)
+    {
+    case ConfidenceLevel::NINETY_FIVE:
+
+        return 1.64485;
+        break;
+
+    case ConfidenceLevel::NINETY_NINE:
+
+        return 2.32635;
+        break;
+
+    case ConfidenceLevel::NINETY_NINE_FIVE:
+
+        return 2.57583;
+        break;
+
+    case ConfidenceLevel::NINET_NINE_NINE:
+
+        return 3.09023;
+        break;
+
+    default:
+
+        throw "Invalid Confidence Level.";
+        break;
+    }
+}

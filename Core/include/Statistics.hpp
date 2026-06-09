@@ -5,6 +5,9 @@
 #include <math.h>
 
 
+
+enum class ConfidenceLevel { NINETY_FIVE, NINETY_NINE, NINETY_NINE_FIVE, NINET_NINE_NINE };
+
 // A general statistic module that contains the mathematical methods (mean, variance, etc.) for anylsisng a sequence of data.
 class RiskStatistics {
 
@@ -16,6 +19,7 @@ class RiskStatistics {
         static double variance(std::vector<double>);
         static double covariance(std::vector<double>, std::vector<double>);
         static double correlation(std::vector<double>, std::vector<double>);
+        static double zScores(ConfidenceLevel);
     };
 
 #endif // !STATISTICS_HPP

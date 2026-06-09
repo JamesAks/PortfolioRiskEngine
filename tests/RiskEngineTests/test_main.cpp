@@ -76,9 +76,13 @@ static void displayPortfolioReport(PortfolioRiskReport report) {
 	printf("Total Return: %f \n", report.total_return);
 	printf("Expected Return: %f \n", report.expectedReturn);
 	printf("Volatility: %f \n", report.volatitilty);
+	printf("95%% Historical VaR: %f \n", report.historical_VaR);
+	printf("95%% Historical Shortfall: %f \n", report.historical_shortfall);
+	printf("95%% Parametric VaR: %f \n", report.parametric_VaR);
+	printf("95%% Parametric Shortfall: %f \n", report.parametric_shortfall);
+	printf("Sharpe Ratio: %f \n", report.sharpe_ratio);
 
 	printf("----- Positions Breakdown ----- \n\n");
-
 
 	for (int i = 0; i < report.breakdowns.size(); i++) {
 
@@ -90,9 +94,6 @@ static void displayPortfolioReport(PortfolioRiskReport report) {
 	printf(" ----- Covariance Matrix ------ \n\n");
 	std::cout << report.cov_matrix.matrixData() << "\n\n";
 }
-
-
-
 
 
 int main() {
@@ -133,10 +134,10 @@ int main() {
 	auto report = test_risk_engine.analysePortfolio(test_portfolio, TimeFrame::DAILY);
 	auto returns = test_risk_engine.portfolioPeriodicReturns(test_portfolio, TimeFrame::DAILY, 100);
 
-	for (auto value : returns) {
 
-		std::cout << value << std::endl;
+	std::cout << std::endl;
 
-	}
 	displayPortfolioReport(report);
+
+
 }  

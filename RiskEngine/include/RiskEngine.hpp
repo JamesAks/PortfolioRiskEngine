@@ -3,11 +3,12 @@
 
 #include "CovarianceMatrix.hpp"
 
+
 #include <string>
 #include <vector>
 
 
-
+enum class ConfidenceLevel;
 enum class TimeFrame;
 class Position;
 class Portfolio;
@@ -26,6 +27,7 @@ struct PositionRiskReport {
 	double market_value;
 	double volatility ;
 	double expected_return ;
+
 };
 
 
@@ -35,8 +37,14 @@ struct PortfolioRiskReport {
 	double total_return;
 	double expectedReturn;
 	double volatitilty;
+	double historical_VaR;
+	double historical_shortfall;
+	double parametric_VaR;
+	double parametric_shortfall;
+	double sharpe_ratio;
 	std::vector<PositionRiskReport> breakdowns;
 	CovarianceMatrix cov_matrix;
+
 };
 
 
@@ -77,6 +85,17 @@ class RiskEngine {
 		// Computes the covariance matrix of a givenm portfolio.
 		CovarianceMatrix computeCovarianceMatrix(const Portfolio&, TimeFrame) const;
 
+		double historicalVaR(const Portfolio&, TimeFrame, size_t, double) const;
+
+		double historicalShortfall(const Portfolio&, TimeFrame, size_t, double) const;
+
+		// Note: Only covers the case where the portfolios returns follow a normal distribution
+		double parametricVaR(const Portfolio&, TimeFrame, size_t, ConfidenceLevel) const;
+
+		double parametricShortfall(const Portfolio&, TimeFrame, size_t, ConfidenceLevel) const;
+
+		double portfolioSharpeRatio(const Portfolio&,TimeFrame, size_t, double) const;
+
 		// Returns the covaraince between two seperate assets.
 		double assetCovariance(const Position&, const Position&, TimeFrame) const;
 
@@ -88,3 +107,4 @@ class RiskEngine {
 };
 
 #endif // !RISK_ENGINE_CPP
+
