@@ -4,6 +4,7 @@
 #include "CSVDataProvider.hpp"
 #include "Portfolio.hpp"
 #include "Logger.hpp"
+#include "Stock.hpp"
 
 #include <string>
 
@@ -37,14 +38,16 @@ static HistoricData getHistoricData(std::string symbol, CSVDataProvider& market_
 }
 
 
-double getLatestPrice(std::string symbol, CSVDataProvider& market_data_provider) {
+static LatestPrice getLatestPrice(std::string symbol, CSVDataProvider& market_data_provider) {
 
 	auto lp = market_data_provider.latestPrice(symbol);
 
 	if (lp.requestError != RequestError::NONE) {
 
 		Logger::logError("Could not get latest price for \"APPL\".");
-		return NULL;
+		{
+			return {};
+		}
 	}
 
 	return lp.price;
@@ -100,7 +103,6 @@ int main() {
 	 
 	GenericDataStore market_data_store;
 	CSVDataProvider market_data_provider(DIR_PATH);
-	RiskEngine test_risk_engine;
 	Portfolio test_portfolio(std::string("TestPortfolio1"));
 
 	auto aapl_data = getHistoricData("AAPL", market_data_provider);
@@ -122,17 +124,18 @@ int main() {
 	auto ibm_hd = market_data_store.historicalData("IBM");
 	auto ibm_l = market_data_store.latestPrice("IBM");
 
-	auto test1 = std::make_shared<Asset>("AAPL", aapl_l, aapl_hd);
+	auto test1 = std::make_shared<Stock>("AAPL", aapl_l, aapl_hd);
 	Position test_position_1("TestPosition1", 10, test1, 100, PositionType::LONG);
 
-	auto test2 = std::make_shared<Asset>("IBM", ibm_l, ibm_hd);
+
+	auto test2 = std::make_shared<Stock>("IBM", ibm_l, ibm_hd);
 	Position test_position_2("TestPosition2", 10, test2, 100, PositionType::LONG);
 
 	test_portfolio.addPosition(test_position_1);
 	test_portfolio.addPosition(test_position_2);
 
-	auto report = test_risk_engine.analysePortfolio(test_portfolio, TimeFrame::DAILY);
-	auto returns = test_risk_engine.portfolioPeriodicReturns(test_portfolio, TimeFrame::DAILY, 100);
+	auto report = RiskEngine::analysePortfolio(test_portfolio, TimeFrame::DAILY);
+	auto returns = RiskEngine::portfolioPeriodicReturns(test_portfolio, TimeFrame::DAILY, 100);
 
 
 	std::cout << std::endl;

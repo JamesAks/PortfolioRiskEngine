@@ -15,7 +15,7 @@ struct RequestResult {
 
 	std::optional<TimeSeries> historicData;
 	RequestError requestError;
-	double price;
+	LatestPrice price;
 };
 
 

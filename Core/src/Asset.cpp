@@ -1,28 +1,26 @@
 #include "Asset.hpp"
-#include "HistoricData.hpp"
-#include "TimeSeries.hpp"
+
+Asset::Asset( std::string ai, std::shared_ptr<HistoricData> hd, std::shared_ptr<LatestPrice> lp):
+	asset_id{ai}, historical_data{hd}, latest_price{ lp } {
+}
 
 
-// ----- Private Class -----
+const std::string& Asset::symbol() const { return asset_id; }
 
-// ----- Public Class -----
+double Asset::NPV(){ 
 
-Asset::Asset(std::string s, std::shared_ptr<double> price, std::shared_ptr<HistoricData> hd):asset_symbol{ s }, latest_price{ price }, hist_data{hd}{}
+	if (net_present_value == NULL) {
+		calculateNPV();
+	} 
 
-
-double Asset::latestPrice() const { return *latest_price; }
-
-
-const HistoricData& Asset::historicData() const { return *hist_data; }
-
-
-const TimeSeries& Asset::periodicData(TimeFrame tf) const { return hist_data->periodicData(tf); }
+	return net_present_value;
+}
 
 
-const std::vector<double>& Asset::periodicReturns(TimeFrame tf) { return hist_data->periodicData(tf).returns(); }
+std::chrono::year_month_day Asset::latestValuationDate() const { return latest_valuation_date; }
 
 
-std::string Asset::symbol() const { return asset_symbol; }
+std::shared_ptr<HistoricData> Asset::historicData() const { return historical_data; }
 
 
-
+std::shared_ptr<LatestPrice> Asset::latestPrice() const { return latest_price; }

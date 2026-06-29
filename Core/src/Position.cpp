@@ -17,7 +17,7 @@ Position::Position(std::string ID, size_t quant,  std::shared_ptr<Asset> as, dou
 	position_type{pt} {}
 
 
-double Position::marketValue() const { return quantity * asset->latestPrice(); }
+double Position::marketValue() const { return quantity * asset->latestPrice()->value; }
 
 
 double Position::unrealizedGains() const {
@@ -27,7 +27,7 @@ double Position::unrealizedGains() const {
 		quant *= -1;
 	}
 
-	return (asset->latestPrice() - price_baught_at) * quant;
+	return (asset->latestPrice()->value - price_baught_at) * quant;
 }
 
 double Position::initialInvestment() const { return quantity * price_baught_at; }

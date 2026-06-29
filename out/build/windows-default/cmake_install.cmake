@@ -39,12 +39,17 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/RiskEngine/cmake_install.cmake")
+  include("C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/Assets/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
   include("C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/Core/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/DataLoader/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
@@ -64,12 +69,12 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/tests/cmake_install.cmake")
+  include("C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/RiskEngine/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/DataLoader/cmake_install.cmake")
+  include("C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/out/build/windows-default/tests/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT

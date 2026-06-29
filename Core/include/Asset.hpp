@@ -1,44 +1,42 @@
 #ifndef ASSET_HPP
 #define ASSET_HPP
 
+#include <chrono>
 #include <string>
 #include <vector>
 #include <memory>
 
+#include "HistoricData.hpp"
+#include "TimeSeries.hpp"
 
-
-class HistoricData;
-class TimeSeries;
-enum class TimeFrame;
 
 
 class Asset {
 
     // Very high-level, base class for an asset. Essentially an assets symbol(ticker name) and its historical data. Could be an option, bond etc.
+    
 
-    private:
+    protected:
 
-        std::string asset_symbol;
-        std::shared_ptr<double> latest_price;
-        std::shared_ptr<HistoricData> hist_data;
+        std::string asset_id;
+        std::shared_ptr<HistoricData> historical_data;
+        std::shared_ptr<LatestPrice> latest_price;
+        std::chrono::year_month_day latest_valuation_date;
+        double net_present_value;
 
     public:
         
-        Asset(std::string, std::shared_ptr<double>, std::shared_ptr<HistoricData>);
+        Asset(std::string, std::shared_ptr<HistoricData>, std::shared_ptr<LatestPrice>);
 
-        // Returns the current/latest price of the asset.
-        double latestPrice() const;
+        // Calculates the net present value of the asset.
+        virtual void calculateNPV() = 0;
 
-        // Returns historic data of asset.
-        const HistoricData& historicData() const;
+        const std::string& symbol() const;
+        double NPV();
+        std::chrono::year_month_day latestValuationDate() const ;
+        std::shared_ptr<HistoricData> historicData() const ;
+        std::shared_ptr<LatestPrice> latestPrice() const;
 
-        // Returns specific periodic data for hsitoric data.
-        const TimeSeries& periodicData(TimeFrame) const;
-
-        const std::vector<double>& periodicReturns(TimeFrame);
-
-        // Returns the symbol/ID if the asset.
-        std::string symbol() const;  
 };
 
 #endif // !ASSET_HPP

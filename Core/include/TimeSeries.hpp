@@ -37,5 +37,13 @@ class TimeSeries {
 
 		size_t size();
 };
+
+struct LatestPrice {
+
+	std::chrono::year_month_day timestamp;
+	double value;
+
+};
+
    
 #endif // !TIME_SERIES_HPP

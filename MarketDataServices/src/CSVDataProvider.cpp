@@ -89,9 +89,15 @@ RequestResult CSVDataProvider::latestPrice(std::string asset_ID) const {
 	}
 
 	getline(lp_file, line);
+	auto seperator_pos = line.find(",");
+
 	lp_file.close();
 
-	return { std::nullopt, RequestError::NONE, std::stod(line) };
+	return { std::nullopt, RequestError::NONE, {
+
+		convertStringDate(line.substr(0, seperator_pos)),
+		std::stod(line.substr(seperator_pos + 1, line.length()))
+	} };
 }
 
 void CSVDataProvider::changeFile(std::string file_path) { dir_path = file_path; }

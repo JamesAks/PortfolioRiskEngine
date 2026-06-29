@@ -309,10 +309,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\RiskEngine.cpp" />
     <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\CovarianceMatrix.cpp" />
-    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\include\RiskEngine.hpp" />
+    <ClCompile Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\src\RiskEngine.cpp" />
     <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\include\CovarianceMatrix.hpp" />
+    <ClInclude Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\RiskEngine\include\RiskEngine.hpp" />
     <Natvis Include="C:\Users\james\Documents\Portfolio\QuantProjects\PortfolioRiskEngine\out\build\windows-default\_deps\json-src\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>

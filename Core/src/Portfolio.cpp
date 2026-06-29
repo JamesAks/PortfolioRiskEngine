@@ -28,6 +28,7 @@ void Portfolio::addPosition(Position& p ) {
 
     auto id = p.viewID();
     positions.emplace(id, std::make_unique<Position>(std::move(p)));
+    Logger::logInfo("Added position: \"" + id + "\".");
     calculateWeights();
 }
 

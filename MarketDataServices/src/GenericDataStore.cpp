@@ -40,7 +40,7 @@ void GenericDataStore::addHistoricalData(std::string symbol, HistoricData hd) {
 }
 
 
-void GenericDataStore::addLatestPrice(std::string symbol, double price) {
+void GenericDataStore::addLatestPrice(std::string symbol, LatestPrice price) {
 
 	if (latest_price_store.find(symbol) != latest_price_store.end()) {
 
@@ -48,7 +48,7 @@ void GenericDataStore::addLatestPrice(std::string symbol, double price) {
 		return;
 	}
 
-	latest_price_store.emplace(symbol, std::make_shared<double>(price));
+	latest_price_store.emplace(symbol, std::make_shared<LatestPrice>(price));
 	Logger::logInfo("Added latest price for \"" + symbol + "\" to data store.");
 
 	return;
@@ -83,7 +83,7 @@ const std::shared_ptr<HistoricData> GenericDataStore::historicalData(std::string
 	return result->second;
 }
 
-const std::shared_ptr<double> GenericDataStore::latestPrice(std::string symbol) const {
+const std::shared_ptr<LatestPrice> GenericDataStore::latestPrice(std::string symbol) const {
 
 	auto result = latest_price_store.find(symbol);
 	if (result == latest_price_store.end()) {
@@ -132,7 +132,7 @@ const TimeSeries& GenericDataStore::periodicData(std::string asset_ID, TimeFrame
 const std::map<std::string, std::shared_ptr<HistoricData>>& GenericDataStore::viewHistoricData() const { return historic_data_store; }
 
 
-const std::map<std::string, std::shared_ptr<double>>& GenericDataStore::viewLatestPrices() const { return latest_price_store; }
+const std::map<std::string, std::shared_ptr<LatestPrice>>& GenericDataStore::viewLatestPrices() const { return latest_price_store; }
 
 
 std::vector<std::string> GenericDataStore::viewSymbols() const {
@@ -163,7 +163,7 @@ void GenericDataStore::updateHistoricData(std::string symbol, TimeSeries& daily,
 }
 
 
-void GenericDataStore::updateLatestPrice(std::string symbol, double price) {
+void GenericDataStore::updateLatestPrice(std::string symbol, LatestPrice price) {
 
 	auto lp = latest_price_store.find(symbol);
 	if (lp == latest_price_store.end()) {

@@ -125,7 +125,7 @@ RequestResult AlphaVantageProvider::periodicData (std::string symbol, TimeFrame 
 		count++;
 	}
 
-	return { periodic_data, RequestError::NONE, NULL};
+	return { periodic_data, RequestError::NONE};
 }
 
 
@@ -146,7 +146,11 @@ RequestResult AlphaVantageProvider::latestPrice(std::string symbol) const {
 
 	if (!data.contains("05. price")) { throw std::runtime_error("Missing price."); }
 
-	double price = std::stod(data["05. price"].get<std::string>());
+	LatestPrice price{
+
+		convertStringDate(data["07. latest trading day"]),
+		std::stod(data["05. price"].get<std::string>())
+	};
 
 	RequestResult result{
 

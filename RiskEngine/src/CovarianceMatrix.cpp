@@ -13,11 +13,16 @@ CovarianceMatrix::CovarianceMatrix(std::vector<std::string> assets) {
 
 double& CovarianceMatrix::operator()(size_t i, size_t j) { return cov_matrix(i, j); };
 
-Eigen::MatrixXd CovarianceMatrix::matrixData() const { return cov_matrix;}
+const Eigen::MatrixXd& CovarianceMatrix::matrixData() const { return cov_matrix;}
+
+Eigen::MatrixXd CovarianceMatrix::inverse() const { return cov_matrix.inverse(); }
+
 
 void CovarianceMatrix::validateMatrix() const {
 
 	return;
 }
+
+
 
 

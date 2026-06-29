@@ -9,15 +9,17 @@
 
 set(RE_SOURCES
     
-    src/RiskEngine.cpp
+
     src/CovarianceMatrix.cpp
+    src/RiskEngine.cpp
+
 )
 
 
 set(RE_HEADERS
 
-    include/RiskEngine.hpp
     include/CovarianceMatrix.hpp
+    include/RiskEngine.hpp
 )
 
 add_library(RiskEngine STATIC ${RE_SOURCES} ${RE_HEADERS})

@@ -8,6 +8,7 @@
 		<Platform Name="x64"/>
 	</Configurations>
 	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="614b5b57-2500-300b-8836-0a3301b66459" DefaultStartup="true">
+		<BuildDependency Project="Assets/Assets.vcxproj"/>
 		<BuildDependency Project="Core/Core.vcxproj"/>
 		<BuildDependency Project="DataLoader/DataLoader.vcxproj"/>
 		<BuildDependency Project="tests/MarketDataServicesTests/MDProviderTests.vcxproj"/>
@@ -21,6 +22,10 @@
 		<Build Solution="Release|*" Project="false"/>
 		<Build Solution="MinSizeRel|*" Project="false"/>
 		<Build Solution="RelWithDebInfo|*" Project="false"/>
+	</Project>
+	<Project Path="Assets/Assets.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ebc90bf1-1825-33cb-a77c-644a570c07c8">
+		<BuildDependency Project="Core/Core.vcxproj"/>
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
 	<Project Path="Core/Core.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="e3c2c767-296d-3919-8693-09ef7e0d07c5">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
@@ -54,6 +59,7 @@
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
 	<Project Path="tests/RiskEngineTests/RiskEngineTest.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="15b1de9c-6ff7-32ee-a6dc-2ab06990d8c6">
+		<BuildDependency Project="Assets/Assets.vcxproj"/>
 		<BuildDependency Project="Core/Core.vcxproj"/>
 		<BuildDependency Project="MarketDataServices/MarketDataServices.vcxproj"/>
 		<BuildDependency Project="PricingEngine/PricingEngine.vcxproj"/>

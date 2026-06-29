@@ -18,7 +18,7 @@ const TimeSeries& HistoricData::weeklyData() const { return weekly; }
 
 const TimeSeries& HistoricData::monthlyData() const { return monthly; }
 
-const TimeSeries& HistoricData::periodicData(TimeFrame tf) const {
+const TimeSeries& HistoricData::periodicPrices(TimeFrame tf) const {
 
 	switch (tf)
 	{
@@ -40,6 +40,27 @@ const TimeSeries& HistoricData::periodicData(TimeFrame tf) const {
 	}
 }
 
+const std::vector<double>& HistoricData::periodicReturns(TimeFrame tf) const {
+
+	switch (tf)
+	{
+	case TimeFrame::DAILY:
+
+		return daily.returns();
+
+	case TimeFrame::WEEKLY:
+
+		return weekly.returns();
+
+	case TimeFrame::MONTHLY:
+
+		return monthly.returns();
+
+	default:
+		throw ("Invalid TimeFrame.");
+		break;
+	}
+}
 
 void HistoricData::reserve(size_t quantity){
 

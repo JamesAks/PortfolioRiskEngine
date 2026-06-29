@@ -28,7 +28,8 @@ class HistoricData {
 		const TimeSeries& dailyData() const;
 		const TimeSeries& weeklyData() const;
 		const TimeSeries& monthlyData() const;
-		const TimeSeries& periodicData(TimeFrame) const;
+		const TimeSeries& periodicPrices(TimeFrame) const;
+		const std::vector<double>& periodicReturns(TimeFrame) const;
 
 		void reserve(size_t);
 		void addData(std::chrono::year_month_day, double, TimeFrame);

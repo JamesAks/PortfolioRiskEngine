@@ -2,7 +2,7 @@ Package: vcpkg-cmake
 Version: 2024-04-23
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 8e1fabdde72c27e6aeb56da18ca3858c451a241e706044417323661ef5631e0b
+Abi: 2146cfa448a8da6b71a1c722fee8cebb7cf8c6f458f94c0d12427f5bdf08f84c
 Status: install ok installed
 
 Package: zlib
@@ -10,7 +10,7 @@ Version: 1.3.1
 Depends: vcpkg-cmake
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 67498aa7388e94ae3cf77ced6d5151410a6f20bb665b6ebb0214c0e1fa5fe201
+Abi: 6b6b3c6ffabf7efca102199cf469bed760a5908d46b61dc74c46089238580ef2
 Description: A compression library
 Status: install ok installed
 
@@ -18,7 +18,7 @@ Package: vcpkg-cmake-config
 Version: 2024-05-23
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 59a766f43892e197e0dc5db598ee70be3224215e8b672ef9dda0be3ba62f5826
+Abi: 30f8becbab71500934ec5c9ae9bb5e6186d6494f054f24e65e38349d806fbd40
 Status: install ok installed
 
 Package: curl
@@ -26,7 +26,7 @@ Version: 8.19.0
 Depends: vcpkg-cmake, vcpkg-cmake-config, zlib
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 6f54216d6a5a911ff1f17bb06def148061281ea24fc09198a688391dc1997a95
+Abi: f3774407234408b8244bee045af040f50b5dc9d27f411bfdb2161bb42501ec34
 Description: A library for transferring data with URLs
 Default-Features: non-http, ssl
 Status: install ok installed

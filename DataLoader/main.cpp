@@ -22,9 +22,9 @@ static void writeToCSV(std::string asset_ID, std::string file_name, const TimeSe
 		throw "Market data file not found.";
 	}
 
-	for (int i = 0; i < time_series.dates.size(); i++) {
+	for (int i = 0; i < time_series.dates().size(); i++) {
 
-		market_data_file << time_series.dates[i] << "," << time_series.prices[i] << std::endl;
+		market_data_file << time_series.dates()[i] << "," << time_series.prices()[i] << std::endl;
 		Logger::logDebug("Added price #" + std::to_string(i) + " to " + asset_ID + "'s " + file_name);
 	}
 
@@ -74,7 +74,7 @@ static void loadMarketData(std::string asset_ID, size_t quantity) {
 		throw "Market data file not found.";
 	}
 
-	market_data_file << latest_price.price << std::endl;
+	market_data_file << latest_price.price.timestamp << "," << latest_price.price.value << std::endl;
 
 	market_data_file.close();
 }

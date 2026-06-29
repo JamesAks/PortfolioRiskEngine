@@ -48,62 +48,51 @@ struct PortfolioRiskReport {
 };
 
 
-class RiskEngine {
-
-	// The class responsible for the risk calculations.
+namespace RiskEngine  {
 	
-	private:
-
-		// std::map<std::string, std::vector<double>> returnsCache;
-	
-
-	public:
-
-		RiskEngine();
-		
 		// Returns a report containing the riskmetrics of an asset.
-		PositionRiskReport analysePosition(const Position&, TimeFrame) const;
+		PositionRiskReport analysePosition(const Position&, TimeFrame);
 
 		// Returns a report containing the riskmetrics of a portfolio.
-		PortfolioRiskReport analysePortfolio(const Portfolio&, TimeFrame) const ;
+		PortfolioRiskReport analysePortfolio(const Portfolio&, TimeFrame);
 
 		// Returns the daily returns of a portfolio
-		std::vector<double> portfolioPeriodicReturns(const Portfolio&, TimeFrame, size_t) const;
+		std::vector<double> portfolioPeriodicReturns(const Portfolio&, TimeFrame, size_t);
 
 		// The mean percentage change of the asset.
-		double expectedReturn(const Position&, TimeFrame) const;
+		double expectedReturn(const Position&, TimeFrame);
 
 		// Returns total return of a portfolio. The sum total of the market values of each asset.
-		double totalReturn(const Portfolio&) const;
+		double totalReturn(const Portfolio&);
 
 		// Returns the expected percentage return of asset.
-		double expectedReturn(const Portfolio&, TimeFrame) const;
+		double expectedReturn(const Portfolio&, TimeFrame) ;
 
 		// Returns the risk of the portfolio using the variance-covariance formula.
-		double portfolioVolatility(const Portfolio&, TimeFrame) const;
+		double portfolioVolatility(const Portfolio&, TimeFrame);
 
 		// Computes the covariance matrix of a givenm portfolio.
-		CovarianceMatrix computeCovarianceMatrix(const Portfolio&, TimeFrame) const;
+		CovarianceMatrix computeCovarianceMatrix(const Portfolio&, TimeFrame);
 
-		double historicalVaR(const Portfolio&, TimeFrame, size_t, double) const;
+		double historicalVaR(const Portfolio&, TimeFrame, size_t, double);
 
-		double historicalShortfall(const Portfolio&, TimeFrame, size_t, double) const;
+		double historicalShortfall(const Portfolio&, TimeFrame, size_t, double);
 
 		// Note: Only covers the case where the portfolios returns follow a normal distribution
-		double parametricVaR(const Portfolio&, TimeFrame, size_t, ConfidenceLevel) const;
+		double parametricVaR(const Portfolio&, TimeFrame, size_t, ConfidenceLevel);
 
-		double parametricShortfall(const Portfolio&, TimeFrame, size_t, ConfidenceLevel) const;
+		double parametricShortfall(const Portfolio&, TimeFrame, size_t, ConfidenceLevel);
 
-		double portfolioSharpeRatio(const Portfolio&,TimeFrame, size_t, double) const;
+		double portfolioSharpeRatio(const Portfolio&,TimeFrame, size_t, double);
 
 		// Returns the covaraince between two seperate assets.
-		double assetCovariance(const Position&, const Position&, TimeFrame) const;
+		double assetCovariance(const Position&, const Position&, TimeFrame);
 
 		// Returns the correlation between two assets using their covariances.
-		double assetCorrelation(const Position&, const Position&, TimeFrame) const;
+		double assetCorrelation(const Position&, const Position&, TimeFrame);
 
 		// Returns a list containing anylysis of all the assets within a portfolio.
-		std::vector<PositionRiskReport> breakdown(const Portfolio&, TimeFrame) const;	
+		std::vector<PositionRiskReport> breakdown(const Portfolio&, TimeFrame);	
 };
 
 #endif // !RISK_ENGINE_CPP
