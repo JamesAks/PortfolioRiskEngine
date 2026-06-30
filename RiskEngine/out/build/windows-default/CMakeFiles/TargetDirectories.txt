@@ -1,4 +1,0 @@
-C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/windows-default/CMakeFiles/PortfolioRiskEngine.dir
-C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/windows-default/CMakeFiles/ALL_BUILD.dir
-C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/windows-default/CMakeFiles/ZERO_CHECK.dir
-C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/RiskEngine/out/build/windows-default/_deps/json-build/CMakeFiles/ALL_BUILD.dir
