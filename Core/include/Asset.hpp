@@ -6,14 +6,15 @@
 #include <vector>
 #include <memory>
 
-#include "HistoricData.hpp"
+#include "MarketData.hpp"
+#include "Observing.hpp"
 #include "TimeSeries.hpp"
 
 
 
-class Asset {
+class Asset : public Observable, public Observer {
 
-    // Very high-level, base class for an asset. Essentially an assets symbol(ticker name) and its historical data. Could be an option, bond etc.
+    // Base class for an asset. 
     
 
     protected:
@@ -28,7 +29,7 @@ class Asset {
         
         Asset(std::string, std::shared_ptr<HistoricData>, std::shared_ptr<LatestPrice>);
 
-        // Calculates the net present value of the asset.
+        // Derived classes need to implement this method to calculate net present value.
         virtual void calculateNPV() = 0;
 
         const std::string& symbol() const;
@@ -36,6 +37,8 @@ class Asset {
         std::chrono::year_month_day latestValuationDate() const ;
         std::shared_ptr<HistoricData> historicData() const ;
         std::shared_ptr<LatestPrice> latestPrice() const;
+
+        void update() override;
 
 };
 

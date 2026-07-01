@@ -5,10 +5,11 @@ set(CORE_SOURCES
     src/Asset.cpp
     src/Core.cpp
     src/Logger.cpp
+    src/Observing.cpp
     src/Portfolio.cpp
     src/Position.cpp
     src/Statistics.cpp
-    src/HistoricData.cpp
+    src/MarketData.cpp
     src/TimeSeries.cpp
 )
 
@@ -18,10 +19,11 @@ set(CORE_HEADERS
     include/Asset.hpp
     include/Core.hpp
     include/Logger.hpp
+    include/Observing.hpp
     include/Portfolio.hpp
     include/Position.hpp
     include/Statistics.hpp
-    include/HistoricData.hpp
+    include/MarketData.hpp
     include/TimeSeries.hpp
 )
 

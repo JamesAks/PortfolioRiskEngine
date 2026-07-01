@@ -1,7 +1,7 @@
 #include "Asset.hpp"
 
 Asset::Asset( std::string ai, std::shared_ptr<HistoricData> hd, std::shared_ptr<LatestPrice> lp):
-	asset_id{ai}, historical_data{hd}, latest_price{ lp } {
+	asset_id{ ai }, historical_data{ hd }, latest_price{ lp }, latest_valuation_date{} {
 }
 
 
@@ -24,3 +24,5 @@ std::shared_ptr<HistoricData> Asset::historicData() const { return historical_da
 
 
 std::shared_ptr<LatestPrice> Asset::latestPrice() const { return latest_price; }
+
+void Asset::update() { calculateNPV(); }

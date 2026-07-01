@@ -1,7 +1,8 @@
-#include "AlphaVantageProvider.hpp"
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+
+#include "AlphaVantageProvider.hpp"
 
 
 
@@ -58,8 +59,8 @@ static void loadMarketData(std::string asset_ID, size_t quantity) {
 		return;
 	}
 
-	auto latest_price = avp.latestPrice(asset_ID);
-	if (latest_price.requestError != RequestError::NONE) {
+	auto latest_price_result = avp.latestPrice(asset_ID);
+	if (latest_price_result.requestError != RequestError::NONE) {
 
 		Logger::logError("Could not get latest_price for \"" + asset_ID + "\".");
 		return;
@@ -74,7 +75,7 @@ static void loadMarketData(std::string asset_ID, size_t quantity) {
 		throw "Market data file not found.";
 	}
 
-	market_data_file << latest_price.price.timestamp << "," << latest_price.price.value << std::endl;
+	market_data_file << latest_price_result.price.timestamp() << "," << latest_price_result.price.price() << std::endl;
 
 	market_data_file.close();
 }

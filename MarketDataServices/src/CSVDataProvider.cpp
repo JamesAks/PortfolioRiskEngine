@@ -1,5 +1,5 @@
 #include "CSVDataProvider.hpp"
-#include "HistoricData.hpp"
+#include "MarketData.hpp"
 #include "Logger.hpp"
 
 #include <iostream>
@@ -95,8 +95,8 @@ RequestResult CSVDataProvider::latestPrice(std::string asset_ID) const {
 
 	return { std::nullopt, RequestError::NONE, {
 
-		convertStringDate(line.substr(0, seperator_pos)),
-		std::stod(line.substr(seperator_pos + 1, line.length()))
+		std::stod(line.substr(seperator_pos + 1, line.length())),
+		convertStringDate(line.substr(0, seperator_pos))
 	} };
 }
 

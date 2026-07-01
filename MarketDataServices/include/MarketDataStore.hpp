@@ -2,7 +2,7 @@
 #define MARKET_DATA_STORE_INTERFACE
 
 #include "TimeSeries.hpp"
-#include "HistoricData.hpp"
+#include "MarketData.hpp"
 
 #include <map>
 #include <memory>

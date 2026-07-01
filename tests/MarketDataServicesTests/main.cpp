@@ -1,5 +1,7 @@
 #include "CSVDataProvider.hpp"
 
+#include <iostream>
+
 static std::string DIR_PATH = "../../../../../../DataLoader/TestMarketData";
 
 static void testCSVDataProvider() {
@@ -14,22 +16,24 @@ static void testCSVDataProvider() {
 
 	auto& hd = data.historicData.value();
 
+	auto& dates = hd.dates();
+	auto& prices = hd.prices();
+
 	for (int i = 0; i < 100; i++) {
 
-		std::cout << "Date: " << hd.dates[i] << " ---> Price: " << hd.prices[i] << std::endl; 
+		std::cout << "Date: " << dates[i] << " ---> Price: " << prices[i] << std::endl; 
 	}
 
-	auto latestPrice = csv_provider.latestPrice("AAPL");
-	if (latestPrice.requestError != RequestError::NONE) {
+	auto lp = csv_provider.latestPrice("AAPL");
+	if (lp.requestError != RequestError::NONE) {
 
 		Logger::logDebug("Error getting latest price.");
 		return;
 	}
 
-	std::cout << "Latest Price: " << latestPrice.price;
-
-
+	std::cout << "Latest Price: " << lp.price.price();
 }
+
 
 int main() {
 
