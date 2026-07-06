@@ -1,20 +1,9 @@
-﻿# CMakeList.txt : CMake project for RiskEngine, include source and define
-# project specific logic here.
-
-
-
-# cmake_minimum_required (VERSION 3.8)
-# project ("PortfolioRiskEngine")
-
-
-set(RE_SOURCES
+﻿set(RE_SOURCES
     
-
     src/CovarianceMatrix.cpp
     src/RiskEngine.cpp
 
 )
-
 
 set(RE_HEADERS
 

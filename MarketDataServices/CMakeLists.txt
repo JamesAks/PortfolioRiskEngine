@@ -31,13 +31,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(json)
 
-
 target_link_libraries(MarketDataServices
 
 	PUBLIC
-	Core
-	nlohmann_json::nlohmann_json 
-    CURL::libcurl
+		Core
+		nlohmann_json::nlohmann_json 
+		CURL::libcurl
 )
 
 target_include_directories(MarketDataServices
