@@ -1,4 +1,4 @@
-#ifndef HISTORIC_DATA_HPP
+ #ifndef HISTORIC_DATA_HPP
 #define HISTORIC_DATA_HPP
 
 #include "TimeSeries.hpp"

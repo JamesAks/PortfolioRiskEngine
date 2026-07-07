@@ -1,0 +1,78 @@
+#include <catch2/catch_test_macros.hpp>
+
+#include<chrono>
+
+#include "HistoricData.hpp"
+
+
+
+// ----- Factories -----
+
+static std::vector<std::chrono::year_month_day> createDates(int n) {
+
+	std::vector<std::chrono::year_month_day> dates;
+	for (int i = 0; i < n; i++) {
+
+		auto date = std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(n + 1));
+		dates.push_back(date);
+	}
+
+	return dates;
+}
+
+static std::vector<double> createPrices(int n) {
+
+	std::vector<double> prices;
+	for (int i = 0; i < n; i++) {
+
+		prices.push_back((i * 50) + 100);
+	}
+
+	return prices;
+}
+
+
+// ----- Tests -----
+
+TEST_CASE("HistoricData TimeSeries are empty on creation", "[Core]") {
+
+	// Arrange
+
+	// Act
+	HistoricData sut;
+
+	// Assert
+	REQUIRE(sut.dailyData().size() == 0);
+}
+
+
+TEST_CASE("HistoricData can add data", "[Core]") {
+
+	// Arrange
+	auto date = std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(31));
+	double price = 250;
+	HistoricData sut;
+
+	// Act
+	sut.addData(date, price, TimeFrame::DAILY);
+
+	// Assert
+	REQUIRE(sut.dailyData().size() == 1);
+}
+
+
+TEST_CASE("Historic updates its data.", "[Core]") {
+
+	// Arrange
+	auto dates = createDates(5);
+	auto prices = createPrices(5);
+
+	TimeSeries ts{ dates,prices };
+	HistoricData sut;
+
+	// Act
+	sut.updateData(ts, TimeFrame::DAILY);
+
+	// Assert
+	REQUIRE(sut.dailyData().size() == 5);
+}

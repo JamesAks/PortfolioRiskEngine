@@ -35,7 +35,7 @@ class TimeSeries {
 		void reserve(size_t);
 		
 
-		size_t size();
+		size_t size() const;
 };
 
 struct LatestPrice {

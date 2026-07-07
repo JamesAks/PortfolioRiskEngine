@@ -35,6 +35,8 @@ void TimeSeries::calculateReturns() {
 // ----- Public Members -----
 
 TimeSeries::TimeSeries(std::vector<std::chrono::year_month_day>& d, std::vector<double>& p){
+
+	if (d.size() != p.size()) { throw ("Vector size mismatch."); }
 	
 	date_data = std::move(d);
 	price_data = std::move(p);
@@ -75,4 +77,4 @@ void TimeSeries::reserve(size_t size) {
 }
 
 
-size_t TimeSeries::size() { return date_data.size(); }
+size_t TimeSeries::size() const { return date_data.size(); }
