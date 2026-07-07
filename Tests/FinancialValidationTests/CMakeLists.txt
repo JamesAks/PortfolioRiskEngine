@@ -1,5 +1,10 @@
+set (FVTESTS_SOURCE
 
-add_executable(FVTests)
+	Core/TimeSeriesFV.cpp
+
+)
+
+add_executable(FVTests ${FVTESTS_SOURCE} )
 
 target_link_libraries(FVTests
 

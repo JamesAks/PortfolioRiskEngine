@@ -16,7 +16,7 @@ class TimeSeries {
 		std::vector<double> price_data;
 		std::vector<double> returns_data; 
 
-		void updateReturns(double);
+		void updateReturns();
 		void calculateReturns();
 
 		//void validateDate();
