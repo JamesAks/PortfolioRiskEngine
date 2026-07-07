@@ -28,7 +28,7 @@ PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf
 		pos.unrealizedGains(),
 
 		pos.viewAsset()->symbol(),
-		pos.viewAsset()->latestPrice()->value,
+		pos.viewAsset()->latestPrice()->price(),
 		RiskStatistics::standardDeviation(pos.viewAsset()->historicData()->periodicReturns(tf)),
 		expectedReturn(pos, tf),
 	};

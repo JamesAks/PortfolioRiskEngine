@@ -1,5 +1,5 @@
 #include "AlphaVantageProvider.hpp"
-#include "HistoricData.hpp"
+#include "MarketData.hpp"
 #include "Logger.hpp"
 #include "TimeSeries.hpp"
 
@@ -148,8 +148,8 @@ RequestResult AlphaVantageProvider::latestPrice(std::string symbol) const {
 
 	LatestPrice price{
 
-		convertStringDate(data["07. latest trading day"]),
-		std::stod(data["05. price"].get<std::string>())
+		std::stod(data["05. price"].get<std::string>()),
+		convertStringDate(data["07. latest trading day"])
 	};
 
 	RequestResult result{

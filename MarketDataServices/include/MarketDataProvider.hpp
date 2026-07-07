@@ -2,7 +2,7 @@
 #define MARKET_DATA_PROVIDER_INTERFACE_HPP
 
 #include "TimeSeries.hpp"
-#include "HistoricData.hpp"
+#include "MarketData.hpp"
 #include "Logger.hpp"
 
 #include <chrono>
