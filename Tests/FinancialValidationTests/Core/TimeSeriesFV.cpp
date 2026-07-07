@@ -36,7 +36,7 @@ static std::vector<double> createPrices(int n) {
 
 // ----- Tests -----
 
-TEST_CASE("TimeSeries generates the correct returns for a series of prices on creation.", "[Core]") {
+TEST_CASE("TimeSeries calculates the correct returns for a series of prices on creation.", "[Core]") {
 
 	// Arrange
 	auto dates = createDates(4);
@@ -50,24 +50,21 @@ TEST_CASE("TimeSeries generates the correct returns for a series of prices on cr
 
 }
 
-TEST_CASE("TimeSeries generates the correct returns for a series of prices when a price is added", "[Core]") {
+
+TEST_CASE("TimeSeries calculates the correct returns for a series of prices when a price is added", "[Core]") {
 
 	// Arrange
 	auto dates = createDates(3);
 	auto prices = createPrices(3);
 
 	auto date = std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(4));
-	double price = 260;
+	double price = 250;
 
 	TimeSeries sut(dates, prices);
-
 
 	// Act
 	sut.addData(date, price);
 
 	// Assert
-
 	REQUIRE(sut.returns() == std::vector<double>{50.0 / 100, 50.0 / 150, 50.0 / 200});
-
-
 }
