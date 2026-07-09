@@ -2,7 +2,7 @@
 
 #include<chrono>
 
-#include "HistoricData.hpp"
+#include "MarketData.hpp"
 
 
 
@@ -32,7 +32,7 @@ static std::vector<double> createPrices(int n) {
 }
 
 
-// ----- Tests -----
+// ----- HistoricData Tests -----
 
 TEST_CASE("HistoricData TimeSeries are empty on creation", "[Core]") {
 
@@ -46,7 +46,7 @@ TEST_CASE("HistoricData TimeSeries are empty on creation", "[Core]") {
 }
 
 
-TEST_CASE("HistoricData can add data", "[Core]") {
+TEST_CASE("HistoricData adds data", "[Core]") {
 
 	// Arrange
 	auto date = std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(31));
@@ -75,4 +75,24 @@ TEST_CASE("Historic updates its data.", "[Core]") {
 
 	// Assert
 	REQUIRE(sut.dailyData().size() == 5);
+}
+
+// ----- LatestPrice Tests -----
+
+TEST_CASE("LatestPrice updates its price", "[Core]") {
+
+	// Arrange
+
+	auto date = std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(30));
+	auto new_date = std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(31));
+	LatestPrice sut{ 250.0, date };
+
+	// Act
+
+	sut.updatePrice(500, new_date);
+
+	// Assert
+
+	REQUIRE(sut.price() == 500);
+	REQUIRE(sut.timestamp() == std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(31)));
 }

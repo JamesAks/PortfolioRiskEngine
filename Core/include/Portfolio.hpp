@@ -26,22 +26,21 @@ class Portfolio {
         
     public:
 
-        Portfolio(std::string&);
-        Portfolio(std::string);
-
+        Portfolio(std::string&&);
+        Portfolio(const std::string&);
 
         // Adds an asset to the portfolio.
         void addPosition(Position&);
-
+ 
         // Removes asset from the portfolio.
-        void removePosition(std::string&);
+        void removePosition(const std::string&);
 
         // Changes theID of the portfolio.
-        void changeID(std::string);
-        
+        void changeID(const std::string&);
+        void changeID(std::string&&);
+
         // Return the expected return of the portfolio.
         double totalMarketValue() const;
-
 
         // Returns a given position.
         const std::unique_ptr<Position>& viewPosition(const std::string&) const;

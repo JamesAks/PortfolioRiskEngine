@@ -8,7 +8,7 @@
 #include "Portfolio.hpp"
 #include "Position.hpp"
 #include "Statistics.hpp"
-#include "HistoricData.hpp"
+#include "MarketData.hpp"
 #include "TimeSeries.hpp"
 
 #endif // !CORE_HPP

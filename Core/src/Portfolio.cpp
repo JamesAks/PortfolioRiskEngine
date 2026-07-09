@@ -19,24 +19,28 @@ void Portfolio::calculateWeights() {
 
 // ----- Public Memebers -----
 
-Portfolio::Portfolio(std::string& n) : ID{ std::move(n) } {}
+Portfolio::Portfolio(std::string&& n): ID{std::move(n)}{}
 
-Portfolio::Portfolio(std::string n) : ID{ std::move(n) } {}
+
+Portfolio::Portfolio(const std::string& n) : ID{n} {}
 
 
 void Portfolio::addPosition(Position& p ) { 
 
-    auto id = p.viewID();
+    std::string id = p.viewID();
     positions.emplace(id, std::make_unique<Position>(std::move(p)));
     Logger::logInfo("Added position: \"" + id + "\".");
     calculateWeights();
 }
 
 
-void Portfolio::removePosition(std::string& symbol) { positions.erase(symbol); }
+void Portfolio::removePosition(const std::string& symbol) { positions.erase(symbol); }
 
 
-void Portfolio::changeID(std::string new_ID) { ID = new_ID; }
+void Portfolio::changeID(const std::string& new_ID) { ID = new_ID; }
+
+
+void Portfolio::changeID(std::string&& new_ID) { ID = std::move(new_ID); }
 
 
 double Portfolio::totalMarketValue() const {

@@ -28,7 +28,9 @@ class HistoricData: public Observable {
 	public:
 
 		HistoricData() = default;
-		HistoricData(TimeSeries&, TimeSeries&, TimeSeries&);
+		HistoricData(const TimeSeries&, const TimeSeries&, const TimeSeries&);
+		HistoricData(TimeSeries&&, TimeSeries&&, TimeSeries&&);
+
 		HistoricData(size_t);
 
 		void reserve(size_t);

@@ -7,7 +7,10 @@
 
 // --- Public Members ---
 
-HistoricData::HistoricData(TimeSeries& d, TimeSeries& w, TimeSeries& m) : daily(std::move(d)), weekly(std::move(w)), monthly(std::move(m)) {}
+HistoricData::HistoricData(const TimeSeries& d, const TimeSeries& w,const TimeSeries& m) : daily(d), weekly(w), monthly(m) {}
+
+
+HistoricData::HistoricData(TimeSeries&& d, TimeSeries&& w,TimeSeries&& m) : daily(std::move(d)), weekly(std::move(w)), monthly(std::move(m)) {}
 
 
 HistoricData::HistoricData(size_t size) { daily.reserve(size); weekly.reserve(size); monthly.reserve(size); }

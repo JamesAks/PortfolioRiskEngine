@@ -2,8 +2,11 @@
 set(UTEST_SOURCES
 
     Assets/StockTest.cpp
-	Core/HistoricDataTest.cpp
+
+	Core/MarketDataTest.cpp
+	Core/PortfolioTest.cpp
 	Core/TimeSeriesTest.cpp
+	
 )
 
 
