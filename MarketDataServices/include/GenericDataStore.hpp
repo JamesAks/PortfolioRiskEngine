@@ -3,6 +3,7 @@
 
 #include "MarketDataStore.hpp"
 
+
 #include <map>
 #include <memory>
 #include <string>
@@ -14,35 +15,39 @@ class HistoricData;
 class TimeSeries;
 class LatestPrice;
 
-
-class GenericDataStore: MarketDataStore {
+class GenericDataStore: public MarketDataStore {
 
 	private:
 
+		std::shared_ptr<MarketDataProvider> market_data_provider;
 		std::map<std::string, std::shared_ptr<HistoricData>> historic_data_store;
 		std::map<std::string, std::shared_ptr<LatestPrice>> latest_price_store;
 
+		void updateHistoricData() override;
+		void updateLatestPrice() override;
+
 	public:
 
-		GenericDataStore();
+		GenericDataStore(MarketDataProvider*);
+		GenericDataStore(std::shared_ptr<MarketDataProvider>);
+		GenericDataStore() = default;
 
-		void addHistoricalData(std::string,TimeSeries&, TimeSeries&, TimeSeries&);
-		void addHistoricalData(std::string, HistoricData);
-		void addLatestPrice(std::string, LatestPrice);
-		void removeMarketData(std::string);
+		bool addMarketData(std::string) override;
+		bool removeMarketData(std::string) override;
+		bool changeDataProvider(std::shared_ptr<MarketDataProvider>);
 		
-		const std::shared_ptr<HistoricData> historicalData(std::string) const;
-		const std::shared_ptr<LatestPrice> latestPrice(std::string) const;
-		const TimeSeries& periodicData(std::string, TimeFrame) const;
+		const HistoricData& viewHistoricData(std::string) const override;
+		const LatestPrice& viewLatestPrice(std::string) const override;
+		const TimeSeries& periodicData(std::string, TimeFrame) const override;
 		
 
-		const std::map<std::string, std::shared_ptr<HistoricData>>& viewHistoricData() const;
-		const std::map<std::string, std::shared_ptr<LatestPrice>>& viewLatestPrices() const;
-		std::vector<std::string> viewSymbols() const;
+		const std::map<std::string, std::shared_ptr<HistoricData>>& viewAllHistoricData() const override;
+		const std::map<std::string, std::shared_ptr<LatestPrice>>& viewAllLatestPrices() const override;
+		std::vector<std::string> viewSymbols() const override;
+		std::shared_ptr<MarketDataProvider> viewDataProvider() const ;
 
-		void updateHistoricData(std::string, TimeSeries&, TimeSeries&, TimeSeries&);
-		void updateLatestPrice(std::string, LatestPrice);
-		
+
+		size_t size() const;
 };
 
 #endif // !MARKET_DATA_STORE_HPP

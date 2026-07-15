@@ -22,6 +22,12 @@ void CSVDataProvider::validateDirectory(std::string dir_path) {
 
 // ----- Public Members -----
 
+CSVDataProvider::CSVDataProvider() {
+
+	dir_path = "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/DataLoader/TestMarketData";
+
+}
+
 CSVDataProvider::CSVDataProvider(std::string fp) : dir_path{ fp } { validateDirectory(dir_path); }
 
 

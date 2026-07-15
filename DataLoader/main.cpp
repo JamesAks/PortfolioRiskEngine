@@ -39,36 +39,36 @@ static void loadMarketData(std::string asset_ID, size_t quantity) {
 	std::string file_name;
 
 	auto daily_result = avp.periodicData(asset_ID, TimeFrame::DAILY,quantity);
-	if (daily_result.requestError != RequestError::NONE) {
+	if (daily_result.request_error != RequestError::NONE) {
 
 		Logger::logError("Could not get daily data for \"" + asset_ID + "\".");
 		return;
 	}
 
 	auto weekly_result = avp.periodicData(asset_ID, TimeFrame::WEEKLY, quantity);
-	if (weekly_result.requestError != RequestError::NONE) {
+	if (weekly_result.request_error != RequestError::NONE) {
 
 		Logger::logError("Could not get weekly data for \"" + asset_ID + "\".");
 		return;
 	}
 
 	auto monthly_result = avp.periodicData(asset_ID, TimeFrame::MONTHLY, quantity);
-	if (monthly_result.requestError != RequestError::NONE) {
+	if (monthly_result.request_error != RequestError::NONE) {
 
 		Logger::logError("Could not get monthly data for \"" + asset_ID + "\".");
 		return;
 	}
 
 	auto latest_price_result = avp.latestPrice(asset_ID);
-	if (latest_price_result.requestError != RequestError::NONE) {
+	if (latest_price_result.request_error != RequestError::NONE) {
 
 		Logger::logError("Could not get latest_price for \"" + asset_ID + "\".");
 		return;
 	}
 
-	writeToCSV(asset_ID, "Daily_Market_Data.csv", daily_result.historicData.value());
-	writeToCSV(asset_ID, "Weekly_Market_Data.csv", weekly_result.historicData.value());
-	writeToCSV(asset_ID, "Monthly_Market_Data.csv", monthly_result.historicData.value());
+	writeToCSV(asset_ID, "Daily_Market_Data.csv", daily_result.time_series.value());
+	writeToCSV(asset_ID, "Weekly_Market_Data.csv", weekly_result.time_series.value());
+	writeToCSV(asset_ID, "Monthly_Market_Data.csv", monthly_result.time_series .value());
 
 	std::ofstream market_data_file(DIR_PATH + asset_ID + "/Latest_Price.csv");
 	if (!market_data_file.is_open()) {

@@ -6,8 +6,12 @@ set(UTEST_SOURCES
 	Core/MarketDataTest.cpp
 	Core/PortfolioTest.cpp
 	Core/TimeSeriesTest.cpp
-	
+
+	MarketDataServices/AlphaVantageProviderTest.cpp
+	MarketDataServices/GenericDataStoreTest.cpp
 )
+	
+
 
 
 
