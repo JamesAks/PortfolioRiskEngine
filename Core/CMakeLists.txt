@@ -1,5 +1,3 @@
-
-
 set(CORE_SOURCES
     
     src/Asset.cpp
@@ -8,6 +6,7 @@ set(CORE_SOURCES
     src/Observing.cpp
     src/Portfolio.cpp
     src/Position.cpp
+    src/PricingEngine.cpp
     src/Statistics.cpp
     src/MarketData.cpp
     src/TimeSeries.cpp
@@ -22,6 +21,7 @@ set(CORE_HEADERS
     include/Observing.hpp
     include/Portfolio.hpp
     include/Position.hpp
+    include/PricingEngine.hpp
     include/Statistics.hpp
     include/MarketData.hpp
     include/TimeSeries.hpp

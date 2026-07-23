@@ -3,7 +3,7 @@
 #include "Portfolio.hpp"
 #include "MarketData.hpp"
 #include "TimeSeries.hpp"
-#include "Stock.hpp"
+#include "Equities/Stock.hpp"
 
 
 

@@ -6,7 +6,6 @@
 #include "Statistics.hpp"
 #include "TimeSeries.hpp"
 
-
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -28,8 +27,7 @@ PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf
 		pos.unrealizedGains(),
 
 		pos.viewAsset()->symbol(),
-		pos.viewAsset()->latestPrice()->price(),
-		RiskStatistics::standardDeviation(pos.viewAsset()->historicData()->periodicReturns(tf)),
+		pos.viewAsset()->NPV(),
 		expectedReturn(pos, tf),
 	};
 
@@ -136,7 +134,7 @@ double RiskEngine::portfolioVolatility(const Portfolio& port, TimeFrame tf) {
 	Eigen::MatrixXd cov_matrix = computeCovarianceMatrix(port, tf).matrixData();
 	Eigen::Map<Eigen::MatrixXd> weights_matrix(weights.data(), port.size(), 1);
 	double variance = (weights_matrix.transpose() * cov_matrix * weights_matrix).value();
-	return  sqrt(variance);
+	return sqrt(variance);
 }
 
 

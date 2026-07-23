@@ -15,16 +15,19 @@ class HistoricData;
 class TimeSeries;
 class LatestPrice;
 
-class GenericDataStore: public MarketDataStore {
+class GenericDataStore: MarketDataStore{
+
+	// Generic store for all the different market data needed for each asset.
 
 	private:
 
-		std::shared_ptr<MarketDataProvider> market_data_provider;
+
+		std::shared_ptr<MarketDataProvider> equity_data_provider;
 		std::map<std::string, std::shared_ptr<HistoricData>> historic_data_store;
-		std::map<std::string, std::shared_ptr<LatestPrice>> latest_price_store;
+		std::map<std::string, std::shared_ptr<LatestPrice>> latest_prices_store;
 
 		void updateHistoricData() override;
-		void updateLatestPrice() override;
+		void updateLatestPrices() override;
 
 	public:
 
@@ -44,6 +47,7 @@ class GenericDataStore: public MarketDataStore {
 		const std::map<std::string, std::shared_ptr<HistoricData>>& viewAllHistoricData() const override;
 		const std::map<std::string, std::shared_ptr<LatestPrice>>& viewAllLatestPrices() const override;
 		std::vector<std::string> viewSymbols() const override;
+
 		std::shared_ptr<MarketDataProvider> viewDataProvider() const ;
 
 

@@ -7,7 +7,7 @@ target_link_libraries(QuantitativeLibrary
 		Core
 		Assets
 		MarketDataServices
-		PricingEngine
+		PricingEngines
 		RiskEngine
 		
 )

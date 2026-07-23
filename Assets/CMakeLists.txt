@@ -1,11 +1,13 @@
 set(ASSETS_SOURCES
 
-    src/Stock.cpp
+    src/Equities/Stock.cpp
+	src/Equity.cpp
 )
 
 set(ASSETS_HEADERS
 
-	include/Stock.hpp
+	include/Equities/Stock.hpp
+	include/Equity.hpp
 )
 
 add_library(Assets ${ASSETS_SOURCES} ${ASSETS_HEADERS})

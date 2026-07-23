@@ -17,10 +17,9 @@ class MarketDataStore {
 protected:
 
 	virtual void updateHistoricData() = 0;
-	virtual void updateLatestPrice() = 0;
+	virtual void updateLatestPrices() = 0;
 
 public:
-
 
 	virtual bool addMarketData(std::string) = 0;
 	virtual bool removeMarketData(std::string) = 0;
@@ -31,7 +30,10 @@ public:
 
 	virtual const std::map<std::string, std::shared_ptr<HistoricData>>& viewAllHistoricData() const = 0;
 	virtual const std::map<std::string, std::shared_ptr<LatestPrice>>& viewAllLatestPrices() const = 0;
+
 	virtual std::vector<std::string> viewSymbols() const = 0;
+
+	virtual ~MarketDataStore() = default;
 };
 
 #endif // !MARKET_DATA_STORE_INTERFACE

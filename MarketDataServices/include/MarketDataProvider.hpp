@@ -27,6 +27,9 @@ class MarketDataProvider {
 
 		virtual RequestResult periodicData(std::string, TimeFrame, size_t) const = 0;
 		virtual RequestResult latestPrice(std::string) const = 0;
+		virtual ~MarketDataProvider() = default;
+		
+		
 };
 
 

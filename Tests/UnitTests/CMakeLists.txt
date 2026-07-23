@@ -9,11 +9,10 @@ set(UTEST_SOURCES
 
 	MarketDataServices/AlphaVantageProviderTest.cpp
 	MarketDataServices/GenericDataStoreTest.cpp
+
+	RiskEngine/OptimizerTest.cpp
 )
 	
-
-
-
 
 add_executable(UTests ${UTEST_SOURCES})
 

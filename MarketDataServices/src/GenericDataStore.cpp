@@ -16,21 +16,21 @@ void GenericDataStore::updateHistoricData() {
 	for (auto& historic_data : historic_data_store) {
 
 		// If the market data provider can't provide any of the timeseries skip current entry and keep going.
-		auto daily = market_data_provider->periodicData(historic_data.first, TimeFrame::DAILY, 100);
+		auto daily = equity_data_provider->periodicData(historic_data.first, TimeFrame::DAILY, 100);
 		if (daily.request_error != RequestError::NONE) { 
 
 			Logger::logWarning("Could not update market data for \"" + historic_data.first + "\".");
 			continue;
 		}
 
-		auto weekly = market_data_provider->periodicData(historic_data.first, TimeFrame::WEEKLY, 100);
+		auto weekly = equity_data_provider->periodicData(historic_data.first, TimeFrame::WEEKLY, 100);
 		if (weekly.request_error != RequestError::NONE) {
 
 			Logger::logWarning("Could not update market data for \"" + historic_data.first + "\".");
 			continue;
 		}
 
-		auto monthly = market_data_provider->periodicData(historic_data.first, TimeFrame::MONTHLY, 100);
+		auto monthly = equity_data_provider->periodicData(historic_data.first, TimeFrame::MONTHLY, 100);
 		if (monthly.request_error != RequestError::NONE) {
 
 			Logger::logWarning("Could not update market data for \"" + historic_data.first + "\".");
@@ -61,16 +61,16 @@ void GenericDataStore::updateHistoricData() {
 }
 
 
-void GenericDataStore::updateLatestPrice() {
+void GenericDataStore::updateLatestPrices() {
 
 	Logger::logInfo("Updating latest prices store...");
 
 	size_t updated = 0;
 
-	for (auto& latest_price : latest_price_store) {
+	for (auto& latest_price : latest_prices_store) {
 
 		// If latest price not found then skip current entry and keep going.
-		auto lp = market_data_provider->latestPrice(latest_price.first);
+		auto lp = equity_data_provider->latestPrice(latest_price.first);
 		if (lp.request_error != RequestError::NONE) {
 
 			Logger::logWarning("Could not update latest price for \"" + latest_price.first + "\".");
@@ -78,14 +78,14 @@ void GenericDataStore::updateLatestPrice() {
 		}
 
 		// Update latest price and log.
-		latest_price_store[latest_price.first] = std::make_shared<LatestPrice>(std::move(lp.price));
+		latest_prices_store[latest_price.first] = std::make_shared<LatestPrice>(std::move(lp.price));
 		Logger::logInfo("Updated historic data for \"" +latest_price.first + "\".");
 		updated++;
 	}
 
-	Logger::logInfo("Updating finished. " + std::to_string(updated) + "out of " + std::to_string(latest_price_store.size()) + " entries have been updated.");
+	Logger::logInfo("Updating finished. " + std::to_string(updated) + "out of " + std::to_string(latest_prices_store.size()) + " entries have been updated.");
 
-	if (updated != latest_price_store.size()) {
+	if (updated != latest_prices_store.size()) {
 
 		Logger::logWarning("Could not update all entries in latest price store. Check logs.");
 		return;
@@ -96,10 +96,10 @@ void GenericDataStore::updateLatestPrice() {
 
 // ---- Public Members -----
 
-GenericDataStore::GenericDataStore(MarketDataProvider* mdp) : market_data_provider{ mdp } {}
+GenericDataStore::GenericDataStore(MarketDataProvider* mdp) : equity_data_provider{ mdp } {}
 
 
-GenericDataStore::GenericDataStore(std::shared_ptr<MarketDataProvider> mdp) : market_data_provider{ mdp } {}
+GenericDataStore::GenericDataStore(std::shared_ptr<MarketDataProvider> mdp) : equity_data_provider{ mdp } {}
 
 
 bool GenericDataStore::addMarketData(std::string symbol) {
@@ -112,20 +112,20 @@ bool GenericDataStore::addMarketData(std::string symbol) {
 	}
 
 	// Get Historical data from data provider.
-	auto daily = market_data_provider->periodicData(symbol, TimeFrame::DAILY, 100);
+	auto daily = equity_data_provider->periodicData(symbol, TimeFrame::DAILY, 100);
 	if (daily.request_error != RequestError::NONE) { return false; }
 
-	auto weekly = market_data_provider->periodicData(symbol, TimeFrame::WEEKLY, 100);
+	auto weekly = equity_data_provider->periodicData(symbol, TimeFrame::WEEKLY, 100);
 	if (weekly.request_error != RequestError::NONE) { return false; }
 
-	auto monthly = market_data_provider->periodicData(symbol, TimeFrame::MONTHLY, 100);
+	auto monthly = equity_data_provider->periodicData(symbol, TimeFrame::MONTHLY, 100);
 	if (monthly.request_error != RequestError::NONE) { return false; }
 
 
 
 
 	// Get Latest Price from data provider.
-	auto latest_price = market_data_provider->latestPrice(symbol);
+	auto latest_price = equity_data_provider->latestPrice(symbol);
 	if (latest_price.request_error != RequestError::NONE) { return false; }
 
 	// Add data to the respective data stores.
@@ -137,7 +137,7 @@ bool GenericDataStore::addMarketData(std::string symbol) {
 	
 	));
 
-	latest_price_store.emplace(symbol, std::make_shared<LatestPrice>(latest_price.price));
+	latest_prices_store.emplace(symbol, std::make_shared<LatestPrice>(latest_price.price));
 
 	Logger::logInfo("Added market data for \"" + symbol + "\" to data store.");
 	return true;
@@ -146,24 +146,24 @@ bool GenericDataStore::addMarketData(std::string symbol) {
 
 bool GenericDataStore::removeMarketData(std::string symbol) {
 
-	if (historic_data_store.find(symbol) == historic_data_store.end() || latest_price_store.find(symbol) == latest_price_store.end()) {
+	if (historic_data_store.find(symbol) == historic_data_store.end() || latest_prices_store.find(symbol) == latest_prices_store.end()) {
 
 		Logger::logError("Could not find data entry for \"" + symbol + "\" inside data store.");
 		return false;
 	}
 
-	latest_price_store.erase(symbol);
+	latest_prices_store.erase(symbol);
 	historic_data_store.erase(symbol);
 
 	Logger::logInfo("Removed market data for \"" + symbol + "\" from data store.");
 	return true;
 }
 
-bool GenericDataStore::changeDataProvider(std::shared_ptr<MarketDataProvider> mdp) { 
+bool GenericDataStore::changeDataProvider(std::shared_ptr<MarketDataProvider> mdp) {
 
 	if (mdp != nullptr) { return false; }
 
-	market_data_provider = mdp;
+	equity_data_provider = mdp;
 	Logger::logInfo("Changed market data provider.");
 	return true;	
 };
@@ -183,8 +183,8 @@ const HistoricData& GenericDataStore::viewHistoricData(std::string symbol) const
 
 const LatestPrice& GenericDataStore::viewLatestPrice(std::string symbol) const {
 
-	auto result = latest_price_store.find(symbol);
-	if (result == latest_price_store.end()) {
+	auto result = latest_prices_store.find(symbol);
+	if (result == latest_prices_store.end()) {
 
 		Logger::logError("Could not find latest price for \"" + symbol + "\" inside data store.");
 		return {};
@@ -230,7 +230,7 @@ const TimeSeries& GenericDataStore::periodicData(std::string asset_ID, TimeFrame
 const std::map<std::string, std::shared_ptr<HistoricData>>& GenericDataStore::viewAllHistoricData() const { return historic_data_store; }
 
 
-const std::map<std::string, std::shared_ptr<LatestPrice>>& GenericDataStore::viewAllLatestPrices() const { return latest_price_store; }
+const std::map<std::string, std::shared_ptr<LatestPrice>>& GenericDataStore::viewAllLatestPrices() const { return latest_prices_store; }
 
 
 std::vector<std::string> GenericDataStore::viewSymbols() const {
@@ -245,7 +245,7 @@ std::vector<std::string> GenericDataStore::viewSymbols() const {
 }
 
 
-std::shared_ptr<MarketDataProvider> GenericDataStore::viewDataProvider() const { return market_data_provider; }
+std::shared_ptr<MarketDataProvider> GenericDataStore::viewDataProvider() const { return equity_data_provider; }
 
 
 size_t GenericDataStore::size() const { return historic_data_store.size(); }

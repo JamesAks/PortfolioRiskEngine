@@ -48,7 +48,7 @@ struct PortfolioRiskReport {
 };
 
 
-namespace RiskEngine  {
+namespace RiskEngine {
 	
 		// Returns a report containing the riskmetrics of an asset.
 		PositionRiskReport analysePosition(const Position&, TimeFrame);
@@ -94,6 +94,9 @@ namespace RiskEngine  {
 		// Returns a list containing anylysis of all the assets within a portfolio.
 		std::vector<PositionRiskReport> breakdown(const Portfolio&, TimeFrame);	
 };
+
+
+
 
 #endif // !RISK_ENGINE_CPP
 
