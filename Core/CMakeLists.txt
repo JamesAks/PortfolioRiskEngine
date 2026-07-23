@@ -7,7 +7,7 @@ set(CORE_SOURCES
     src/Portfolio.cpp
     src/Position.cpp
     src/PricingEngine.cpp
-    src/Statistics.cpp
+    src/RiskCalculations.cpp
     src/MarketData.cpp
     src/TimeSeries.cpp
 )
@@ -22,7 +22,7 @@ set(CORE_HEADERS
     include/Portfolio.hpp
     include/Position.hpp
     include/PricingEngine.hpp
-    include/Statistics.hpp
+    include/RiskCalculations.hpp
     include/MarketData.hpp
     include/TimeSeries.hpp
 )
@@ -32,5 +32,7 @@ add_library(Core STATIC ${CORE_SOURCES} ${CORE_HEADERS})
 target_include_directories(Core 
 
 	PUBLIC
+        
+        "C:/libs/C++/eigen-5.0.0" 
 		include
 )

@@ -13,7 +13,6 @@ enum class TimeFrame;
 class Position;
 class Portfolio;
 
-
 struct PositionRiskReport {
 
 	std::string position_ID;
@@ -27,8 +26,8 @@ struct PositionRiskReport {
 	double market_value;
 	double volatility ;
 	double expected_return ;
-
 };
+
 
 
 struct PortfolioRiskReport {
@@ -44,8 +43,8 @@ struct PortfolioRiskReport {
 	double sharpe_ratio;
 	std::vector<PositionRiskReport> breakdowns;
 	CovarianceMatrix cov_matrix;
-
 };
+
 
 
 namespace RiskEngine {
@@ -94,9 +93,6 @@ namespace RiskEngine {
 		// Returns a list containing anylysis of all the assets within a portfolio.
 		std::vector<PositionRiskReport> breakdown(const Portfolio&, TimeFrame);	
 };
-
-
-
 
 #endif // !RISK_ENGINE_CPP
 

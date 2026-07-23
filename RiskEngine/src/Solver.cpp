@@ -4,13 +4,15 @@
 #include "Portfolio.hpp"
 #include "Logger.hpp"
 
+
+
 // ----- Solver Base Class -----
 
 // --- Private Members ---
 
 // --- Public Members ---
 
-bool Solver::isFinished() { return finished; };
+bool Solver::isFinished() const { return finished; };
 
 
 

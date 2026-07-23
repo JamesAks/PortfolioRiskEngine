@@ -26,19 +26,24 @@ struct MaximiseReturn: public Objective{
 
 struct MaximiseSharpeRatio: public Objective {
 
+	private:
+
+		double risk_free_rate = 0;
+
 	public:
 
 		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) const override;
+		void changeRiskFreeRate(double);
 };
 
 
 struct MinimiseVolatility: public Objective {
 
+
+
 	public:
 
 		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) const override;
 };
-
-
 
 #endif 

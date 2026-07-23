@@ -26,6 +26,7 @@ target_compile_features(RiskEngine PRIVATE cxx_std_20)
 target_include_directories(RiskEngine 
     
     PUBLIC
+
         "C:/libs/C++/eigen-5.0.0" 
         include
 )
@@ -33,7 +34,8 @@ target_include_directories(RiskEngine
 target_link_libraries(RiskEngine 
 
     PUBLIC
-    Core
-    MarketDataServices
+
+        Core
+        MarketDataServices
 )
 

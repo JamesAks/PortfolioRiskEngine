@@ -1,8 +1,6 @@
 #ifndef COVARIANCE_MATRIX_CPP
 #define COVARIANCE_MATRIX_CPP
 
-
-
 #include <Eigen/Dense>
 
 // Wrapper that contains the covariance matrix data need for computing portfolio variance.

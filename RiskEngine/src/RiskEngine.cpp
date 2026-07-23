@@ -3,12 +3,14 @@
 #include "Portfolio.hpp"
 #include "Position.hpp"
 #include "RiskEngine.hpp"
-#include "Statistics.hpp"
+#include "RiskCalculations.hpp"
 #include "TimeSeries.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+
+
 
 constexpr double PI = 3.14159265358979323846;
 
@@ -87,7 +89,7 @@ std::vector<double> RiskEngine::portfolioPeriodicReturns(const Portfolio& port, 
 }
 
 
-double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf)  { return RiskStatistics::mean(pos.viewAsset()->historicData()->periodicReturns(tf)); }
+double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf)  { return RiskCalculations::mean(pos.viewAsset()->historicData()->periodicReturns(tf)); }
 
 
 double RiskEngine::totalReturn(const Portfolio& port)  {
@@ -214,16 +216,16 @@ double RiskEngine::historicalShortfall(const Portfolio& port, TimeFrame tf, size
 	//	Logger::logDebug("Window: " + std::to_string(ret));
 	//}
 
-	return - (RiskStatistics::mean(window) * totalReturn(port));
+	return - (RiskCalculations::mean(window) * totalReturn(port));
 }
 
 
 double RiskEngine::parametricVaR(const Portfolio& port, TimeFrame tf, size_t quantity, ConfidenceLevel cl)  {
 
 	auto returns = portfolioPeriodicReturns(port, tf, quantity);
-	double z_value = RiskStatistics::zScores(cl);
+	double z_value = RiskCalculations::zScores(cl);
 
-	return - totalReturn(port) * (RiskStatistics::mean(returns) - (RiskStatistics::zScores(cl) * RiskStatistics::standardDeviation(returns)));
+	return - totalReturn(port) * (RiskCalculations::mean(returns) - (RiskCalculations::zScores(cl) * RiskCalculations::standardDeviation(returns)));
 }
 
 
@@ -257,9 +259,9 @@ double RiskEngine::parametricShortfall(const Portfolio& port, TimeFrame tf, size
 	}
 
 	auto returns = portfolioPeriodicReturns(port, tf, quantity);
-	double z_value = RiskStatistics::zScores(cl);
+	double z_value = RiskCalculations::zScores(cl);
 
-	return (RiskStatistics::mean(returns) + RiskStatistics::standardDeviation(returns) * (exp(-pow(z_value,2)/2) * 1/sqrt(2 * PI) * 1/(1-probability))) * totalReturn(port);
+	return (RiskCalculations::mean(returns) + RiskCalculations::standardDeviation(returns) * (exp(-pow(z_value,2)/2) * 1/sqrt(2 * PI) * 1/(1-probability))) * totalReturn(port);
 }
 
 
@@ -271,13 +273,13 @@ double RiskEngine::portfolioSharpeRatio(const Portfolio& port, TimeFrame tf, siz
 
 double RiskEngine::assetCovariance(const Position& first, const Position& second, TimeFrame tf)  {
 
-	return RiskStatistics::covariance(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
+	return RiskCalculations::covariance(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
 }
 
 
 double RiskEngine::assetCorrelation(const Position& first, const Position& second, TimeFrame tf)  {
 
-	return RiskStatistics::correlation(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
+	return RiskCalculations::correlation(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
 } 
 
 
