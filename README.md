@@ -13,9 +13,9 @@ The project follows a structure of a quantitative library that contains the busi
 
 Interface -----> Portfolio Service -----> Risk Engine -----> Data Models -----> Pricing Engine
 
-![Architecture](ArchitectureDiagram.png)
+![Architecture](docs/images/ArchitectureDiagram.png)
 
-![Planning](Planning.md)
+![Planning](docs/images/Planning.md)
 
 
 ## How to use:
@@ -35,29 +35,22 @@ Step 4 ---> Run executable.
 ## Example use
 
 The application starts with every field empty
-![Starting screen](starting_screen.png)
+![Starting screen](docs/images/starting_screen.png)
 
 In order to use the application the first step would be to create a portfolio with any name.
 Note that until a portfolio is created and selected buttons are disabled.
-![Portfolio creation](portfolio_creation.png)
-![Hello, World](init_portfolio.png)
-![Portfolio selected](portfolio_selected.png)
+![Portfolio creation](docs/images/portfolio_creation.png)
+![Hello, World](docs/images/init_portfolio.png)
+
 
 After selecting a portfolio the add position button will be enable allowing you to add a position. A Position requires a name, position type, quantity, buy-in price and an asset type. In order for the asset to be created and added to the portfolio a valid asset must be created.
-![Add Position](add_position.png)
+![Add Position](docs/images/add_position.png)
 
 Multiple Positions can be added to a portfolio and multiple portfolios can be created.
-![Position added](position_added.png)
-![Second Position](second_position.png)
-![Full Portfolio](full_portfolio.png)
-![Second Portfolio](Goodbye.png)
-![Full Second Portfolio](full_goodbye.png)
+![Full Portfolio](docs/images/full_portfolio.png)
 
-Until a time frame is selected the user can not analyse a portfolio.
-![Time frame](time_frame.png)
-
-After selecting a time frame pressing the analyse button will fill the fields with calculated values.
-![Analysis](analyse.png)
+Until a time frame is selected the user can not analyse a portfolio. After selecting a time frame pressing the analyse button will fill the fields with calculated values.
+![Analysis](docs/images/analyse.png)
 
 
 ## Repository Structure
