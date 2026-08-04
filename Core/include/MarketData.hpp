@@ -1,4 +1,4 @@
- #ifndef HISTORIC_DATA_HPP
+#ifndef HISTORIC_DATA_HPP
 #define HISTORIC_DATA_HPP
 
 #include "Observing.hpp"
@@ -10,8 +10,6 @@
 
 
 // Classes that hold different forms of market data for a given underlying variable.
-
-
 
 enum class TimeFrame { DAILY, WEEKLY, MONTHLY };
 
@@ -43,10 +41,10 @@ class HistoricData: public Observable {
 		const TimeSeries& periodicPrices(TimeFrame) const;
 		const std::vector<double>& periodicReturns(TimeFrame) const;
 		size_t size(); 
-	};
+};
 
 
-struct LatestPrice: public Observable {
+class LatestPrice: public Observable {
 
 	// Class that holds the latest price of an underlying variable.
 
@@ -57,7 +55,7 @@ struct LatestPrice: public Observable {
 
 	public:
 
-		LatestPrice() = default;
+		LatestPrice();
 		LatestPrice(double, std::chrono::year_month_day);
 
 		void updatePrice(double, std::chrono::year_month_day);

@@ -1,10 +1,44 @@
+set(PORT_APP_SOURCE
+    
+    src/AddPositionDialog.cpp
+    src/AddPositionDialog.ui
+    src/CreatePortfolioDialog.cpp
+    src/CreatePortfolioDialog.ui
+    src/MainWindow.cpp
+    src/MainWindow.ui
+    src/PortfolioManager.cpp
+    src/RemoveFromListDialog.cpp
+    src/RemoveFromListDialog.ui
+)
 
-add_executable(PortfolioApp
-    main.cpp
+set(PORT_APP_HEADER
+    
+    include/AddPositionDialog.hpp
+    include/CreatePortfolioDialog.hpp
+    include/MainWindow.hpp
+    include/PortfolioManager.hpp
+    include/RemoveFromListDialog.hpp
+)
+
+find_package(Qt6 REQUIRED)
+
+add_executable(PortfolioApp 
+
+    main.cpp 
+    ${PORT_APP_HEADER}
+    ${PORT_APP_SOURCE}
 )
 
 target_link_libraries(PortfolioApp 
     
     PRIVATE
-    RiskEngine
+    QuantitativeLibrary
+    Qt6::Widgets
+)
+
+target_include_directories(PortfolioApp
+
+	PUBLIC
+		include
+        src
 )

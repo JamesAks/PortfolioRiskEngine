@@ -1,9 +1,10 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "Portfolio.hpp"
 #include "MarketData.hpp"
-#include "TimeSeries.hpp"
+#include "Position.hpp"
+#include "Portfolio.hpp"
 #include "Equities/Stock.hpp"
+
 
 
 
@@ -11,8 +12,8 @@
 
 static Stock createStock() {
 
-	auto  lp = std::make_shared<LatestPrice>();
-	auto  hd = std::make_shared<HistoricData>();
+	auto lp = std::make_shared<LatestPrice>();
+	auto hd = std::make_shared<HistoricData>();
 
 	Stock test_stock{"Test Stock", lp, hd };
 

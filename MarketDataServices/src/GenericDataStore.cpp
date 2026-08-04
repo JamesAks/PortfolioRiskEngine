@@ -5,6 +5,10 @@
 
 
 
+struct DataStoreResult{
+
+};
+
 // ---- Private Members -----
 
 void GenericDataStore::updateHistoricData() {
@@ -108,7 +112,7 @@ bool GenericDataStore::addMarketData(std::string symbol) {
 	if (historic_data_store.find(symbol) != historic_data_store.end()) {
 
 		Logger::logError("Data for \"" + symbol + "\" is already stored in the data store. Try updateHistoricalData() method instead.");
-		return false;
+		return true;
 	}
 
 	// Get Historical data from data provider.
@@ -169,28 +173,28 @@ bool GenericDataStore::changeDataProvider(std::shared_ptr<MarketDataProvider> md
 };
 
 
-const HistoricData& GenericDataStore::viewHistoricData(std::string symbol) const {
+std::shared_ptr<HistoricData> GenericDataStore::getHistoricData(std::string symbol) const {
 
 	auto result = historic_data_store.find(symbol);
 	if (result == historic_data_store.end()) {
 
 		Logger::logError("Could not find historical data for \"" + symbol + "\" inside data store.");
-		return {};
+		return nullptr;
 	}
 
-	return *result->second;
+	return result->second;
 }
 
-const LatestPrice& GenericDataStore::viewLatestPrice(std::string symbol) const {
+std::shared_ptr<LatestPrice> GenericDataStore::getLatestPrice(std::string symbol) const {
 
 	auto result = latest_prices_store.find(symbol);
 	if (result == latest_prices_store.end()) {
 
 		Logger::logError("Could not find latest price for \"" + symbol + "\" inside data store.");
-		return {};
+		return nullptr;
 	}
 
-	return *result->second;
+	return result->second;
 }
 
 

@@ -6,7 +6,7 @@
 #include <Eigen/Dense>
 
 
-enum class ConfidenceLevel { NINETY_FIVE, NINETY_NINE, NINETY_NINE_FIVE, NINET_NINE_NINE };
+enum class ConfidenceLevel { NINETY_FIVE, NINETY_NINE, NINETY_NINE_FIVE, NINETY_NINE_NINE };
 
 namespace RiskCalculations {
 

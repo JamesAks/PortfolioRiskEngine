@@ -1,21 +1,12 @@
 #include "Asset.hpp"
 #include "Portfolio.hpp"
+#include "Position.hpp"
 #include "Logger.hpp"
 
 
 
 // ----- Private Members -----
 
-void Portfolio::calculateWeights() {
-
-    if (positions.size() == 0) { return; }
-    double value = totalMarketValue();
-
-    for (auto& p : positions) {
-
-        position_weights[p.first] =  p.second->marketValue() / value;
-    }
-}
 
 // ----- Public Memebers -----
 
@@ -25,13 +16,11 @@ Portfolio::Portfolio(std::string&& n): ID{std::move(n)}{}
 Portfolio::Portfolio(const std::string& n) : ID{n} {}
 
 
-void Portfolio::addPosition(Position& p ) { 
+void Portfolio::addPosition(std::shared_ptr<Position> position ) { 
 
-    std::string id = p.viewID();
-    positions.emplace(id, std::make_unique<Position>(std::move(p)));
-    Logger::logInfo("Added position: \"" + id + "\".");
-    calculateWeights();
-}
+    positions.emplace( position->viewID(), position);
+    Logger::logInfo("Added position: \"" + position->viewID() + "\".");
+} 
 
 
 void Portfolio::removePosition(const std::string& symbol) { positions.erase(symbol); }
@@ -56,20 +45,25 @@ double Portfolio::totalMarketValue() const {
 }
 
 
-const std::unique_ptr<Position>& Portfolio::viewPosition(const std::string& symbol) const {
+const Position& Portfolio::viewPosition(const std::string& symbol) const {
 
-    if (positions.find(symbol) == positions.end()) {
-
-        Logger::logError("Could not find position.");
-        return nullptr;
-    }
-
-    return positions.find(symbol)->second;
+    return *positions.find(symbol)->second;
 }
 
 
-const std::map<std::string, std::unique_ptr<Position>>& Portfolio::viewPositions() const { return positions; }
+const std::map<std::string, std::shared_ptr<Position>>& Portfolio::viewPositions() const { return positions; }
 
+std::vector<std::string> Portfolio::viewPositionIDs() const {
+
+    std::vector<std::string> ids;
+
+    for (auto& [name, position] : positions) {
+
+        ids.push_back(name);
+    }
+
+    return ids;
+}
 
 std::vector<std::shared_ptr<Asset>> Portfolio::viewAssets() const {
 
@@ -99,6 +93,19 @@ std::vector<std::string> Portfolio::viewAssetLabels() const {
 
 const std::string& Portfolio::viewID() const { return ID; }
 
-const std::map<std::string, double>& Portfolio::weights() const { return position_weights; }
+std::map<std::string, double> Portfolio::weights() const {
+
+    if (positions.size() == 0) { return {}; }
+
+    std::map<std::string, double> weights;
+
+    double value = totalMarketValue();
+
+    for (auto& [name, position] : positions) {
+
+        weights.emplace(name, position->marketValue() / value);
+    }
+    return weights;
+}
 
 size_t Portfolio::size() const { return positions.size(); }

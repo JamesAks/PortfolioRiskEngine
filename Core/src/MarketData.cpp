@@ -128,6 +128,8 @@ size_t HistoricData::size() { return daily.size() + weekly.size() + monthly.size
 
 // --- Public Members ---
 
+LatestPrice::LatestPrice() : value{ 0 }, date{ std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(1)) } {}
+
 LatestPrice::LatestPrice(double v, std::chrono::year_month_day d) : value{v}, date { d } {}
 
 void LatestPrice::updatePrice(double price, std::chrono::year_month_day new_date) {

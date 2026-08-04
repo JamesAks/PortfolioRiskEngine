@@ -1,7 +1,7 @@
 #ifndef SOLVERS_HPP
 #define SOLVERS_HPP
 
-#include "CovarianceMatrix.hpp"
+
 
 #include <Eigen/dense>
 #include <vector>

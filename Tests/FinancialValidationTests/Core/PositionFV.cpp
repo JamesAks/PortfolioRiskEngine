@@ -4,7 +4,7 @@
 
 #include "MarketData.hpp"
 #include "Position.hpp"
-#include "Stock.hpp"
+#include "Equities/Stock.hpp"
 #include "TimeSeries.hpp"
 
 

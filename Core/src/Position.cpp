@@ -1,3 +1,4 @@
+
 #include "Position.hpp"
 #include "Asset.hpp"
 
@@ -6,11 +7,13 @@
 
 // ----- Private Members -----
 
+
+
 // ----- Publlic Members -----
 
-Position::Position(std::string ID, size_t quant,  std::shared_ptr<Asset> as, double pba, PositionType pt):
-	
-	position_ID{ID},
+Position::Position(std::string position_id, size_t quant, std::shared_ptr<Asset> as, double pba, PositionType pt):
+
+	id{ position_id },
 	quantity{quant},
 	asset{as},
 	price_baught_at{pba},
@@ -44,6 +47,4 @@ PositionType Position::viewPositionType() const { return position_type; }
 
 size_t Position::viewQuantity() const { return quantity; }
 
-const std::string& Position::viewID() const { return position_ID; }
-
-
+const std::string Position::viewID() const { return id; }

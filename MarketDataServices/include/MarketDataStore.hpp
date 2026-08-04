@@ -24,8 +24,8 @@ public:
 	virtual bool addMarketData(std::string) = 0;
 	virtual bool removeMarketData(std::string) = 0;
 
-	virtual const HistoricData& viewHistoricData(std::string) const = 0;
-	virtual const LatestPrice& viewLatestPrice(std::string) const = 0;
+	virtual std::shared_ptr<HistoricData> getHistoricData(std::string) const = 0;
+	virtual std::shared_ptr <LatestPrice> getLatestPrice(std::string) const = 0;
 	virtual const TimeSeries& periodicData(std::string, TimeFrame) const = 0;
 
 	virtual const std::map<std::string, std::shared_ptr<HistoricData>>& viewAllHistoricData() const = 0;

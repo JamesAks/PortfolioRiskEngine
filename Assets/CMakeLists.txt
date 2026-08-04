@@ -23,4 +23,5 @@ target_include_directories(Assets
 
 	PUBLIC
 		include
+		src
 )

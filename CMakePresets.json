@@ -1,17 +1,47 @@
+
 {
   "version": 3,
   "configurePresets": [
     {
-      "name": "windows-debug",
-      "displayName": "Windows Debug",
+      "name": "windows",
+      "displayName": "Windows",
       "generator": "Visual Studio 18 2026",
-      "binaryDir": "${sourceDir}/out/build/windows-default",
+      "binaryDir": "out/build/windows",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CXX_STANDARD": "20",
         "CMAKE_TOOLCHAIN_FILE": "C:/Users/james/Source/Repos/vcpkg/scripts/buildsystems/vcpkg.cmake"
       }
-
+    },
+    {
+      "hidden": true,
+      "name": "Qt",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "$env{QTDIR}"
+      },
+      "vendor": {
+        "qt-project.org/Qt": {
+          "checksum": "wVa86FgEkvdCTVp1/nxvrkaemJc="
+        }
+      }
     }
-  ]
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-debug",
+      "displayName": "Windows Debug",
+      "configurePreset": "windows",
+      "configuration": "Debug"
+    },
+    {
+      "name": "windows-release",
+      "displayName": "Windows Release",
+      "configurePreset": "windows",
+      "configuration": "Release"
+    }
+  ],
+  "vendor": {
+    "qt-project.org/Presets": {
+      "checksum": "l6gIeviYXxv4dLsoq07wNb1wwpU="
+    }
+  }
 }

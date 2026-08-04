@@ -1,5 +1,6 @@
 ﻿#include "Asset.hpp"
 #include "Logger.hpp"
+#include "MarketData.hpp"
 #include "Portfolio.hpp"
 #include "Position.hpp"
 #include "RiskEngine.hpp"
@@ -37,7 +38,7 @@ PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf
 }
 
 
-PortfolioRiskReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFrame tf)  {
+PortfolioReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFrame tf)  {
 
 	std::string portfolio_ID = port.viewID();
 	Logger::logInfo("Analysing portfolio \"" + portfolio_ID + "\".");
@@ -45,22 +46,31 @@ PortfolioRiskReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFram
 	if (port.viewPositions().empty()) {
 
 		Logger::logError("Can not anylse portfolio \"" + portfolio_ID + "\". No positions held in portfolio.");
-		return {portfolio_ID, 0,0,0,{},};
+		return {};
 	}
 
-	PortfolioRiskReport report{
+	PortfolioReport report{
 
-		portfolio_ID,
 		totalReturn(port),
 		expectedReturn(port,  tf),
 		portfolioVolatility(port, tf),
+		portfolioSharpeRatio(port, tf, 0.04),
 		historicalVaR(port,tf, 100, 0.95),
-		historicalShortfall(port,tf, 100, 0.95),
+		historicalVaR(port,tf, 100, 0.99),
+		historicalVaR(port,tf, 100, 0.995),
+		historicalVaR(port,tf, 100, 0.999),
 		parametricVaR(port,tf, 100, ConfidenceLevel::NINETY_FIVE),
+		parametricVaR(port,tf, 100, ConfidenceLevel::NINETY_NINE),
+		parametricVaR(port,tf, 100, ConfidenceLevel::NINETY_NINE_FIVE),
+		parametricVaR(port,tf, 100, ConfidenceLevel::NINETY_NINE_NINE),
+		historicalShortfall(port,tf, 100, 0.95),
+		historicalShortfall(port,tf, 100, 0.99),
+		historicalShortfall(port,tf, 100, 0.995),
+		historicalShortfall(port,tf, 100, 0.999),
 		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_FIVE),
-		portfolioSharpeRatio(port, tf, 100, 0.04),
-		breakdown(port,  tf),
-		computeCovarianceMatrix(port, tf)
+		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE),
+		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE_FIVE),
+		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE_NINE),
 	};
 
 	return report;
@@ -71,7 +81,7 @@ std::vector<double> RiskEngine::portfolioPeriodicReturns(const Portfolio& port, 
 
 	std::vector<double> returns;
 	returns.resize(quantity - 1, 0);
-  	auto& weights = port.weights();
+  	auto weights = port.weights();
 
 	for (const auto& pos : port.viewPositions()) {
 
@@ -106,7 +116,7 @@ double RiskEngine::totalReturn(const Portfolio& port)  {
 
 double RiskEngine::expectedReturn(const Portfolio& port, TimeFrame tf)  {
 
-	auto& ws = port.weights();
+	auto ws = port.weights();
 
 	if (ws.size() == 0) {
 		return NULL;
@@ -249,7 +259,7 @@ double RiskEngine::parametricShortfall(const Portfolio& port, TimeFrame tf, size
 		probability = 0.995;
 		break;
 
-	case ConfidenceLevel::NINET_NINE_NINE:
+	case ConfidenceLevel::NINETY_NINE_NINE:
 
 		probability = 0.999;
 		break;
@@ -265,7 +275,7 @@ double RiskEngine::parametricShortfall(const Portfolio& port, TimeFrame tf, size
 }
 
 
-double RiskEngine::portfolioSharpeRatio(const Portfolio& port, TimeFrame tf, size_t quantity, double risk_free_rate)  {
+double RiskEngine::portfolioSharpeRatio(const Portfolio& port, TimeFrame tf, double risk_free_rate)  {
 
 	return (expectedReturn(port, tf) - risk_free_rate) / portfolioVolatility(port,tf);
 }

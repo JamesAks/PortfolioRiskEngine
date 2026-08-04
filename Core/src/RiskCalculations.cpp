@@ -88,7 +88,7 @@ double RiskCalculations::zScores(ConfidenceLevel cl) {
         return 2.57583;
         break;
 
-    case ConfidenceLevel::NINET_NINE_NINE:
+    case ConfidenceLevel::NINETY_NINE_NINE:
 
         return 3.09023;
         break;

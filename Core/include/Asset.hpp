@@ -6,11 +6,14 @@
 #include <vector>
 #include <memory>
 
-#include "MarketData.hpp"
 #include "Observing.hpp"
-#include "TimeSeries.hpp"
-#include "PricingEngine.hpp"
 
+
+
+class HistoricData;
+class LatestPrice;
+
+enum class AssetType { NA, STOCK ,NUMBER_OF_TYPES};
 
 class Asset : public Observable, public Observer {
 
@@ -20,6 +23,7 @@ class Asset : public Observable, public Observer {
 
         std::string asset_id;
         double net_present_value;
+        AssetType asset_type = AssetType::NA;
          
 
         std::shared_ptr<HistoricData> historical_data;

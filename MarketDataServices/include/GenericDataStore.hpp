@@ -15,7 +15,7 @@ class HistoricData;
 class TimeSeries;
 class LatestPrice;
 
-class GenericDataStore: MarketDataStore{
+class GenericDataStore: public MarketDataStore{
 
 	// Generic store for all the different market data needed for each asset.
 
@@ -38,9 +38,11 @@ class GenericDataStore: MarketDataStore{
 		bool addMarketData(std::string) override;
 		bool removeMarketData(std::string) override;
 		bool changeDataProvider(std::shared_ptr<MarketDataProvider>);
+
+
 		
-		const HistoricData& viewHistoricData(std::string) const override;
-		const LatestPrice& viewLatestPrice(std::string) const override;
+		std::shared_ptr<HistoricData> getHistoricData(std::string) const override;
+		std::shared_ptr<LatestPrice> getLatestPrice(std::string) const override;
 		const TimeSeries& periodicData(std::string, TimeFrame) const override;
 		
 

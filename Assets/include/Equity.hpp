@@ -3,6 +3,14 @@
 
 #include "Asset.hpp"
 
+#include <chrono>
+#include <string>
+#include <vector>
+#include <memory>
+
+class HistoricData;
+class LatestPrice;
+
 class Equity: public Asset {
 
 	// Base class for equities.

@@ -1,3 +1,4 @@
+#include "Logger.hpp"
 #include "MarketDataProvider.hpp"
 
 // ----- Private Members -----

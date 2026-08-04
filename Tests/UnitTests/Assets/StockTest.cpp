@@ -1,8 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include "MarketData.hpp"
 #include "Equities/Stock.hpp"
 #include "TimeSeries.hpp"
-#include "MarketData.hpp"
+
 
 
 // ----- Factories -----

@@ -3,7 +3,6 @@
 
 #include "CovarianceMatrix.hpp"
 
-
 #include <string>
 #include <vector>
 
@@ -45,6 +44,36 @@ struct PortfolioRiskReport {
 	CovarianceMatrix cov_matrix;
 };
 
+struct PortfolioReport {
+
+	double total_return;
+	double expectedReturn;
+	double volatitilty;
+	double sharpe_ratio;
+
+	// Value at Risk (VaR)
+	double historical_VaR_95;
+	double historical_VaR_99;
+	double historical_VaR_995;
+	double historical_VaR_999;
+
+	double parametric_VaR_95;
+	double parametric_VaR_99;
+	double parametric_VaR_995;
+	double parametric_VaR_999;
+
+	// Shortfall
+	double historical_shortfall_95;
+	double historical_shortfall_99;
+	double historical_shortfall_995;
+	double historical_shortfall_999;
+
+	double parametric_shortfall_95;
+	double parametric_shortfall_99;
+	double parametric_shortfall_995;
+	double parametric_shortfall_999;
+};
+
 
 
 namespace RiskEngine {
@@ -53,7 +82,7 @@ namespace RiskEngine {
 		PositionRiskReport analysePosition(const Position&, TimeFrame);
 
 		// Returns a report containing the riskmetrics of a portfolio.
-		PortfolioRiskReport analysePortfolio(const Portfolio&, TimeFrame);
+		PortfolioReport analysePortfolio(const Portfolio&, TimeFrame);
 
 		// Returns the daily returns of a portfolio
 		std::vector<double> portfolioPeriodicReturns(const Portfolio&, TimeFrame, size_t);
@@ -82,7 +111,7 @@ namespace RiskEngine {
 
 		double parametricShortfall(const Portfolio&, TimeFrame, size_t, ConfidenceLevel);
 
-		double portfolioSharpeRatio(const Portfolio&,TimeFrame, size_t, double);
+		double portfolioSharpeRatio(const Portfolio&,TimeFrame, double);
 
 		// Returns the covaraince between two seperate assets.
 		double assetCovariance(const Position&, const Position&, TimeFrame);

@@ -2,8 +2,6 @@
 #define OPTIMIZER_HPP
 
 #include "CovarianceMatrix.hpp"
-#include "Logger.hpp"
-#include "Objectives.hpp"
 
 #include <vector>
 

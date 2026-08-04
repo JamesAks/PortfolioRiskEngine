@@ -1,29 +1,23 @@
 #ifndef STOCK_HPP
 #define STOCK_HPP
 
-#include "Asset.hpp"
 #include "Equity.hpp"
 
 #include <chrono>
-#include <memory>
+#include <string>
 #include <vector>
+#include <memory>
 
-
-
-class HistoricData;
-class TimeSeries;
 class LatestPrice;
+class HistoricData;
 
 class Stock : public Equity {
 
+    public:
 
-public:
+        Stock(std::string, std::shared_ptr<LatestPrice>, std::shared_ptr<HistoricData>);
 
-    Stock(std::string, std::shared_ptr<LatestPrice>, std::shared_ptr<HistoricData>);
-
-    void calculateNPV() override;
+        void calculateNPV() override;
 };
 
 #endif // !STOCK_HPP
-
-
