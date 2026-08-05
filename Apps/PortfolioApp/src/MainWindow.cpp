@@ -165,7 +165,7 @@ void MainWindow::onAddPortfolioClicked() {
 void MainWindow::onRemovePortfolioClicked(){
 
     RemoveFromListDialog dialog{portfolio_manager->viewPortfolioIDs()};
-    dialog.setDialogText("Which portfolios would you like to delete?");
+    dialog.setDialogText("Select Portfolios to delete.");
 
     if(dialog.exec() == QDialog::Accepted){
     

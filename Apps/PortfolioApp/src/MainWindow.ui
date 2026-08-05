@@ -7,14 +7,22 @@
     <x>0</x>
     <y>0</y>
     <width>1376</width>
-    <height>742</height>
+    <height>786</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow{
+
+	background-color: rgb(11, 16, 32);
+
+}
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="logo_label">
@@ -39,6 +47,23 @@
       <height>611</height>
      </rect>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame{
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px
+}
+
+QFrame QLabel {
+	border: none;
+}
+
+
+
+</string>
+    </property>
     <property name="frameShape">
      <enum>QFrame::Shape::StyledPanel</enum>
     </property>
@@ -55,7 +80,10 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">alternate-background-color: rgb(170, 255, 255);</string>
+      <string notr="true">QFrame{
+	background-color: rgb(22, 33, 62);
+}
+</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Shape::StyledPanel</enum>
@@ -66,10 +94,10 @@
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>10</y>
-        <width>224</width>
-        <height>361</height>
+        <width>231</width>
+        <height>411</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -81,27 +109,39 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Portfolio Analytics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Risk Statistics&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="styleSheet">
+          <string notr="true">QGroupBox{
+	color: rgb(212, 175, 55);
+}</string>
+         </property>
+         <property name="title">
+          <string>Risk Statistics</string>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>211</width>
+            <height>91</height>
+           </rect>
+          </property>
           <layout class="QFormLayout" name="formLayout">
            <item row="0" column="0">
             <widget class="QLabel" name="total_expected_return">
@@ -146,12 +186,28 @@
             </widget>
            </item>
           </layout>
-         </item>
-        </layout>
+         </widget>
+        </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <item row="1" column="0">
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="styleSheet">
+          <string notr="true">QGroupBox{
+	color: rgb(212, 175, 55);
+}</string>
+         </property>
+         <property name="title">
+          <string>Parametric VaR</string>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>211</width>
+            <height>100</height>
+           </rect>
+          </property>
           <layout class="QFormLayout" name="formLayout_3">
            <item row="0" column="0">
             <widget class="QLabel" name="label_12">
@@ -210,38 +266,28 @@
             </widget>
            </item>
           </layout>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_20">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Parametric VaR&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+         </widget>
+        </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Historic VaR&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="styleSheet">
+          <string notr="true">QGroupBox{
+	color: rgb(212, 175, 55);
+}</string>
+         </property>
+         <property name="title">
+          <string>Historic VaR</string>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>211</width>
+            <height>101</height>
+           </rect>
+          </property>
           <layout class="QFormLayout" name="formLayout_2">
            <item row="0" column="0">
             <widget class="QLabel" name="label_4">
@@ -300,8 +346,8 @@
             </widget>
            </item>
           </layout>
-         </item>
-        </layout>
+         </widget>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -315,6 +361,11 @@
        <height>481</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame{
+	background-color: rgb(22, 33, 62);
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::Shape::StyledPanel</enum>
      </property>
@@ -324,15 +375,33 @@
      <widget class="QWidget" name="horizontalLayoutWidget_3">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>430</y>
-        <width>481</width>
-        <height>51</height>
+        <width>461</width>
+        <height>41</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="chart_buttons">
        <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
         <widget class="QPushButton" name="optimise_button">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    background-color: rgb(184, 134, 11);
+    color: white;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+
+QPushButton:hover {
+    background-color: #D4AF37 ;
+}
+
+QPushButton:pressed {
+    background-color: rgb(181, 148, 16);
+}
+</string>
+         </property>
          <property name="text">
           <string>Generate Optimal Portfolio</string>
          </property>
@@ -346,7 +415,7 @@
       <rect>
        <x>230</x>
        <y>10</y>
-       <width>211</width>
+       <width>401</width>
        <height>71</height>
       </rect>
      </property>
@@ -354,11 +423,18 @@
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 700 20pt &quot;Segoe UI&quot;;
+      <string notr="true">QLabel{
+
+	font: 700 20pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}
+
 </string>
      </property>
      <property name="text">
-      <string/>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -372,8 +448,8 @@
       <rect>
        <x>760</x>
        <y>60</y>
-       <width>281</width>
-       <height>41</height>
+       <width>302</width>
+       <height>42</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="analytics_buttons">
@@ -381,6 +457,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
+          <property name="styleSheet">
+           <string notr="true">QLabel{
+	
+	color: rgb(255, 255, 255);
+}</string>
+          </property>
           <property name="text">
            <string>Time Frame:</string>
           </property>
@@ -394,12 +476,44 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="styleSheet">
+           <string notr="true">QComboBox{
+	
+	background-color: rgb(22, 33, 62);
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+          </property>
+          <property name="placeholderText">
+           <string notr="true"/>
+          </property>
+          <property name="frame">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
        <widget class="QPushButton" name="analyse_button">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: rgb(184, 134, 11);
+    color: white;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+
+QPushButton:hover {
+    background-color: #D4AF37 ;
+}
+
+QPushButton:pressed {
+    background-color: rgb(181, 148, 16);
+}
+</string>
+        </property>
         <property name="text">
          <string>Analyse Portfolio</string>
         </property>
@@ -415,6 +529,12 @@
        <width>271</width>
        <height>481</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame{
+	background-color: rgb(22, 33, 62);
+}
+</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Shape::StyledPanel</enum>
@@ -434,18 +554,78 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QLabel" name="positions_title">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Positions&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="position_list"/>
+        <widget class="QListWidget" name="position_list">
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QListView{
+	
+	background-color: rgb(22, 33, 62);
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px;
+	color: rgb(255, 255, 255);
+}
+
+QListView::item{
+
+	padding: 6px;
+    border-radius: 10px; 
+	outline: 0
+}
+
+QListView::item:hover {
+    
+	background-color: rgb(59, 130, 246);
+}
+
+QListWidget::viewport {
+    background: transparent;
+}
+
+
+
+
+</string>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="position_buttons">
          <item>
           <widget class="QPushButton" name="add_position_button">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #3B82F6;
+    color: white;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+
+QPushButton:hover {
+    background-color: #60A5FA;
+}
+
+QPushButton:pressed {
+    background-color: #2D74D5;
+}</string>
+           </property>
            <property name="text">
             <string>Add Position</string>
            </property>
@@ -453,6 +633,23 @@
          </item>
          <item>
           <widget class="QPushButton" name="remove_position_button">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: rgb(115, 0, 2);
+    color: white;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+
+QPushButton:hover {
+    background-color: rgb(240, 11, 15);
+}
+
+QPushButton:pressed {
+    background-color: rgb(85, 0, 1);
+}</string>
+           </property>
            <property name="text">
             <string>Remove Positions</string>
            </property>
@@ -467,6 +664,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+
+	color: rgb(255, 255, 255);
+}</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Number of Positions:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -489,18 +692,80 @@
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <widget class="QLabel" name="portfolio_list_title">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+       </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Portfolios&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="portfolio_list"/>
+      <widget class="QListWidget" name="portfolio_list">
+       <property name="focusPolicy">
+        <enum>Qt::FocusPolicy::NoFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QListWidget{
+	
+	background-color: rgb(22, 33, 62);
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px;
+	color: rgb(255, 255, 255);
+}
+
+QListView::item{
+
+	 padding: 6px;
+    border-radius: 10px; 
+}
+
+QListView::item:selected {
+	border: 2px solid rgb(131, 94, 8);;
+    background: rgb(184, 134, 11);
+	color: rgb(255, 255, 255);
+}
+
+QListView::item:hover {
+    
+	background-color: rgb(59, 130, 246);
+}
+
+
+</string>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="portfolio_buttons">
        <item>
         <widget class="QPushButton" name="add_portfolio_button">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    background-color: #3B82F6;
+    color: white;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+
+QPushButton:hover {
+    background-color: #60A5FA;
+}
+
+QPushButton:pressed {
+    background-color: #2D74D5;
+}</string>
+         </property>
          <property name="text">
           <string>Add Portfolio</string>
          </property>
@@ -508,6 +773,23 @@
        </item>
        <item>
         <widget class="QPushButton" name="remove_portfolio_button">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    background-color: rgb(115, 0, 2);
+    color: white;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+
+QPushButton:hover {
+    background-color: rgb(240, 11, 15);
+}
+
+QPushButton:pressed {
+    background-color: rgb(85, 0, 1);
+}</string>
+         </property>
          <property name="text">
           <string>Remove Portfolios</string>
          </property>

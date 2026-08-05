@@ -6,41 +6,49 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>594</width>
-    <height>367</height>
+    <width>619</width>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTextBrowser" name="info_">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>10</y>
-     <width>211</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="html">
-    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Create Position to add to portfolio.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+
+	background-color: rgb(11, 16, 32);
+}</string>
+  </property>
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>60</y>
-     <width>281</width>
-     <height>251</height>
+     <x>280</x>
+     <y>70</y>
+     <width>291</width>
+     <height>261</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame {
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px;
+	background-color: rgb(22, 33, 62);
+}
+
+QFrame QLabel{
+	border:none;
+}
+
+QFrame QLineEdit{
+	background-color: rgb(46, 70, 131);
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px;
+	padding: 3px;
+	color:rgb(255, 255, 255);
+	
+}
+
+</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::Shape::StyledPanel</enum>
@@ -51,21 +59,28 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QStackedWidget" name="asset_pages">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
+      <x>10</x>
+      <y>10</y>
       <width>271</width>
-      <height>231</height>
+      <height>241</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QStackedWidget{
+	background-color: rgb(22, 33, 62);
+	border:none;
+}
+</string>
+    </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="stock_page">
      <widget class="QWidget" name="verticalLayoutWidget_3">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>20</y>
+        <y>10</y>
         <width>231</width>
         <height>176</height>
        </rect>
@@ -79,8 +94,17 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+         </property>
          <property name="text">
-          <string>Stock Info</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stock Info&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -94,7 +118,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="stock_ticker_input"/>
+          <widget class="QLineEdit" name="stock_ticker_input">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -106,7 +134,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>20</y>
+        <y>10</y>
         <width>231</width>
         <height>176</height>
        </rect>
@@ -120,8 +148,17 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+         </property>
          <property name="text">
-          <string>Asset Info</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Asset Info&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -136,11 +173,31 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>60</y>
+     <x>10</x>
+     <y>70</y>
      <width>251</width>
-     <height>221</height>
+     <height>241</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame {
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px;
+	background-color: rgb(22, 33, 62);
+}
+
+QFrame QLabel{
+	border:none
+}
+
+QFrame QSpinBox{
+	background-color: rgb(46, 70, 131);
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px;
+	padding: 3px;
+	color:rgb(255, 255, 255);
+	
+}</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::Shape::StyledPanel</enum>
@@ -154,7 +211,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <x>10</x>
       <y>20</y>
       <width>231</width>
-      <height>176</height>
+      <height>198</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -166,8 +223,17 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+       </property>
        <property name="text">
-        <string>Postition Info</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Postition Info&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -181,7 +247,18 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="position_id_input"/>
+        <widget class="QLineEdit" name="position_id_input">
+         <property name="styleSheet">
+          <string notr="true">QLineEdit{
+	background-color: rgb(46, 70, 131);
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px;
+	padding: 3px;
+	color:rgb(255, 255, 255);
+	
+}</string>
+         </property>
+        </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="position_type_label">
@@ -213,13 +290,30 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </item>
        <item row="4" column="1">
         <widget class="QComboBox" name="asset_type_box">
+         <property name="styleSheet">
+          <string notr="true">QComboBox{
+	
+	background-color: rgb(22, 33, 62);
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+         </property>
          <property name="currentIndex">
           <number>-1</number>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="position_type_box"/>
+        <widget class="QComboBox" name="position_type_box">
+         <property name="styleSheet">
+          <string notr="true">QComboBox{
+	
+	background-color: rgb(22, 33, 62);
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+         </property>
+        </widget>
        </item>
        <item row="2" column="1">
         <widget class="QSpinBox" name="quantity_input">
@@ -231,6 +325,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="buttonSymbols">
           <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
@@ -267,14 +364,36 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>365</x>
-     <y>320</y>
+     <x>370</x>
+     <y>350</y>
      <width>201</width>
      <height>24</height>
     </rect>
    </property>
    <property name="standardButtons">
     <set>QDialogButtonBox::StandardButton::NoButton</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>20</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Create Position&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>

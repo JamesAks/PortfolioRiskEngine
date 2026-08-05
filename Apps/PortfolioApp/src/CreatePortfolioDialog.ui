@@ -13,6 +13,11 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+	background-color: rgb(11, 16, 32);
+}</string>
+  </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
@@ -33,10 +38,23 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>60</y>
+     <y>70</y>
      <width>201</width>
      <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit{
+	background-color: rgb(46, 70, 131);
+	border: 1px solid rgb(59, 130, 246);
+	border-radius: 10px;
+	padding: 3px;
+	color:rgb(255, 255, 255);
+	
+}</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="name_label">
@@ -44,12 +62,21 @@
     <rect>
      <x>20</x>
      <y>30</y>
-     <width>91</width>
-     <height>16</height>
+     <width>131</width>
+     <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+   </property>
    <property name="text">
-    <string>Portfolio Name:</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Portfolio Name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>
