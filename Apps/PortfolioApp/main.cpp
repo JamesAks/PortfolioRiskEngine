@@ -18,9 +18,9 @@ int main(int argc, char* argv[]) {
 	QApplication app(argc, argv);
 
 	auto market_data_provider = std::make_shared<AlphaVantageProvider>(API_KEY);
+	//auto market_data_provider = std::make_shared<CSVDataProvider>();
 	auto market_data_store = std::make_shared<GenericDataStore>(market_data_provider);
-	auto portfolio_manager = std::make_shared<PortfolioManager>()
-		;
+	auto portfolio_manager = std::make_shared<PortfolioManager>();
 	MainWindow* window = new MainWindow();
 
 	window->registerPortfolioManager(portfolio_manager);

@@ -14,7 +14,7 @@
 
 bool Solver::isFinished() const { return finished; };
 
-
+void Solver::reset() { finished = false; }
 
 
 

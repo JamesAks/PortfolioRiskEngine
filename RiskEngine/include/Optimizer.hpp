@@ -8,7 +8,7 @@
 
 struct PortfolioData {
 
-	Eigen::MatrixXd weights;
+	std::vector<double> weights;
 	double expected_return;
 	double volatility;
 };
@@ -44,10 +44,15 @@ class Optimizer {
 				}
 			}
 
+			// Reset the solver for later use.
+			solver.reset();
+
 			return solution;
 		}
 
 		Solver& viewSolver() { return solver; }
+
+		ObjectivePolicy& viewObjective() { return objective; }
 };
 
 #endif // !OPTIMIZER_HPP

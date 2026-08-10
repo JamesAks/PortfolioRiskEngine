@@ -37,11 +37,10 @@ TEST_CASE("Portfolio is empty on creation.", "[Core]") {
 TEST_CASE("Portfolio can add positions.", "[Core]") {
 
 	// Arrange
-	Position test_position{ "TestPosition", 100, std::make_shared<Stock>(createStock()), 120.0, PositionType::LONG};
 	Portfolio sut{ "Test1" };
 
 	// Act
-	sut.addPosition(test_position);
+	sut.addPosition(std::make_shared<Position>("TestPosition", 100, std::make_shared<Stock>(createStock()), 120.0, PositionType::LONG));
 
 	// Assert
 	REQUIRE(sut.size() == 1);
@@ -51,9 +50,8 @@ TEST_CASE("Portfolio can add positions.", "[Core]") {
 TEST_CASE("Portfolio can remove positions.", "[Core]") {
 
 	// Arrange
-	Position test_position{ "TestPosition", 100, std::make_shared<Stock>(createStock()), 120.0, PositionType::LONG };
 	Portfolio sut{ "Test1" };
-	sut.addPosition(test_position);
+	sut.addPosition(std::make_shared<Position>("TestPosition", 100, std::make_shared<Stock>(createStock()), 120.0, PositionType::LONG));
 
 	// Act
 	sut.removePosition("TestPosition");

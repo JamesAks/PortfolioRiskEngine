@@ -12,7 +12,7 @@ class Objective {
 
 	public:
 		
-		virtual double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) const = 0;
+		virtual double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) = 0;
 		virtual ~Objective() = default;
 };
 
@@ -20,7 +20,7 @@ struct MaximiseReturn: public Objective{
 
 	public:
 		
-		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) const override;
+		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) override;
 };
 
 
@@ -32,18 +32,21 @@ struct MaximiseSharpeRatio: public Objective {
 
 	public:
 
-		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) const override;
+		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) override;
 		void changeRiskFreeRate(double);
 };
 
 
 struct MinimiseVolatility: public Objective {
 
+	private:
 
+		double volatility = 0;
 
 	public:
 
-		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) const override;
+		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) override;
+		double viewScore() const;
 };
 
 #endif 

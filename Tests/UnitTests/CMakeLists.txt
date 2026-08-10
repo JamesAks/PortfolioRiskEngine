@@ -11,6 +11,7 @@ set(UTEST_SOURCES
 	MarketDataServices/GenericDataStoreTest.cpp
 
 	RiskEngine/OptimizerTest.cpp
+	RiskEngine/RiskEngineTest.cpp
 )
 	
 

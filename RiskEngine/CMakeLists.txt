@@ -2,6 +2,7 @@
     
     src/Solvers/MVLagrangianSolver.cpp
     src/CovarianceMatrix.cpp
+    src/EfficientFrontier.cpp
     src/Objectives.cpp
     src/RiskEngine.cpp
     src/Solver.cpp
@@ -12,6 +13,7 @@ set(RE_HEADERS
 
     include/Solvers/MVLagrangianSolver.hpp
     include/CovarianceMatrix.hpp
+    include/EfficientFrontier.hpp
     include/Objectives.hpp
     include/Optimizer.hpp
     include/RiskEngine.hpp
@@ -19,7 +21,7 @@ set(RE_HEADERS
 )
 
 
-add_library(RiskEngine STATIC ${RE_SOURCES} ${RE_HEADERS})
+add_library(RiskEngine STATIC ${RE_SOURCES} ${RE_HEADERS} "")
 target_compile_features(RiskEngine PRIVATE cxx_std_20)
 
 

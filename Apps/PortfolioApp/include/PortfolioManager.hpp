@@ -5,7 +5,9 @@
 #include <Memory>
 
 
+
 class Asset;
+class EfficientFrontier;
 class MarketDataStore;
 class Portfolio;
 class PortfolioReport;
@@ -52,6 +54,7 @@ class PortfolioManager {
 
         double calculatePortfolioRisk(TimeFrame) const;
         double calculateSharpeRatio(TimeFrame) const;
+        EfficientFrontier calculateEfficientFrontier(TimeFrame) const;
 
         void setTimeFrame(TimeFrame);
 

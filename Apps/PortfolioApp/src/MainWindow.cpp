@@ -5,6 +5,8 @@
 
 #include "AddPositionDialog.hpp"
 #include "CreatePortfolioDialog.hpp"
+#include "EfficientFrontier.hpp"
+#include "EfficientFrontierGraph.hpp"
 #include "PortfolioManager.hpp"
 #include "Portfolio.hpp"
 #include "Position.hpp"
@@ -12,6 +14,12 @@
 #include "RemoveFromListDialog.hpp"
 
 #include <qstring.h>
+#include <QtQuickWidgets/qquickwidget.h>
+#include <QtGraphs/qlineseries.h>
+#include <QtGraphs/qscatterseries.h>
+#include <QtGraphs/qvalueaxis.h>
+#include <QtGraphs/qgraphstheme.h>
+
 
 Q_DECLARE_METATYPE(TimeFrame)
 
@@ -38,6 +46,7 @@ void MainWindow::clearAnalyticsPage() {
     ui->historical_995->clear();
     ui->historical_999->clear();
 }
+
 
 // --- Public Members ---
 MainWindow::MainWindow(QWidget* parent)
@@ -95,8 +104,6 @@ MainWindow::MainWindow(QWidget* parent)
         &MainWindow::onTimeFrameSelected
     );
 
-
-
     ui->remove_portfolio_button->setEnabled(false);
     ui->add_position_button->setEnabled(false);
     ui->remove_position_button->setEnabled(false);
@@ -109,6 +116,14 @@ MainWindow::MainWindow(QWidget* parent)
     ui->timeframe_box->addItem("Monthly", QVariant::fromValue(TimeFrame::MONTHLY));
     ui->timeframe_box->setCurrentIndex(-1);
     ui->timeframe_box->setEnabled(false);
+
+    // Set up efficient frontier graph.
+
+    efficient_frontier_graph = std::make_shared<EfficientFrontierGraph>();
+
+    ui->efficient_frontier_layout->addWidget(efficient_frontier_graph->graph());
+
+
 }
 
 
@@ -236,6 +251,12 @@ void MainWindow::onPortfolioClicked(QListWidgetItem* item) {
 
 void MainWindow::onAnalyseClicked() {
 
+    if (portfolio_manager->currentPortfolio()->size() == 0) {
+
+        // TO:DO If the size of the current portfolio is 0 show error meessage and ask to first add position to portfolio.
+        return;
+    }
+
     PortfolioReport result = portfolio_manager->analysePortfolio(ui->timeframe_box->currentData().value<TimeFrame>());
 
     // Show results on main window.
@@ -253,6 +274,9 @@ void MainWindow::onAnalyseClicked() {
     ui->historical_99->setText(QString::number(result.historical_VaR_99));
     ui->historical_995->setText(QString::number(result.historical_VaR_995));
     ui->historical_999->setText(QString::number(result.historical_VaR_999));
+
+    auto efficient_frontier = RiskEngine::calculateEfficientFrontier(*portfolio_manager->currentPortfolio(), ui->timeframe_box->currentData().value<TimeFrame>());
+    efficient_frontier_graph->updateGraph(efficient_frontier);
 }
 
 

@@ -1,16 +1,19 @@
 ﻿#ifndef RISK_ENGINE_CPP
 #define RISK_ENGINE_CPP
 
-#include "CovarianceMatrix.hpp"
-
 #include <string>
 #include <vector>
 
 
-enum class ConfidenceLevel;
-enum class TimeFrame;
+class CovarianceMatrix;
+class EfficientFrontier;
+class EfficientFrontierPoint;
 class Position;
 class Portfolio;
+enum class ConfidenceLevel;
+enum class TimeFrame;
+
+
 
 struct PositionRiskReport {
 
@@ -27,22 +30,6 @@ struct PositionRiskReport {
 	double expected_return ;
 };
 
-
-
-struct PortfolioRiskReport {
-
-	std::string ID;
-	double total_return;
-	double expectedReturn;
-	double volatitilty;
-	double historical_VaR;
-	double historical_shortfall;
-	double parametric_VaR;
-	double parametric_shortfall;
-	double sharpe_ratio;
-	std::vector<PositionRiskReport> breakdowns;
-	CovarianceMatrix cov_matrix;
-};
 
 struct PortfolioReport {
 
@@ -73,7 +60,6 @@ struct PortfolioReport {
 	double parametric_shortfall_995;
 	double parametric_shortfall_999;
 };
-
 
 
 namespace RiskEngine {
@@ -119,9 +105,13 @@ namespace RiskEngine {
 		// Returns the correlation between two assets using their covariances.
 		double assetCorrelation(const Position&, const Position&, TimeFrame);
 
-		// Returns a list containing anylysis of all the assets within a portfolio.
-		std::vector<PositionRiskReport> breakdown(const Portfolio&, TimeFrame);	
+		std::vector<double> expectedAssetReturns(const Portfolio&, TimeFrame);
+
+		EfficientFrontier calculateEfficientFrontier(const Portfolio&, TimeFrame);
+
+		//// Returns the Global Minimum Varianve Portfolio(GMVP).
+		//EfficientFrontierPoint GMVPortfolio(const Portfolio&);
+
 };
 
 #endif // !RISK_ENGINE_CPP
-

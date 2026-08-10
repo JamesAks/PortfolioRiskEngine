@@ -19,8 +19,13 @@ find_package(CURL CONFIG REQUIRED)
 
 set(CMAKE_PREFIX_PATH $ENV{QTDIR})
 find_package(Qt6 REQUIRED )
+find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui)
+find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Graphs)
+find_package(Qt6 REQUIRED COMPONENTS QuickWidgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-message(STATUS "Qt6_DIR = ${Qt6_DIR}")
+
 
 FetchContent_Declare(
     Catch2

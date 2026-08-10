@@ -1,10 +1,15 @@
 ﻿#include "Asset.hpp"
+#include "CovarianceMatrix.hpp"
+#include "EfficientFrontier.hpp"
 #include "Logger.hpp"
 #include "MarketData.hpp"
+#include "Objectives.hpp"
+#include "Optimizer.hpp"
 #include "Portfolio.hpp"
 #include "Position.hpp"
 #include "RiskEngine.hpp"
 #include "RiskCalculations.hpp"
+#include "Solvers/MVLagrangianSolver.hpp"
 #include "TimeSeries.hpp"
 
 #include <algorithm>
@@ -70,7 +75,7 @@ PortfolioReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFrame tf
 		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_FIVE),
 		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE),
 		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE_FIVE),
-		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE_NINE),
+		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE_NINE)
 	};
 
 	return report;
@@ -292,16 +297,80 @@ double RiskEngine::assetCorrelation(const Position& first, const Position& secon
 	return RiskCalculations::correlation(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
 } 
 
+std::vector<double> RiskEngine::expectedAssetReturns(const Portfolio& portfolio, TimeFrame tf) {
 
-std::vector<PositionRiskReport> RiskEngine::breakdown(const Portfolio& port, TimeFrame tf)  {
+	std::vector<double> asset_returns;
+	asset_returns.reserve(portfolio.size());
 
-	std::vector<PositionRiskReport> breakdowns;
-	for (auto& pos : port.viewPositions()) {
+	for(auto& [name,position] : portfolio.viewPositions()){
 
-		breakdowns.push_back(analysePosition(*pos.second, tf));
+		asset_returns.push_back(expectedReturn(*position, tf));
 	}
 
-	return breakdowns;
+	return asset_returns;
 }
+
+
+EfficientFrontier RiskEngine::calculateEfficientFrontier(const Portfolio& portfolio, TimeFrame tf) {
+
+	Optimizer<MinimiseVolatility, MVLagrangianSolver> optimizer;
+	std::array<EfficientFrontierPoint,50> points;
+	
+
+	auto cov_matrix = computeCovarianceMatrix(portfolio, tf);
+	auto asset_returns = expectedAssetReturns(portfolio, tf);
+	
+	// TO:DO Calculate the starting portfolio at the global minimum variance portfolio.
+
+	// Currently naive approach. Assumes minimum and maximum are the assets with the smallest and highest return respectively (feasible returns). 
+	auto min_return = *std::min_element(asset_returns.begin(), asset_returns.end());
+	auto max_return = *std::max_element(asset_returns.begin(), asset_returns.end());
+
+	for (auto returns : asset_returns) {
+
+		Logger::logDebug("Asset return:" + std::to_string(returns));
+	}
+
+	Logger::logDebug("Minimum Return - " + std::to_string(min_return));
+	Logger::logDebug("Maximum Return - " + std::to_string(max_return));
+
+
+	// Construct the poortfolios/points for the efficient frontier.
+	double target = min_return;
+
+	for (int i = 0; i < 50;i++) {
+
+		optimizer.viewSolver().changeTargetReturn(target);
+
+		points[i] = {
+
+			optimizer.optimise(asset_returns, cov_matrix),
+			target,
+			optimizer.viewObjective().viewScore()
+	
+		};
+
+		Logger::logDebug("Volatility for target return " + std::to_string(target) + ":" + std::to_string(points[i].volatitity));
+
+		target += (max_return - min_return)/50.0;
+	}
+
+	EfficientFrontier efficient_frontier{ points };
+	return efficient_frontier;
+}
+
+//EfficientFrontierPoint RiskEngine::GMVPortfolio(const Portfolio& portfolio) {}
+
+
+//std::vector<PositionRiskReport> RiskEngine::breakdown(const Portfolio& port, TimeFrame tf)  {
+//
+//	std::vector<PositionRiskReport> breakdowns;
+//	for (auto& pos : port.viewPositions()) {
+//
+//		breakdowns.push_back(analysePosition(*pos.second, tf));
+//	}
+//
+//	return breakdowns;
+//}
 
 

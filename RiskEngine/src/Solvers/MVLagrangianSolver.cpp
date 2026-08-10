@@ -48,12 +48,6 @@ std::vector<double> MVLagrangianSolver::solve(const std::vector<double>& expecte
 
 bool MVLagrangianSolver::changeTargetReturn(double new_target) {
 
-	if (new_target < 0 || new_target > 1) {
-
-		Logger::logError("Could not update target return. Target returns must be between 0 and 1.");
-		return false;
-	}
-
 	target_return = new_target;
 	return true;
 }

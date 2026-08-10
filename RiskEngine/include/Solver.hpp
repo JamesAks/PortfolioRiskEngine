@@ -23,6 +23,7 @@ class Solver {
 		virtual std::vector<double> solve(const std::vector<double>&, const CovarianceMatrix&) = 0;
 
 		bool isFinished() const;
+		void reset();
 
 		virtual ~Solver() = default;
 };

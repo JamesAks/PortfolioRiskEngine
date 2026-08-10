@@ -13,7 +13,7 @@
 
 // --- Public Members ---
 
-double MaximiseReturn::evaluate(const std::vector<double>& weights, const std::vector<double>& expected_returns, const CovarianceMatrix& cov_matrix) const {
+double MaximiseReturn::evaluate(const std::vector<double>& weights, const std::vector<double>& expected_returns, const CovarianceMatrix& cov_matrix){
 
 	auto e_weights = Eigen::Map<const Eigen::VectorXd>(weights.data(), weights.size());
 	auto e_returns = Eigen::Map<const Eigen::VectorXd>(expected_returns.data(), expected_returns.size());
@@ -31,7 +31,7 @@ double MaximiseReturn::evaluate(const std::vector<double>& weights, const std::v
 
 // --- Public Members ---
 
-double MaximiseSharpeRatio::evaluate(const std::vector<double>& weights, const std::vector<double>& expected_returns, const CovarianceMatrix& cov_matrix) const {
+double MaximiseSharpeRatio::evaluate(const std::vector<double>& weights, const std::vector<double>& expected_returns, const CovarianceMatrix& cov_matrix) {
 	
 	return RiskCalculations::sharpeRatio(weights, expected_returns, risk_free_rate, cov_matrix.matrixData());
 }
@@ -53,7 +53,11 @@ void MaximiseSharpeRatio::changeRiskFreeRate(double new_rate) {
 
 // --- Public Members ---
 
-double MinimiseVolatility::evaluate(const std::vector<double>& weights, const std::vector<double>& expected_returns, const CovarianceMatrix& cov_matrix) const {
+double MinimiseVolatility::evaluate(const std::vector<double>& weights, const std::vector<double>& expected_returns, const CovarianceMatrix& cov_matrix) {
 
-	return RiskCalculations::volatility(weights, cov_matrix.matrixData());;
+	volatility = RiskCalculations::volatility(weights, cov_matrix.matrixData());
+	
+	return volatility;
 }
+
+double MinimiseVolatility::viewScore() const { return volatility; }

@@ -372,17 +372,42 @@ QFrame QLabel {
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <widget class="QWidget" name="horizontalLayoutWidget_3">
+     <widget class="QWidget" name="verticalLayoutWidget_4">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>430</y>
+        <y>10</y>
         <width>461</width>
-        <height>41</height>
+        <height>451</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="chart_buttons">
-       <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="efficient_frontier_label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+
+	font: 12pt &quot;Segoe UI&quot;;
+	border: 0px;
+	color: rgb(212, 175, 55);
+	padding: 3px;
+}</string>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Efficient Frontier&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="efficient_frontier_layout"/>
+       </item>
+       <item alignment="Qt::AlignmentFlag::AlignHCenter">
         <widget class="QPushButton" name="optimise_button">
          <property name="styleSheet">
           <string notr="true">QPushButton {

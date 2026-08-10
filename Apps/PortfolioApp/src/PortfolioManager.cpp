@@ -1,5 +1,6 @@
 #include "AlphaVantageProvider.hpp"
 #include "Equities\Stock.hpp"
+#include "EfficientFrontier.hpp"
 #include "GenericDataStore.hpp"
 #include "Logger.hpp"
 #include "MarketData.hpp"
@@ -106,6 +107,10 @@ double PortfolioManager::calculateSharpeRatio(TimeFrame tf) const {
 	return RiskEngine::portfolioSharpeRatio(*current_portfolio, tf,0);
 }
 
+EfficientFrontier PortfolioManager::calculateEfficientFrontier(TimeFrame tf) const {
+
+	return RiskEngine::calculateEfficientFrontier(*current_portfolio, tf);
+}
 
 void PortfolioManager::setTimeFrame(TimeFrame tf) { time_frame = tf; }
 
