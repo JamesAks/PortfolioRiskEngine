@@ -10,25 +10,13 @@ const std::array<EfficientFrontierPoint, 50>& EfficientFrontier::data() const { 
 
 double EfficientFrontier::minimumReturn() const{
 
-	double minimum = efficient_frontier[0].expected_return;
-	for (auto& point : efficient_frontier) {
-
-		if (point.expected_return < minimum) { minimum = point.expected_return; }
-	}
-
-	return minimum;
+	return efficient_frontier[0].expected_return;
 }
 
 
 double EfficientFrontier::maximumReturn() const{
 
-	double maximum = 0;
-	for (auto& point : efficient_frontier) {
-
-		if (point.expected_return > maximum) { maximum = point.expected_return; }
-	}
-
-	return maximum;
+	return efficient_frontier[efficient_frontier.size() - 1].expected_return;
 }
 
 
@@ -54,3 +42,6 @@ double EfficientFrontier::maximumVolatility() const{
 
 	return maximum;
 }
+
+
+size_t EfficientFrontier::size() const { return efficient_frontier.size(); }

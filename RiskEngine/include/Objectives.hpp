@@ -39,14 +39,10 @@ struct MaximiseSharpeRatio: public Objective {
 
 struct MinimiseVolatility: public Objective {
 
-	private:
-
-		double volatility = 0;
-
 	public:
 
 		double evaluate(const std::vector<double>&, const std::vector<double>&, const CovarianceMatrix&) override;
-		double viewScore() const;
+		
 };
 
 #endif 

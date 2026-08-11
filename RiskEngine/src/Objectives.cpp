@@ -55,9 +55,5 @@ void MaximiseSharpeRatio::changeRiskFreeRate(double new_rate) {
 
 double MinimiseVolatility::evaluate(const std::vector<double>& weights, const std::vector<double>& expected_returns, const CovarianceMatrix& cov_matrix) {
 
-	volatility = RiskCalculations::volatility(weights, cov_matrix.matrixData());
-	
-	return volatility;
+	return RiskCalculations::volatility(weights, cov_matrix.matrixData());
 }
-
-double MinimiseVolatility::viewScore() const { return volatility; }

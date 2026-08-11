@@ -12,6 +12,20 @@
 
 std::vector<double> MVLagrangianSolver::solve(const std::vector<double>& expected_returns, const CovarianceMatrix& cov_matrix){
 
+	/* Calculates the weights a given portfolio needs to have a given return. Uses a lagrangian function expressed
+			as matrices. The calculations take the form:
+							
+							[Σ    μ    1] [w]   [0]
+							[μᵀ   0    0] [λ] = [t]
+							[1ᵀ   0    0] [γ]   [1]
+
+			where Σ is the covariance matrix of the portfolio, μ is the expected returns of the assets, w is a matrix of the weights,
+			1 is a matrix of 1s, λ γ are both lagrangian multipliers (not needed to actually be known but needed for calculations),
+			and t is the target return needed.
+
+			This is in the form Ax = b therefore the calculation is solving for x and extracting the weights from the resulting matrix.*/
+
+
 	size_t numb_of_assets = expected_returns.size();
 	size_t new_size = numb_of_assets + 2;
 	

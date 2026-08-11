@@ -9,6 +9,7 @@
 #include "Position.hpp"
 #include "RiskEngine.hpp"
 #include "RiskCalculations.hpp"
+#include "Solvers/GMVPLagrangianSolver.hpp"
 #include "Solvers/MVLagrangianSolver.hpp"
 #include "TimeSeries.hpp"
 
@@ -320,10 +321,12 @@ EfficientFrontier RiskEngine::calculateEfficientFrontier(const Portfolio& portfo
 	auto cov_matrix = computeCovarianceMatrix(portfolio, tf);
 	auto asset_returns = expectedAssetReturns(portfolio, tf);
 	
-	// TO:DO Calculate the starting portfolio at the global minimum variance portfolio.
+	// Find Global Minimum Variance Portfolio to start and produce a maximum "feasible" return.
 
-	// Currently naive approach. Assumes minimum and maximum are the assets with the smallest and highest return respectively (feasible returns). 
-	auto min_return = *std::min_element(asset_returns.begin(), asset_returns.end());
+	Optimizer<MinimiseVolatility, GMVPLagrangianSolver> gmv_optimiser;
+	auto solution = gmv_optimiser.optimise(asset_returns, cov_matrix);
+	
+	auto min_return = RiskCalculations::expectedReturn(solution, asset_returns);
 	auto max_return = *std::max_element(asset_returns.begin(), asset_returns.end());
 
 	for (auto returns : asset_returns) {
@@ -346,7 +349,7 @@ EfficientFrontier RiskEngine::calculateEfficientFrontier(const Portfolio& portfo
 
 			optimizer.optimise(asset_returns, cov_matrix),
 			target,
-			optimizer.viewObjective().viewScore()
+			optimizer.currentScore()
 	
 		};
 
@@ -359,7 +362,6 @@ EfficientFrontier RiskEngine::calculateEfficientFrontier(const Portfolio& portfo
 	return efficient_frontier;
 }
 
-//EfficientFrontierPoint RiskEngine::GMVPortfolio(const Portfolio& portfolio) {}
 
 
 //std::vector<PositionRiskReport> RiskEngine::breakdown(const Portfolio& port, TimeFrame tf)  {

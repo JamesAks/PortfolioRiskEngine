@@ -37,9 +37,11 @@ void EfficientFrontierGraph::initialiseGraph(){
     theme->setLabelBackgroundVisible(true);
     theme->setGridVisible(false);
 
+
     x_axis->setTitleText("Volatility");
     y_axis->setTitleText("Return");
-
+    x_axis->setTitleFont(QFont("Segoe UI", 10,700));
+    y_axis->setTitleFont(QFont("Segoe UI", 10,700));
     x_axis->setTitleColor(qRgb(212, 175, 55));
     y_axis->setTitleColor(qRgb(212, 175, 55));
 
@@ -91,11 +93,11 @@ void EfficientFrontierGraph::updateGraph(const EfficientFrontier& efficient_fron
     auto min_volatility = efficient_frontier.minimumVolatility();
     auto max_volatility = efficient_frontier.maximumVolatility();
 
-    x_axis->setMin(min_volatility - (0.1 * min_volatility));
-    x_axis->setMax(max_volatility + (0.1 * max_volatility));
+    x_axis->setMin(min_volatility - (0.3 * (max_volatility - min_volatility)));
+    x_axis->setMax(max_volatility + (0.3 * (max_volatility - min_volatility)));
 
-    y_axis->setMin(min_return - (0.1 * min_return));
-    y_axis->setMax(max_return + (0.1 * max_return));
+    y_axis->setMin(min_return - (0.3 * (max_return - min_return)));
+    y_axis->setMax(max_return + (0.3 * (max_return - min_return)));
 
     // Place points on the graph.
     size_t count = 0;
@@ -106,8 +108,10 @@ void EfficientFrontierGraph::updateGraph(const EfficientFrontier& efficient_fron
         line_series->append(point.volatitity, point.expected_return);
 
         // Only place a scatter graph point on every 5 points.
-        if (count % 5 == 0) { scatter_series->append(point.volatitity, point.expected_return); }
+        if (count % 5 == 0 || count == 1) { scatter_series->append(point.volatitity, point.expected_return); }
     }
+
+
 }
 
 

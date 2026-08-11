@@ -109,9 +109,6 @@ namespace RiskEngine {
 
 		EfficientFrontier calculateEfficientFrontier(const Portfolio&, TimeFrame);
 
-		//// Returns the Global Minimum Varianve Portfolio(GMVP).
-		//EfficientFrontierPoint GMVPortfolio(const Portfolio&);
-
 };
 
 #endif // !RISK_ENGINE_CPP

@@ -22,24 +22,23 @@ class Optimizer {
 
 		ObjectivePolicy objective;
 		Solver solver;
+		double score = 0;
 
 	public:
 
 		std::vector<double> optimise(const std::vector<double>& a_returns, const CovarianceMatrix& c_matrix) {
 
-			int attempts = 0;
-
-			double best_solution_score = 0;
+			score = 0;
 			std::vector<double> solution;
 
 			while (!solver.isFinished()) {
 
 				auto current_solution = solver.solve(a_returns, c_matrix);
-				auto current_solution_score= objective.evaluate(current_solution, a_returns, c_matrix);
+				auto current_solution_score = objective.evaluate(current_solution, a_returns, c_matrix);
 
-				if (current_solution_score > best_solution_score) { 
+				if (current_solution_score > score) { 
 					
-					best_solution_score = current_solution_score;
+					score = current_solution_score;
 					solution = current_solution;
 				}
 			}
@@ -53,6 +52,8 @@ class Optimizer {
 		Solver& viewSolver() { return solver; }
 
 		ObjectivePolicy& viewObjective() { return objective; }
+
+		double currentScore() { return score; }
 };
 
 #endif // !OPTIMIZER_HPP

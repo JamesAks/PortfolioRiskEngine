@@ -18,6 +18,7 @@ namespace RiskCalculations {
     double variance(const std::vector<double>&);
     double covariance(const std::vector<double>&, const std::vector<double>&);
     double correlation(const std::vector<double>&, const std::vector<double>&);
+    double expectedReturn(const std::vector<double>&, const std::vector<double>&);
     double zScores(ConfidenceLevel);
 
     double volatility(const std::vector<double>&, const Eigen::MatrixXd&);

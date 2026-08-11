@@ -5,6 +5,7 @@
 #include "Portfolio.hpp"
 #include "Position.hpp"
 #include "Equities/Stock.hpp"
+#include "EfficientFrontier.hpp"
 #include "TimeSeries.hpp"
 
 
@@ -63,8 +64,6 @@ TEST_CASE("RiskEngine can calculate an efficient frontier.", "[RiskEngine]") {
 	//		Logger::logInfo("Weights: " + std::to_string(weight));
 	//	}
 	//}
-	REQUIRE(sut.size() == 19);
-
-
+	REQUIRE(sut.size() == 50);
 
 }

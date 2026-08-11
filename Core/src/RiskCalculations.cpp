@@ -100,6 +100,16 @@ double RiskCalculations::zScores(ConfidenceLevel cl) {
     }
 }
 
+
+double RiskCalculations::expectedReturn(const std::vector<double>& weights, const std::vector<double>& expected_returns) {
+
+    auto e_weights = Eigen::Map<const Eigen::VectorXd>(weights.data(), weights.size());
+    auto e_returns = Eigen::Map<const Eigen::VectorXd>(expected_returns.data(), expected_returns.size());
+
+    return e_weights.dot(e_returns);
+}
+
+
 double RiskCalculations::volatility(const std::vector<double>& weights, const Eigen::MatrixXd& cov_matrix) {
 
     auto weights_cpy = weights;
@@ -108,12 +118,9 @@ double RiskCalculations::volatility(const std::vector<double>& weights, const Ei
     return sqrt((e_weights.transpose() * cov_matrix * e_weights).value());
 }
 
+
 double RiskCalculations::sharpeRatio(const std::vector<double>& weights, const std::vector<double>& expected_returns, double risk_free_rate, const Eigen::MatrixXd& cov_matrix) {
 
     // Sharpe ratio: (expected returm - risk free rate) / portfolio volatility.
-
-    auto e_weights = Eigen::Map<const Eigen::VectorXd>(weights.data(), weights.size());
-    auto e_returns = Eigen::Map<const Eigen::VectorXd>(expected_returns.data(), expected_returns.size());
-
-    return (e_weights.dot(e_returns) - risk_free_rate) / RiskCalculations::volatility(weights, cov_matrix);
+    return (expectedReturn(weights, expected_returns) - risk_free_rate) / RiskCalculations::volatility(weights, cov_matrix);
 }
