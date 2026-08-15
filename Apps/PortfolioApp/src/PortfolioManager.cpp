@@ -14,7 +14,7 @@
 // ----- Private -----
 
 std::shared_ptr<Stock> PortfolioManager::createStock(const std::string& asset_id) const {
-	Stock str{ "hello", nullptr, nullptr };
+	
 	if (market_data_store->viewAllHistoricData().find(asset_id)->second == nullptr) {
 
 		if (!market_data_store->addMarketData(asset_id)) {
@@ -35,11 +35,7 @@ std::shared_ptr<Stock> PortfolioManager::createStock(const std::string& asset_id
 
 // ----- Public -----
 
-PortfolioReport PortfolioManager::analysePortfolio(TimeFrame tf) const {
-
-	return RiskEngine::analysePortfolio(*current_portfolio, time_frame);
-
-}
+PortfolioReport PortfolioManager::analysePortfolio(TimeFrame tf) const { return RiskEngine::analysePortfolio(*current_portfolio, tf); }
 
 
 void PortfolioManager::addPortfolio(std::string portfolio_id) {
@@ -55,6 +51,7 @@ void PortfolioManager::removePortfolio(const QString& portfolio_id) {
 
 
 Portfolio* PortfolioManager::currentPortfolio() const { return current_portfolio; }
+
 
 void PortfolioManager::setCurrentPortfolio(QString portfolio_id) {
 
@@ -100,6 +97,7 @@ double PortfolioManager::calculatePortfolioRisk(TimeFrame tf) const {
 	return RiskEngine::portfolioVolatility(*current_portfolio, tf);
 }
 
+
 double PortfolioManager::calculateSharpeRatio(TimeFrame tf) const {
 
 	if (current_portfolio->size() == 0) { return 0; }
@@ -107,12 +105,11 @@ double PortfolioManager::calculateSharpeRatio(TimeFrame tf) const {
 	return RiskEngine::portfolioSharpeRatio(*current_portfolio, tf,0);
 }
 
+
 EfficientFrontier PortfolioManager::calculateEfficientFrontier(TimeFrame tf) const {
 
 	return RiskEngine::calculateEfficientFrontier(*current_portfolio, tf);
 }
-
-void PortfolioManager::setTimeFrame(TimeFrame tf) { time_frame = tf; }
 
 
 void PortfolioManager::addPosition( std::string position_id, size_t quantity, std::shared_ptr<Asset> asset, double price_bought_at,
@@ -125,6 +122,7 @@ void PortfolioManager::addPosition( std::string position_id, size_t quantity, st
 
 
 void PortfolioManager::removePosition(std::string position_id){current_portfolio->removePosition(position_id);}
+
 
 size_t PortfolioManager::portfolioSize() const {
 
@@ -155,3 +153,7 @@ std::vector<std::string> PortfolioManager::viewPortfolioIDs() const {
 }
 
 
+const Position& PortfolioManager::viewPosition(const QString& position_id) const {
+
+	return current_portfolio->viewPosition(position_id.toStdString());
+}

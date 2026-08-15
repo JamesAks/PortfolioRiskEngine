@@ -6,14 +6,15 @@ struct EfficientFrontierPoint;
 class EfficientFrontier;
 class QQuickWidget;
 class QValueAxis;
-class QQickWidget;
 class QScatterSeries;
 class QLineSeries;
 
 class EfficientFrontierGraph : public QObject {
 
-	Q_OBJECT
+	// Class for visualising the efficient frontier as a graph.
 
+	Q_OBJECT
+	
 	private:
 
 		QQuickWidget* quick_widget;
@@ -35,9 +36,6 @@ class EfficientFrontierGraph : public QObject {
 		QLineSeries* lineSeries() const;
 
 		void updateGraph(const EfficientFrontier&);
-
-		void test() const;
-
 
 	private slots:
 };

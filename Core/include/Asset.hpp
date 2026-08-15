@@ -25,10 +25,12 @@ class Asset : public Observable, public Observer {
         double net_present_value;
         AssetType asset_type = AssetType::NA;
          
-
         std::shared_ptr<HistoricData> historical_data;
         std::shared_ptr<LatestPrice> latest_price;
         std::chrono::year_month_day latest_valuation_date;
+
+        // Derived classes need to implement this method to calculate net present value.
+        virtual void calculateNPV() {};
 
     public:
         
@@ -39,9 +41,7 @@ class Asset : public Observable, public Observer {
         std::shared_ptr<HistoricData> historicData() const;
         std::shared_ptr<LatestPrice> latestPrice() const;
 
-        // Derived classes need to implement this method to calculate net present value.
-        virtual void calculateNPV() = 0;
-
+        AssetType assetType() const;
         const std::string& symbol() const;
         double NPV();
 

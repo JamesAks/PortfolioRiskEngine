@@ -1,10 +1,13 @@
 ﻿#ifndef RISK_ENGINE_CPP
 #define RISK_ENGINE_CPP
 
+#include <memory>
 #include <string>
 #include <vector>
 
 
+class Asset;
+class AssetReport;
 class CovarianceMatrix;
 class EfficientFrontier;
 class EfficientFrontierPoint;
@@ -12,8 +15,6 @@ class Position;
 class Portfolio;
 enum class ConfidenceLevel;
 enum class TimeFrame;
-
-
 
 struct PositionRiskReport {
 
@@ -24,12 +25,11 @@ struct PositionRiskReport {
 	double initial_investment;
 	double unrealised_gain;
 
-	std::string asset_ID ;
+	std::string asset_ID;
 	double market_value;
-	double volatility ;
-	double expected_return ;
+	double volatility;
+	double expected_return;
 };
-
 
 struct PortfolioReport {
 
@@ -61,54 +61,68 @@ struct PortfolioReport {
 	double parametric_shortfall_999;
 };
 
+struct AssetReport {
+
+	double volatility;
+	double expected_return;
+	double net_present_value;
+};
+
+
+struct PositionReport {
+
+	double initial_investment;
+	double unrealised_gain;
+	AssetReport asset_report;
+	double total_market_value;
+};
+
 
 namespace RiskEngine {
+
+	// Asset Analysis
+
+		AssetReport analyseAsset(Asset&, TimeFrame);
+
+		double assetCovariance(const Asset&, const Asset&, TimeFrame);
+
+		double assetCorrelation(const Asset&, const Asset&, TimeFrame);
+
+		double expectedAssetReturn(const Asset&, TimeFrame);
 	
-		// Returns a report containing the riskmetrics of an asset.
-		PositionRiskReport analysePosition(const Position&, TimeFrame);
 
-		// Returns a report containing the riskmetrics of a portfolio.
+	// Position Analysis
+
+		PositionReport analysePosition(const Position&, TimeFrame);
+
+
+	// Portfolio Analysis
+
 		PortfolioReport analysePortfolio(const Portfolio&, TimeFrame);
-
-		// Returns the daily returns of a portfolio
+	
 		std::vector<double> portfolioPeriodicReturns(const Portfolio&, TimeFrame, size_t);
 
-		// The mean percentage change of the asset.
-		double expectedReturn(const Position&, TimeFrame);
-
-		// Returns total return of a portfolio. The sum total of the market values of each asset.
 		double totalReturn(const Portfolio&);
 
-		// Returns the expected percentage return of asset.
-		double expectedReturn(const Portfolio&, TimeFrame) ;
+		double expectedReturn(const Portfolio&, TimeFrame);
 
-		// Returns the risk of the portfolio using the variance-covariance formula.
 		double portfolioVolatility(const Portfolio&, TimeFrame);
 
-		// Computes the covariance matrix of a givenm portfolio.
 		CovarianceMatrix computeCovarianceMatrix(const Portfolio&, TimeFrame);
 
 		double historicalVaR(const Portfolio&, TimeFrame, size_t, double);
 
 		double historicalShortfall(const Portfolio&, TimeFrame, size_t, double);
 
-		// Note: Only covers the case where the portfolios returns follow a normal distribution
 		double parametricVaR(const Portfolio&, TimeFrame, size_t, ConfidenceLevel);
 
 		double parametricShortfall(const Portfolio&, TimeFrame, size_t, ConfidenceLevel);
 
-		double portfolioSharpeRatio(const Portfolio&,TimeFrame, double);
-
-		// Returns the covaraince between two seperate assets.
-		double assetCovariance(const Position&, const Position&, TimeFrame);
-
-		// Returns the correlation between two assets using their covariances.
-		double assetCorrelation(const Position&, const Position&, TimeFrame);
+		double portfolioSharpeRatio(const Portfolio&, TimeFrame, double);
 
 		std::vector<double> expectedAssetReturns(const Portfolio&, TimeFrame);
 
 		EfficientFrontier calculateEfficientFrontier(const Portfolio&, TimeFrame);
-
 };
 
 #endif // !RISK_ENGINE_CPP

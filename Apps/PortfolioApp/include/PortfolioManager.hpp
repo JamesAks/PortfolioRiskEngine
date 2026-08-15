@@ -16,7 +16,7 @@ enum class PositionType;
 class Stock;
 
 enum class TimeFrame;
-             
+        
 class PortfolioManager {
 
     // Class that acts as interface between the Application UI(QT) and the business logic.
@@ -29,7 +29,6 @@ class PortfolioManager {
 
         std::shared_ptr<Stock> createStock(const std::string&) const;
         std::string avApiKey() const;
-        TimeFrame time_frame = TimeFrame::DAILY;
 
     public:
 
@@ -56,8 +55,6 @@ class PortfolioManager {
         double calculateSharpeRatio(TimeFrame) const;
         EfficientFrontier calculateEfficientFrontier(TimeFrame) const;
 
-        void setTimeFrame(TimeFrame);
-
         size_t portfolioSize() const;
         size_t numbPortfolio() const;
 
@@ -67,6 +64,7 @@ class PortfolioManager {
 
         const std::map<std::string, std::shared_ptr<Portfolio>>& viewPortfolios() const;
         std::vector<std::string> viewPortfolioIDs() const;
+		const Position& viewPosition(const QString&) const;
 
 };
 

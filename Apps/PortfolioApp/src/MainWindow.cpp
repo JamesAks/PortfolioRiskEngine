@@ -1,16 +1,18 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
 
-#include "MarketData.hpp"
-
-#include "AddPositionDialog.hpp"
-#include "CreatePortfolioDialog.hpp"
 #include "EfficientFrontier.hpp"
-#include "EfficientFrontierGraph.hpp"
+#include "Logger.hpp"
+#include "MarketData.hpp"
 #include "PortfolioManager.hpp"
 #include "Portfolio.hpp"
 #include "Position.hpp"
 #include "RiskEngine.hpp"
+
+#include "AddPositionDialog.hpp"
+#include "CreatePortfolioDialog.hpp"
+#include "EfficientFrontierGraph.hpp"
+#include "PositionDialog.hpp"
 #include "RemoveFromListDialog.hpp"
 
 #include <qstring.h>
@@ -50,7 +52,7 @@ void MainWindow::clearAnalyticsPage() {
 
 // --- Public Members ---
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent), portfolio_manager{nullptr}, market_data_store{nullptr}
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -104,6 +106,14 @@ MainWindow::MainWindow(QWidget* parent)
         &MainWindow::onTimeFrameSelected
     );
 
+    connect(
+
+        ui->position_list,
+        &QListWidget::itemClicked,
+        this,
+        &MainWindow::onPositionClicked
+    );
+
     ui->remove_portfolio_button->setEnabled(false);
     ui->add_position_button->setEnabled(false);
     ui->remove_position_button->setEnabled(false);
@@ -122,8 +132,6 @@ MainWindow::MainWindow(QWidget* parent)
     efficient_frontier_graph = std::make_shared<EfficientFrontierGraph>();
 
     ui->efficient_frontier_layout->addWidget(efficient_frontier_graph->graph());
-
-
 }
 
 
@@ -280,7 +288,7 @@ void MainWindow::onAnalyseClicked() {
 }
 
 
-void MainWindow::onAddPositionClicked() {
+void MainWindow::onAddPositionClicked() { 
 
     if (portfolio_manager->currentPortfolio() == nullptr) { return; }
 
@@ -290,6 +298,7 @@ void MainWindow::onAddPositionClicked() {
         portfolio_manager->currentPortfolio()->addPosition(dialog.getPosition());
 
         QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(dialog.getPosition()->viewID()));
+        item->setData(Qt::UserRole, QString::fromStdString(dialog.getPosition()->viewID()));
         ui->position_list->addItem(item);
 
         if (!ui->remove_position_button->isEnabled()) { ui->remove_position_button->setEnabled(true); }
@@ -329,10 +338,20 @@ void MainWindow::onRemovePositionClicked() {
     }
 }
 
+void MainWindow::onPositionClicked(QListWidgetItem* item) {
+
+    auto position_id = item->data(Qt::UserRole).toString();
+    Logger::logDebug("Position ID: " + position_id.toStdString());
+    
+    PositionDialog window{portfolio_manager->viewPosition(position_id)};
+
+    window.exec();
+}
+
 
 void MainWindow::onTimeFrameSelected() {
 
-    portfolio_manager->setTimeFrame(ui->timeframe_box->currentData().value<TimeFrame>());
+    //portfolio_manager->setTimeFrame(ui->timeframe_box->currentData().value<TimeFrame>());
 
     if (!ui->analyse_button->isEnabled()) {
 

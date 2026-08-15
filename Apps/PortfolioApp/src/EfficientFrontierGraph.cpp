@@ -113,15 +113,3 @@ void EfficientFrontierGraph::updateGraph(const EfficientFrontier& efficient_fron
 
 
 }
-
-
-void EfficientFrontierGraph::test() const {
-
-    line_series->clear();
-    scatter_series->clear();
-
-    scatter_series->append(5, 5);
-
-    x_axis->setMax(5);
-    y_axis->setMin(5);
-}
