@@ -36,11 +36,7 @@ class MainWindow : public QMainWindow
 
         std::shared_ptr<EfficientFrontierGraph> efficient_frontier_graph;
 
-        QQuickWidget* quick_widget;
-        QWidget* widget;
-
         void clearAnalyticsPage();
-        void initialiseEFGraph();
 
     public:
         explicit MainWindow(QWidget* parent = nullptr);
@@ -58,6 +54,7 @@ class MainWindow : public QMainWindow
         
         void onAddPositionClicked();
         void onRemovePositionClicked();
+        void onPositionClicked(QListWidgetItem*);
 
         void onTimeFrameSelected();
         

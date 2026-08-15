@@ -13,11 +13,13 @@ class HistoricData;
 
 class Stock : public Equity {
 
-    public:
-
-        Stock(std::string, std::shared_ptr<LatestPrice>, std::shared_ptr<HistoricData>);
+    private:
 
         void calculateNPV() override;
+
+    public:
+
+        Stock(std::string, std::shared_ptr<LatestPrice>, std::shared_ptr<HistoricData>);        
 };
 
 #endif // !STOCK_HPP

@@ -15,6 +15,8 @@ std::shared_ptr<HistoricData> Asset::historicData() const { return historical_da
 
 std::shared_ptr<LatestPrice> Asset::latestPrice() const { return latest_price; }
 
+AssetType Asset::assetType() const { return asset_type; }
+
 
 const std::string& Asset::symbol() const { return asset_id; }
 

@@ -17,31 +17,75 @@
 #include <cmath>
 #include <iostream>
 
-
+// Asset Analysis
 
 constexpr double PI = 3.14159265358979323846;
 
-PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf)  {
+AssetReport RiskEngine::analyseAsset(Asset& asset, TimeFrame tf) {
 
-	Logger::logInfo("Analysing asset \"" + pos.viewID() + "\".");
-	std::string symbol = pos.viewID();
-	
-	PositionRiskReport report{
+	Logger::logInfo("Analysing Asset \"" + asset.symbol() + "\".");
 
-		pos.viewID(),
-		pos.viewQuantity(),
-		pos.viewPriceBoughtAt(),
-		pos.marketValue(),
-		pos.initialInvestment(),
-		pos.unrealizedGains(),
+	return {
 
-		pos.viewAsset()->symbol(),
-		pos.viewAsset()->NPV(),
-		expectedReturn(pos, tf),
+		RiskCalculations::standardDeviation(asset.historicData()->periodicReturns(tf)),
+		RiskCalculations::mean(asset.historicData()->periodicReturns(tf)),
+		asset.NPV()
 	};
-
-	return report;
 }
+
+double RiskEngine::assetCovariance(const Asset& first, const Asset& second, TimeFrame tf) {
+
+	return RiskCalculations::covariance(first.historicData()->periodicReturns(tf), second.historicData()->periodicReturns(tf));
+}
+
+
+double RiskEngine::assetCorrelation(const Asset& first, const Asset& second, TimeFrame tf) {
+
+	return RiskCalculations::correlation(first.historicData()->periodicReturns(tf), second.historicData()->periodicReturns(tf));
+}
+
+
+double RiskEngine::expectedAssetReturn(const Asset& pos, TimeFrame tf) { return RiskCalculations::mean(pos.historicData()->periodicReturns(tf)); }
+
+
+// Position Analysis
+
+PositionReport RiskEngine::analysePosition(const Position& position, TimeFrame tf) {
+
+	Logger::logInfo("Analysing Position \"" + position.viewID() + "\".");
+
+	auto asset_report = analyseAsset(*position.viewAsset(), tf);
+
+	return {
+
+		position.initialInvestment(),
+		position.unrealizedGains(),
+		asset_report,
+		asset_report.net_present_value * position.viewQuantity()
+	};
+}
+
+//PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf)  {
+//
+//	Logger::logInfo("Analysing Position \"" + pos.viewID() + "\".");
+//	std::string symbol = pos.viewID();
+//	
+//	PositionRiskReport report{
+//
+//		pos.viewID(),
+//		pos.viewQuantity(),
+//		pos.viewPriceBoughtAt(),
+//		pos.marketValue(),
+//		pos.initialInvestment(),
+//		pos.unrealizedGains(),
+//
+//		pos.viewAsset()->symbol(),
+//		pos.viewAsset()->NPV(),
+//		expectedReturn(pos, tf),
+//	};
+//
+//	return report;
+//}
 
 
 PortfolioReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFrame tf)  {
@@ -105,8 +149,6 @@ std::vector<double> RiskEngine::portfolioPeriodicReturns(const Portfolio& port, 
 }
 
 
-double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf)  { return RiskCalculations::mean(pos.viewAsset()->historicData()->periodicReturns(tf)); }
-
 
 double RiskEngine::totalReturn(const Portfolio& port)  {
 
@@ -131,9 +173,9 @@ double RiskEngine::expectedReturn(const Portfolio& port, TimeFrame tf)  {
 	double sum = 0;
 	int i = 0;
 
-	for (auto& pos : port.viewPositions()) {
+	for (auto& [name, position] : port.viewPositions()) {
 
-		sum += ws.find(pos.second->viewID())->second * expectedReturn(*pos.second, tf);
+		sum += ws.find(position->viewID())->second * expectedAssetReturn(*position->viewAsset(), tf);
 		i++;
 	}
 
@@ -175,12 +217,12 @@ CovarianceMatrix RiskEngine::computeCovarianceMatrix(const Portfolio& port, Time
 
 			if (i == j) {
 
-				cov_matrix(i, j) = assetCovariance(*pos.second, *pos_2.second, tf);
+				cov_matrix(i, j) = assetCovariance(*pos.second->viewAsset(), *pos_2.second->viewAsset(), tf);
 				j++;
 				continue;
 			}
 
-			double covariance = assetCovariance(*pos.second, *pos_2.second, tf);
+			double covariance = assetCovariance(*pos.second->viewAsset(), *pos_2.second->viewAsset(), tf);
 			
 			cov_matrix(i, j) = covariance;
 			cov_matrix(j, i) = covariance;
@@ -287,16 +329,7 @@ double RiskEngine::portfolioSharpeRatio(const Portfolio& port, TimeFrame tf, dou
 }
 
 
-double RiskEngine::assetCovariance(const Position& first, const Position& second, TimeFrame tf)  {
 
-	return RiskCalculations::covariance(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
-}
-
-
-double RiskEngine::assetCorrelation(const Position& first, const Position& second, TimeFrame tf)  {
-
-	return RiskCalculations::correlation(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
-} 
 
 std::vector<double> RiskEngine::expectedAssetReturns(const Portfolio& portfolio, TimeFrame tf) {
 
@@ -305,7 +338,7 @@ std::vector<double> RiskEngine::expectedAssetReturns(const Portfolio& portfolio,
 
 	for(auto& [name,position] : portfolio.viewPositions()){
 
-		asset_returns.push_back(expectedReturn(*position, tf));
+		asset_returns.push_back(expectedAssetReturn(*position->viewAsset(), tf));
 	}
 
 	return asset_returns;
