@@ -180,6 +180,11 @@ void MainWindow::onAddPortfolioClicked() {
             ui->portfolio_list->addItem(item);
 
             if (ui->remove_portfolio_button->isEnabled() == false) { ui->remove_portfolio_button->setEnabled(true); }
+
+            // Switch current portfolio to the current portfolio.
+            portfolio_manager->setCurrentPortfolio(name);
+            onPortfolioClicked(item);
+            ui->portfolio_list->setCurrentItem(item);
         }
     }
 }
