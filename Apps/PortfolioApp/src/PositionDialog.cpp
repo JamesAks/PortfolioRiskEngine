@@ -117,6 +117,8 @@ PositionDialog::PositionDialog(const Position& pos, QWidget *parent)
 
     //Initial dialog shows DAILY info.
     updateDialogFields(TimeFrame::DAILY);
+
+    date_return_graph->setXTickInterval(4);
        
 }
 
