@@ -23,11 +23,7 @@ std::shared_ptr<Stock> PortfolioManager::createStock(const std::string& asset_id
 		}
 	}
 
-	auto stock = std::make_shared<Stock>(
-		asset_id,
-		market_data_store->getLatestPrice(asset_id),
-		market_data_store->getHistoricData(asset_id)
-	);
+	auto stock = std::make_shared<Stock>(asset_id);
 
 	return stock;
 }
@@ -35,7 +31,21 @@ std::shared_ptr<Stock> PortfolioManager::createStock(const std::string& asset_id
 
 // ----- Public -----
 
-PortfolioReport PortfolioManager::analysePortfolio(TimeFrame tf) const { return RiskEngine::analysePortfolio(*current_portfolio, tf); }
+PortfolioReport PortfolioManager::analysePortfolio(TimeFrame tf) const {
+
+	RiskEngine risk_engine{ market_data_store->getMarketDataSnapshot() };
+
+	return risk_engine.analysePortfolio(*current_portfolio, tf);
+}
+
+PositionReport PortfolioManager::analysePosition(QString position_id, TimeFrame tf) const {
+
+	const Position& position = current_portfolio->viewPosition(position_id.toStdString());
+
+	RiskEngine risk_engine{ market_data_store->getMarketDataSnapshot() };
+
+	return risk_engine.analysePosition(position, tf);
+}
 
 
 void PortfolioManager::addPortfolio(std::string portfolio_id) {
@@ -94,7 +104,9 @@ double PortfolioManager::calculatePortfolioRisk(TimeFrame tf) const {
 
 	if (current_portfolio->size() == 0) { return 0; }
 
-	return RiskEngine::portfolioVolatility(*current_portfolio, tf);
+	RiskEngine risk_engine{ market_data_store->getMarketDataSnapshot() };
+
+	return risk_engine.portfolioVolatility(*current_portfolio, tf);
 }
 
 
@@ -102,13 +114,16 @@ double PortfolioManager::calculateSharpeRatio(TimeFrame tf) const {
 
 	if (current_portfolio->size() == 0) { return 0; }
 
-	return RiskEngine::portfolioSharpeRatio(*current_portfolio, tf,0);
+	RiskEngine risk_engine{ market_data_store->getMarketDataSnapshot() };
+
+	return risk_engine.portfolioSharpeRatio(*current_portfolio, tf,0);
 }
 
 
 EfficientFrontier PortfolioManager::calculateEfficientFrontier(TimeFrame tf) const {
 
-	return RiskEngine::calculateEfficientFrontier(*current_portfolio, tf);
+	RiskEngine risk_engine{ market_data_store->getMarketDataSnapshot() };
+	return *risk_engine.calculateEfficientFrontier(*current_portfolio, tf);
 }
 
 
@@ -156,4 +171,15 @@ std::vector<std::string> PortfolioManager::viewPortfolioIDs() const {
 const Position& PortfolioManager::viewPosition(const QString& position_id) const {
 
 	return current_portfolio->viewPosition(position_id.toStdString());
+}
+
+const MarketDataStore& PortfolioManager::viewDataStore() const { return *market_data_store; }
+
+void PortfolioManager::registerMarketDataStore(MarketDataStore* mds) { market_data_store = mds; }
+
+std::shared_ptr<const std::map<std::string, MarketData>>& PortfolioManager::viewSnapshot() const {
+
+	auto result = market_data_store->getMarketDataSnapshot();
+
+	return result;
 }

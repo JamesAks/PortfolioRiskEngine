@@ -12,6 +12,7 @@ class MarketDataStore;
 class Portfolio;
 class PortfolioReport;
 class Position;
+class PositionReport;
 enum class PositionType;
 class Stock;
 
@@ -37,6 +38,7 @@ class PortfolioManager {
 
         // Portfolio operations
         PortfolioReport analysePortfolio(TimeFrame) const;
+        PositionReport analysePosition(QString, TimeFrame) const;
 
         void createPortfolio(std::string);
         void removePortfolio(std::string);
@@ -58,13 +60,15 @@ class PortfolioManager {
         size_t portfolioSize() const;
         size_t numbPortfolio() const;
 
-        void registerMarketDataStore(MarketDataStore*);
-
-        void updateAllMarketData();
+        //void updateAllMarketData();
 
         const std::map<std::string, std::shared_ptr<Portfolio>>& viewPortfolios() const;
         std::vector<std::string> viewPortfolioIDs() const;
 		const Position& viewPosition(const QString&) const;
+        const MarketDataStore& viewDataStore() const;
+
+        void registerMarketDataStore(MarketDataStore*);
+        std::shared_ptr<const std::map<std::string, MarketData>>& viewSnapshot() const;
 
 };
 

@@ -27,12 +27,6 @@ class Position {
 
         Position(std::string, size_t, std::shared_ptr<Asset>, double, PositionType);
 
-        // Return the predicted market value of the asset.
-        double marketValue() const;
-
-        // Returns the potential profit/loss at the current market value
-        double unrealizedGains() const;
-
         // Returns how much was originally invested into asset
         double initialInvestment() const;
 
