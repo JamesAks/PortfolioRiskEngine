@@ -33,8 +33,7 @@ class PortfolioManager {
 
     public:
 
-        PortfolioManager() = default;
-        
+        PortfolioManager();
 
         // Portfolio operations
         PortfolioReport analysePortfolio(TimeFrame) const;
@@ -68,7 +67,7 @@ class PortfolioManager {
         const MarketDataStore& viewDataStore() const;
 
         void registerMarketDataStore(MarketDataStore*);
-        std::shared_ptr<const std::map<std::string, MarketData>>& viewSnapshot() const;
+        std::shared_ptr<const std::map<std::string, MarketData>> viewSnapshot() const;
 
 };
 

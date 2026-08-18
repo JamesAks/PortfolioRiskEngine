@@ -15,12 +15,9 @@
 
 std::shared_ptr<Stock> PortfolioManager::createStock(const std::string& asset_id) const {
 	
-	if (market_data_store->viewAllHistoricData().find(asset_id)->second == nullptr) {
+	if (!market_data_store->addMarketData(asset_id)) {
 
-		if (!market_data_store->addMarketData(asset_id)) {
-
-			return nullptr;
-		}
+		return nullptr;
 	}
 
 	auto stock = std::make_shared<Stock>(asset_id);
@@ -30,6 +27,8 @@ std::shared_ptr<Stock> PortfolioManager::createStock(const std::string& asset_id
 
 
 // ----- Public -----
+
+PortfolioManager::PortfolioManager() : current_portfolio{ nullptr }, market_data_store{ nullptr } {}
 
 PortfolioReport PortfolioManager::analysePortfolio(TimeFrame tf) const {
 
@@ -102,7 +101,7 @@ void PortfolioManager::removePortfolio(std::string portfolio_ID) {
 
 double PortfolioManager::calculatePortfolioRisk(TimeFrame tf) const {
 
-	if (current_portfolio->size() == 0) { return 0; }
+	if (current_portfolio == nullptr || current_portfolio->size() == 0) { return 0; }
 
 	RiskEngine risk_engine{ market_data_store->getMarketDataSnapshot() };
 
@@ -112,7 +111,7 @@ double PortfolioManager::calculatePortfolioRisk(TimeFrame tf) const {
 
 double PortfolioManager::calculateSharpeRatio(TimeFrame tf) const {
 
-	if (current_portfolio->size() == 0) { return 0; }
+	if (current_portfolio == nullptr || current_portfolio->size() == 0) { return 0; }
 
 	RiskEngine risk_engine{ market_data_store->getMarketDataSnapshot() };
 
@@ -177,9 +176,7 @@ const MarketDataStore& PortfolioManager::viewDataStore() const { return *market_
 
 void PortfolioManager::registerMarketDataStore(MarketDataStore* mds) { market_data_store = mds; }
 
-std::shared_ptr<const std::map<std::string, MarketData>>& PortfolioManager::viewSnapshot() const {
+std::shared_ptr<const std::map<std::string, MarketData>> PortfolioManager::viewSnapshot() const {
 
-	auto result = market_data_store->getMarketDataSnapshot();
-
-	return result;
+	return market_data_store->getMarketDataSnapshot();
 }
