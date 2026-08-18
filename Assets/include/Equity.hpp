@@ -20,7 +20,7 @@ class Equity: public Asset {
 
 	public:
 		  
-		Equity(std::string, std::shared_ptr<HistoricData>, std::shared_ptr<LatestPrice>);
+		Equity(std::string);
 
 };
 #endif // !EQUITY_HPP

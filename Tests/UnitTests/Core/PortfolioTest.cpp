@@ -7,15 +7,11 @@
 
 
 
-
 // ----- Factories -----
 
 static Stock createStock() {
 
-	auto lp = std::make_shared<LatestPrice>();
-	auto hd = std::make_shared<HistoricData>();
-
-	Stock test_stock{"Test Stock", lp, hd };
+	Stock test_stock{ "Test Stock" };
 
 	return test_stock;
 }
@@ -25,7 +21,7 @@ static Stock createStock() {
 TEST_CASE("Portfolio is empty on creation.", "[Core]") {
 
 	// Arrange
-	
+
 	// Act
 	Portfolio sut{ "Test1" };
 
@@ -47,6 +43,7 @@ TEST_CASE("Portfolio can add positions.", "[Core]") {
 }
 
 
+
 TEST_CASE("Portfolio can remove positions.", "[Core]") {
 
 	// Arrange
@@ -64,7 +61,7 @@ TEST_CASE("Portfolio can remove positions.", "[Core]") {
 TEST_CASE("Portfolio ID can be changed", "[Core]") {
 
 	// Arrange
-	Portfolio sut{"TestP"};
+	Portfolio sut{ "TestP" };
 
 	// Act
 	sut.changeID("TestPosition");

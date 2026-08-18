@@ -106,12 +106,7 @@ void AddPositionDialog::onOkClicked() {
 
         if (data) {
 
-            asset = std::make_shared<Stock>(
-
-                ui->stock_ticker_input->text().toStdString(),
-                market_data_store->getLatestPrice(ui->stock_ticker_input->text().toStdString()),
-                market_data_store->getHistoricData(ui->stock_ticker_input->text().toStdString())
-            );
+            asset = std::make_shared<Stock>(ui->stock_ticker_input->text().toStdString());
 
             position = std::make_shared<Position>(
 

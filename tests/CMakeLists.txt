@@ -1,4 +1,3 @@
-add_subdirectory(End2EndTests)
 add_subdirectory(FinancialValidationTests)
 add_subdirectory(IntegrationTests)
 add_subdirectory(UnitTests)

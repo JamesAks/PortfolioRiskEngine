@@ -168,7 +168,6 @@ void MainWindow::onAddPortfolioClicked() {
 
         name = dialog.portfolioName();
         
-
         if (!name.isEmpty()) {
 
             // Add portfolio to list of portfolios.
@@ -288,8 +287,7 @@ void MainWindow::onAnalyseClicked() {
     ui->historical_995->setText(QString::number(result.historical_VaR_995));
     ui->historical_999->setText(QString::number(result.historical_VaR_999));
 
-    auto efficient_frontier = RiskEngine::calculateEfficientFrontier(*portfolio_manager->currentPortfolio(), ui->timeframe_box->currentData().value<TimeFrame>());
-    efficient_frontier_graph->updateGraph(efficient_frontier);
+    efficient_frontier_graph->updateGraph(*result.efficient_frontier);
 }
 
 
@@ -348,7 +346,7 @@ void MainWindow::onPositionClicked(QListWidgetItem* item) {
     auto position_id = item->data(Qt::UserRole).toString();
     Logger::logDebug("Position ID: " + position_id.toStdString());
     
-    PositionDialog window{portfolio_manager->viewPosition(position_id)};
+    PositionDialog window{*portfolio_manager, position_id};
 
     window.exec();
 }

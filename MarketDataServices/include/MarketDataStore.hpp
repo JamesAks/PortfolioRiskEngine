@@ -16,22 +16,15 @@ class MarketDataStore {
 
 protected:
 
-	virtual void updateHistoricData() = 0;
-	virtual void updateLatestPrices() = 0;
 
 public:
 
 	virtual bool addMarketData(std::string) = 0;
 	virtual bool removeMarketData(std::string) = 0;
 
-	virtual std::shared_ptr<HistoricData> getHistoricData(std::string) const = 0;
-	virtual std::shared_ptr <LatestPrice> getLatestPrice(std::string) const = 0;
-	virtual const TimeSeries& periodicData(std::string, TimeFrame) const = 0;
+	virtual std::shared_ptr<const std::map<std::string, MarketData>> getMarketDataSnapshot() const = 0;
 
-	virtual const std::map<std::string, std::shared_ptr<HistoricData>>& viewAllHistoricData() const = 0;
-	virtual const std::map<std::string, std::shared_ptr<LatestPrice>>& viewAllLatestPrices() const = 0;
-
-	virtual std::vector<std::string> viewSymbols() const = 0;
+	virtual void update() = 0;
 
 	virtual ~MarketDataStore() = default;
 };

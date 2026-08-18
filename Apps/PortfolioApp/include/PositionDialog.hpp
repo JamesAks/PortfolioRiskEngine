@@ -21,14 +21,15 @@ class PositionDialog : public QDialog
 
     private:
         Ui::PositionDialog* ui;
-        const Position& position;
-
+  
+        const PortfolioManager& portfolio_manager;
+        const QString& position_ID;
         std::shared_ptr<DateValueGraph> date_return_graph;
 
         void updateDialogFields(TimeFrame);
         
     public:
-        explicit PositionDialog(const Position&, QWidget *parent = nullptr);
+        explicit PositionDialog(const PortfolioManager&, const QString&, QWidget *parent = nullptr);
         ~PositionDialog();
 
     private slots:

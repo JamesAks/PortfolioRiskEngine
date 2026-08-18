@@ -1,3 +1,9 @@
+set(ITEST_SOURCE
+	
+	GenericDataStore.cpp
+	PortfolioManagerTest.cpp
+	RiskEngineTest.cpp
+)
 
 add_executable(ITests)
 

@@ -32,19 +32,6 @@ void Portfolio::changeID(const std::string& new_ID) { ID = new_ID; }
 void Portfolio::changeID(std::string&& new_ID) { ID = std::move(new_ID); }
 
 
-double Portfolio::totalMarketValue() const {
-
-    double sum = 0;
-
-    for (auto& p : positions) {
-
-        sum += p.second->marketValue();
-    }
-
-    return sum;
-}
-
-
 const Position& Portfolio::viewPosition(const std::string& symbol) const {
 
     return *positions.find(symbol)->second;
@@ -64,6 +51,7 @@ std::vector<std::string> Portfolio::viewPositionIDs() const {
 
     return ids;
 }
+
 
 std::vector<std::shared_ptr<Asset>> Portfolio::viewAssets() const {
 
@@ -93,19 +81,16 @@ std::vector<std::string> Portfolio::viewAssetLabels() const {
 
 const std::string& Portfolio::viewID() const { return ID; }
 
-std::map<std::string, double> Portfolio::weights() const {
+double Portfolio::viewTotalInvestment() {
 
-    if (positions.size() == 0) { return {}; }
+    double sum = 0;
+    for (const auto& position : positions) {
 
-    std::map<std::string, double> weights;
-
-    double value = totalMarketValue();
-
-    for (auto& [name, position] : positions) {
-
-        weights.emplace(name, position->marketValue() / value);
+        sum += position.second->initialInvestment();
     }
-    return weights;
+
+    return sum;
 }
+
 
 size_t Portfolio::size() const { return positions.size(); }
