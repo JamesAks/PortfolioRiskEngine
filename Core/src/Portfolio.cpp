@@ -81,5 +81,16 @@ std::vector<std::string> Portfolio::viewAssetLabels() const {
 
 const std::string& Portfolio::viewID() const { return ID; }
 
+double Portfolio::viewTotalInvestment() {
+
+    double sum = 0;
+    for (const auto& position : positions) {
+
+        sum += position.second->initialInvestment();
+    }
+
+    return sum;
+}
+
 
 size_t Portfolio::size() const { return positions.size(); }

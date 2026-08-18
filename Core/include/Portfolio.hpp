@@ -26,7 +26,7 @@ class Portfolio {
 
         // Adds an asset to the portfolio.
         void addPosition(std::shared_ptr<Position>);
- 
+
         // Removes asset from the portfolio.
         void removePosition(const std::string&);
 
@@ -51,6 +51,8 @@ class Portfolio {
 
         // Returns the symbol/ID of the portfolio.
         const std::string& viewID() const;
+
+        double viewTotalInvestment();
 
         size_t size() const;
     };
