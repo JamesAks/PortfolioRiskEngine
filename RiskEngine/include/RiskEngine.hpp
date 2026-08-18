@@ -11,6 +11,8 @@ class AssetReport;
 class CovarianceMatrix;
 class EfficientFrontier;
 class EfficientFrontierPoint;
+class MarketData;
+class MarketDataStore;
 class Position;
 class Portfolio;
 enum class ConfidenceLevel;
@@ -59,6 +61,8 @@ struct PortfolioReport {
 	double parametric_shortfall_99;
 	double parametric_shortfall_995;
 	double parametric_shortfall_999;
+
+	std::shared_ptr<EfficientFrontier> efficient_frontier;
 };
 
 struct AssetReport {
@@ -66,63 +70,90 @@ struct AssetReport {
 	double volatility;
 	double expected_return;
 	double net_present_value;
+
 };
 
 
 struct PositionReport {
 
+	
 	double initial_investment;
+	double market_value;
 	double unrealised_gain;
 	AssetReport asset_report;
 	double total_market_value;
 };
 
 
-namespace RiskEngine {
+class RiskEngine {
+
+	// Class for calculating risk metrics for domain types.
+
+	private:
+
+		// Stores a snapshot of market data due to the asynchronous behaviours.
+		std::shared_ptr<const std::map<std::string, MarketData>> snapshot;
+
+	public:
+
+		RiskEngine();
+		RiskEngine(std::shared_ptr<const std::map<std::string, MarketData>>);
 
 	// Asset Analysis
 
-		AssetReport analyseAsset(Asset&, TimeFrame);
+		AssetReport analyseAsset(Asset&, TimeFrame) const;
 
-		double assetCovariance(const Asset&, const Asset&, TimeFrame);
+		double assetCovariance(const Asset&, const Asset&, TimeFrame) const;
 
-		double assetCorrelation(const Asset&, const Asset&, TimeFrame);
+		double assetCorrelation(const Asset&, const Asset&, TimeFrame) const;
 
-		double expectedAssetReturn(const Asset&, TimeFrame);
-	
+		double expectedAssetReturn(const Asset&, TimeFrame) const;
+
 
 	// Position Analysis
 
-		PositionReport analysePosition(const Position&, TimeFrame);
+		PositionReport analysePosition(const Position&, TimeFrame) const;
+
+		double positionUnrealizedGains(const Position&) const;
+
+		double positionMarketValue(const Position&) const;
 
 
 	// Portfolio Analysis
 
-		PortfolioReport analysePortfolio(const Portfolio&, TimeFrame);
+		PortfolioReport analysePortfolio(const Portfolio&, TimeFrame) const;
+
+		std::map<std::string, double> portfolioWeights(const Portfolio&) const;
 	
-		std::vector<double> portfolioPeriodicReturns(const Portfolio&, TimeFrame, size_t);
+		std::vector<double> portfolioPeriodicReturns(const Portfolio&, TimeFrame, size_t) const;
 
-		double totalReturn(const Portfolio&);
+		double totalMarketValue(const Portfolio&) const;
 
-		double expectedReturn(const Portfolio&, TimeFrame);
+		double totalReturn(const Portfolio&) const;
 
-		double portfolioVolatility(const Portfolio&, TimeFrame);
+		double expectedReturn(const Portfolio&, TimeFrame) const;
 
-		CovarianceMatrix computeCovarianceMatrix(const Portfolio&, TimeFrame);
+		double portfolioVolatility(const Portfolio&, TimeFrame) const;
 
-		double historicalVaR(const Portfolio&, TimeFrame, size_t, double);
+		CovarianceMatrix computeCovarianceMatrix(const Portfolio&, TimeFrame) const;
 
-		double historicalShortfall(const Portfolio&, TimeFrame, size_t, double);
+		double historicalVaR(const Portfolio&, TimeFrame, size_t, double) const;
 
-		double parametricVaR(const Portfolio&, TimeFrame, size_t, ConfidenceLevel);
+		double historicalShortfall(const Portfolio&, TimeFrame, size_t, double) const;
 
-		double parametricShortfall(const Portfolio&, TimeFrame, size_t, ConfidenceLevel);
+		double parametricVaR(const Portfolio&, TimeFrame, size_t, ConfidenceLevel) const;
 
-		double portfolioSharpeRatio(const Portfolio&, TimeFrame, double);
+		double parametricShortfall(const Portfolio&, TimeFrame, size_t, ConfidenceLevel) const;
 
-		std::vector<double> expectedAssetReturns(const Portfolio&, TimeFrame);
+		double portfolioSharpeRatio(const Portfolio&, TimeFrame, double) const;
 
-		EfficientFrontier calculateEfficientFrontier(const Portfolio&, TimeFrame);
+		std::vector<double> expectedAssetReturns(const Portfolio&, TimeFrame) const;
+
+		std::shared_ptr<EfficientFrontier> calculateEfficientFrontier(const Portfolio&, TimeFrame) const;
+
+	// Utitility
+
+		void updateSnapshot(std::shared_ptr<const std::map<std::string, MarketData>>);
 };
 
 #endif // !RISK_ENGINE_CPP

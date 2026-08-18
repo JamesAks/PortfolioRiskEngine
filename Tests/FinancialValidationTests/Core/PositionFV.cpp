@@ -1,55 +1,29 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <chrono>
-
-#include "MarketData.hpp"
 #include "Position.hpp"
 #include "Equities/Stock.hpp"
-#include "TimeSeries.hpp"
-
 
 
 // ----- Factories -----
 
-static TimeSeries createTimeSeries(int n) {
+static Stock createStock(const std::string& name) {
 
-	TimeSeries ts;
-	std::vector<std::chrono::year_month_day> dates;
-	for (int i = 0; i < n; i++) {
+	Stock test_stock{ name };
 
-		ts.addData(std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(n + 1)), (i * 50) + 100);
-	}
-
-	return ts;
-}
-
-
-static HistoricData createHistoricData(int n) {
-
-	return {createTimeSeries(n),createTimeSeries(n), createTimeSeries(n) };
+	return test_stock;
 }
 
 // ----- Tests -----
 
-TEST_CASE("Position calculates the correct unrealized gains", "[Core]") {
+TEST_CASE("Position calculates the correct inital investment.", "[Core]") {
 
 	// Arrange
-	auto hd = createHistoricData(5);
-	LatestPrice lp{ 300, std::chrono::year_month_day(std::chrono::year(2020), std::chrono::January, std::chrono::day(6)) };
-	
-	Stock st{
+	auto test_pos = std::make_shared<Position>("Test Position 1", 5, std::make_shared<Stock>(createStock("Test Stock 1")), 100, PositionType::LONG);
 
-		"AAPL",
-		std::make_shared<LatestPrice>(lp),
-		std::make_shared< HistoricData>(hd)
-	};
 
-	Position sut{ "AAPL Stock", 100, std::make_shared<Stock>(st), 100, PositionType::LONG };
-
-	
 	// Act
-	double result = sut.unrealizedGains();
+	auto result = test_pos->initialInvestment();
 
 	// Assert
-	REQUIRE(result == 20000);
+	REQUIRE(result == 500.0);
 }

@@ -13,6 +13,7 @@
 
 enum class TimeFrame { DAILY, WEEKLY, MONTHLY };
 
+
 class HistoricData: public Observable {
 
 	// Class that holds the historical periodic data of an underlying variable.
@@ -62,6 +63,13 @@ class LatestPrice: public Observable {
 
 		double price() const;
 		std::chrono::year_month_day timestamp() const;
+};
+
+struct MarketData {
+
+	MarketData(const HistoricData&, const LatestPrice&);
+	HistoricData historic_data;
+	LatestPrice latest_price;
 };
 
 

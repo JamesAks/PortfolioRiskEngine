@@ -147,3 +147,4 @@ double LatestPrice::price() const { return value; }
 std::chrono::year_month_day LatestPrice::timestamp() const { return date; }
 
 
+MarketData::MarketData(const HistoricData& hd, const LatestPrice& lp): historic_data{hd},latest_price{lp}{}

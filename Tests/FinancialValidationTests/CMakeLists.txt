@@ -4,6 +4,7 @@ set (FVTESTS_SOURCE
 	Core/PositionFV.cpp
 	Core/StatisticsFV.cpp
 	Core/TimeSeriesFV.cpp
+	RiskEngineTest.cpp
 )
 
 add_executable(FVTests ${FVTESTS_SOURCE})

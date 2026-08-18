@@ -26,7 +26,7 @@ class Portfolio {
 
         // Adds an asset to the portfolio.
         void addPosition(std::shared_ptr<Position>);
- 
+
         // Removes asset from the portfolio.
         void removePosition(const std::string&);
 
@@ -34,8 +34,6 @@ class Portfolio {
         void changeID(const std::string&);
         void changeID(std::string&&);
 
-        // Return the expected return of the portfolio.
-        double totalMarketValue() const;
 
         // Returns a given position.
         const Position& viewPosition(const std::string&) const;
@@ -54,8 +52,7 @@ class Portfolio {
         // Returns the symbol/ID of the portfolio.
         const std::string& viewID() const;
 
-        // Returns the weights of the assets in the portfolio.
-        std::map<std::string, double> weights() const;
+        double viewTotalInvestment();
 
         size_t size() const;
     };

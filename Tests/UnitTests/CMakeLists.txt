@@ -1,8 +1,6 @@
 
 set(UTEST_SOURCES
 
-    Assets/StockTest.cpp
-
 	Core/MarketDataTest.cpp
 	Core/PortfolioTest.cpp
 	Core/TimeSeriesTest.cpp
@@ -11,7 +9,7 @@ set(UTEST_SOURCES
 	MarketDataServices/GenericDataStoreTest.cpp
 
 	RiskEngine/OptimizerTest.cpp
-	RiskEngine/RiskEngineTest.cpp
+
 )
 	
 

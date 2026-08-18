@@ -15,11 +15,10 @@ class Stock : public Equity {
 
     private:
 
-        void calculateNPV() override;
 
     public:
 
-        Stock(std::string, std::shared_ptr<LatestPrice>, std::shared_ptr<HistoricData>);        
+        Stock(std::string);        
 };
 
 #endif // !STOCK_HPP

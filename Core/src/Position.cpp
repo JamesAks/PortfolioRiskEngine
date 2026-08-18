@@ -20,19 +20,6 @@ Position::Position(std::string position_id, size_t quant, std::shared_ptr<Asset>
 	position_type{pt} {}
 
 
-double Position::marketValue() const { return quantity * asset->NPV(); }
-
-
-double Position::unrealizedGains() const {
-
-	int quant = quantity;
-	if (position_type == PositionType::SHORT) {
-		quant *= -1;
-	}
-
-	return (asset->NPV() - price_baught_at) * quant;
-}
-
 double Position::initialInvestment() const { return quantity * price_baught_at; }
 
 

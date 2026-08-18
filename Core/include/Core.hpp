@@ -7,7 +7,6 @@
 #include "Logger.hpp"
 #include "Portfolio.hpp"
 #include "Position.hpp"
-#include "Statistics.hpp"
 #include "MarketData.hpp"
 #include "TimeSeries.hpp"
 
