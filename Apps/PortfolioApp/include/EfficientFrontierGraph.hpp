@@ -36,6 +36,7 @@ class EfficientFrontierGraph : public QObject {
 		QLineSeries* lineSeries() const;
 
 		void updateGraph(const EfficientFrontier&);
+		void clear();
 
 	private slots:
 };

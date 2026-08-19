@@ -30,5 +30,4 @@ class EfficientFrontier {
 		double maximumVolatility() const;
 
 		size_t size() const;
-
 };
