@@ -13,9 +13,13 @@ The project follows a structure of a quantitative library that contains the busi
 
 Interface -----> Portfolio Service -----> Risk Engine -----> Data Models -----> Pricing Engine
 
-![Architecture](docs\images\ArchitectureDiagramV3.drawio.png)
+<img width="1832" height="900" alt="ArchitectureDiagramV3 drawio" src="https://github.com/user-attachments/assets/fb1d7c37-e650-4163-976d-0f26348e7d9f" />
+
 
 ![Planning](docs/images/Planning.md)
+
+
+![Hello](docs)
 
 
 ## How to use:
