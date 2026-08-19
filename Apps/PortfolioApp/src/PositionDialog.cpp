@@ -26,8 +26,14 @@ void PositionDialog::updateDialogFields(TimeFrame tf) {
     ui->market_value_output->setText(QString::number(position_report.market_value));
     ui->unrealised_gain_output->setText(QString::number(position_report.unrealised_gain));
     ui->latest_price_output->setText(QString::number(asset_report.net_present_value));
+
+    QDate latest_valuation{ asset_report.latest_valutaion_date };
+    ui->valuation_date_output->setText(QString::number(latest_valuation.day()) + "/" + QString::number(latest_valuation.month()) + "/" + QString::number(latest_valuation.year()));
+    
     ui->volatility_output->setText(QString::number(asset_report.volatility));
     ui->exp_return_output->setText(QString::number(asset_report.expected_return));
+
+
 
     auto data = portfolio_manager.viewDataStore().getMarketDataSnapshot();
     const auto& hist_data = data->find(position.viewAsset()->symbol())->second.historic_data;
@@ -102,8 +108,6 @@ PositionDialog::PositionDialog(const PortfolioManager& port_m, const QString& po
 
     ui->asset_ID_output->setText(QString::fromStdString(position.viewAsset()->symbol()));
 
-    QDate latest_valuation{ position.viewAsset()->latestValuationDate() };
-    ui->valuation_date_output->setText(QString::number(latest_valuation.day()) + "/" + QString::number( latest_valuation.month()) + "/" + QString::number(latest_valuation.year()));
 
     switch (position.viewAsset()->assetType())
     {

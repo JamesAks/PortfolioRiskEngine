@@ -1,9 +1,11 @@
 ﻿#ifndef RISK_ENGINE_CPP
 #define RISK_ENGINE_CPP
 
+#include <chrono>
 #include <memory>
 #include <string>
 #include <vector>
+
 
 
 class Asset;
@@ -35,8 +37,10 @@ struct PositionRiskReport {
 
 struct PortfolioReport {
 
-	double total_return;
-	double expectedReturn;
+	double total_intial_investment;
+
+	double total_market_value;
+	double expected_return;
 	double volatitilty;
 	double sharpe_ratio;
 
@@ -70,6 +74,7 @@ struct AssetReport {
 	double volatility;
 	double expected_return;
 	double net_present_value;
+	std::chrono::year_month_day latest_valutaion_date;
 
 };
 
@@ -126,6 +131,8 @@ class RiskEngine {
 		std::map<std::string, double> portfolioWeights(const Portfolio&) const;
 	
 		std::vector<double> portfolioPeriodicReturns(const Portfolio&, TimeFrame, size_t) const;
+
+		double totalInitialInvestment(const Portfolio&) const;
 
 		double totalMarketValue(const Portfolio&) const;
 
