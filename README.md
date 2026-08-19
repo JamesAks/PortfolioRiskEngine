@@ -13,14 +13,14 @@ The project follows a structure of a quantitative library that contains the busi
 
 Interface -----> Portfolio Service -----> Risk Engine -----> Data Models -----> Pricing Engine
 
-![Architecture](docs/images/ArchitectureDiagram.png)
+![Architecture](docs\images\ArchitectureDiagramV3.drawio.png)
 
 ![Planning](docs/images/Planning.md)
 
 
 ## How to use:
 
-The application for now relies on using a free data provider, Alpha Vantage, that requires an API key. In order to use the app an API key is needed. AlphaVantage provides site where a free API key can be obtain once signing up. 
+The application relies on using a data provider, Alpha Vantage, that requires an API key. In order to use the app an API key is needed. AlphaVantage provides a free API key on its site that can be obtain once signing up. 
 
 ----> https://www.alphavantage.co/support/#api-key <----- Alpha Vantage API Key
 
@@ -28,29 +28,35 @@ Step 1 ---> Get Alpha Vantage API key.
 
 Step 2 ---> Create a system variable called "ALPHA_VANTAGE_API_KEY". (To be changed in later versions).
 
-Step 3 ---> Download zip file and extract.
+Step 3 ---> Download latest release zip file and extract.
 
 Step 4 ---> Run executable.
 
+
 ## Example use
 
-The application starts with every field empty
-![Starting screen](docs/images/starting_screen.png)
+![Starting screen](docs\images\default_screen.png)
 
-In order to use the application the first step would be to create a portfolio with any name.
-Note that until a portfolio is created and selected buttons are disabled.
-![Portfolio creation](docs/images/portfolio_creation.png)
-![Hello, World](docs/images/init_portfolio.png)
+Using the application is quite simple. Click on the "Add Portfolio" button and enter a name to get started!
+![Portfolio creation](docs\images\create_portfolio.png)
 
+The application supports multiple portfolios at the same time.
+![Multiple Portflios](docs\images\multiple_portfolios.png)
 
-After selecting a portfolio the add position button will be enable allowing you to add a position. A Position requires a name, position type, quantity, buy-in price and an asset type. In order for the asset to be created and added to the portfolio a valid asset must be created.
-![Add Position](docs/images/add_position.png)
+Add a position to your portfolio by filling in the fields and specifying an underlying asset. This only works with stocks currently but there are plans to add more asset types soon!
+![Add Position](docs\images\add_asset.png)
 
-Multiple Positions can be added to a portfolio and multiple portfolios can be created.
-![Full Portfolio](docs/images/full_portfolio.png)
+Like the Portfolios the application supports multiple assets.
+![Multiple Assets](docs\images\multiple_assets.png)
 
-Until a time frame is selected the user can not analyse a portfolio. After selecting a time frame pressing the analyse button will fill the fields with calculated values.
-![Analysis](docs/images/analyse.png)
+With your assets added all thats left is to choose your timeframe and analyse your portfolio.
+![Timeframe](docs\images\set_timeframe.png)
+![Analysis](docs\images\full_analysis.png)
+
+In the background the market data is being updated at a constant rate (1 minute by default). WARNING - This uses alphavantage's api. If you are using the free version and have a lot of assets you will burn through your limit almost INSTANTLY.
+![Logs](docs\images\auto_update.png)
+
+Thats it for now but theres more to come such as more asset types, optimal portfolio generation, and simulations.
 
 
 ## Repository Structure
@@ -71,7 +77,7 @@ out/        # Build diractory
 
 PricingEngine/      # Contains the engines used for pricing financial instruments
 
-tests/      # Contains End2End, financial validation, intergration and unit tests
+tests/      # Contains financial validation, intergration and unit tests
 
 CMakeLists.txt      # Build configuration
 
@@ -82,6 +88,6 @@ README.md           # Main documentation
 
 ## Future Features
 
-    - Improve GUI
+    - Asset Types (Bonds, Options and more)
     - Monte Carlo portfolio simulation
-    - Efficient frontier optimzation visualisation 
+    - Stress Testing
