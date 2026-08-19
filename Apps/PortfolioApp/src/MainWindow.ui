@@ -76,7 +76,7 @@ QFrame QLabel {
        <x>10</x>
        <y>10</y>
        <width>1061</width>
-       <height>51</height>
+       <height>61</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -106,7 +106,7 @@ QFrame QLabel {
 </string>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Asset Title&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
