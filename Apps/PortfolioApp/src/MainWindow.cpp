@@ -31,9 +31,13 @@ Q_DECLARE_METATYPE(TimeFrame)
 
 void MainWindow::clearAnalyticsPage() {
 
+    ui->total_investment_output->clear();
+    ui->total_market_value_output->clear();
+    ui->unrealised_gain_output->clear();
+
     ui->portfolio_risk_output->clear();
     ui->sharpe_ratio_output->clear();
-    ui->total_return_output->clear();
+    ui->expected_return_output->clear();
 
     ui->timeframe_box->setCurrentIndex(-1);
     ui->analyse_button->setEnabled(false);
@@ -273,7 +277,11 @@ void MainWindow::onAnalyseClicked() {
 
     // Show results on main window.
 
-    ui->total_return_output->setText(QString::number(result.total_return));
+    ui->total_investment_output->setText(QString::number(result.total_intial_investment));
+    ui->total_market_value_output->setText(QString::number(result.total_market_value));
+    ui->unrealised_gain_output->setText(QString::number(result.total_market_value - result.total_intial_investment));
+
+    ui->expected_return_output->setText(QString::number(result.expected_return));
     ui->portfolio_risk_output->setText(QString::number(result.volatitilty));
     ui->sharpe_ratio_output->setText(QString::number(result.sharpe_ratio));
 

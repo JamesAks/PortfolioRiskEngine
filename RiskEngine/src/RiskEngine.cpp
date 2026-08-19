@@ -35,7 +35,8 @@ AssetReport RiskEngine::analyseAsset(Asset& asset, TimeFrame tf) const {
 
 		RiskCalculations::standardDeviation(asset_market_data.historic_data.periodicReturns(tf)),
 		RiskCalculations::mean(asset_market_data.historic_data.periodicReturns(tf)),
-		asset_market_data.latest_price.price()
+		asset_market_data.latest_price.price(),
+		asset_market_data.latest_price.timestamp()
 	};
 }
 
@@ -136,6 +137,7 @@ PortfolioReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFrame tf
 
 	PortfolioReport report{
 
+		totalInitialInvestment(port),
 		totalMarketValue(port),
 		expectedReturn(port,  tf),
 		portfolioVolatility(port, tf),
@@ -197,6 +199,18 @@ std::vector<double> RiskEngine::portfolioPeriodicReturns(const Portfolio& portfo
 	}
 
 	return returns;
+}
+
+
+double RiskEngine::totalInitialInvestment(const Portfolio& portfolio) const {
+
+	double sum = 0;
+	for (const auto& [name, position] : portfolio.viewPositions()) {
+
+		sum += position->initialInvestment();
+	}
+
+	return sum;
 }
 
 double RiskEngine::totalMarketValue(const Portfolio& portfolio) const {
