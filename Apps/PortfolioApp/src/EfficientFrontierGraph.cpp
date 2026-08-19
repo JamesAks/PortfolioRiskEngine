@@ -110,6 +110,16 @@ void EfficientFrontierGraph::updateGraph(const EfficientFrontier& efficient_fron
         // Only place a scatter graph point on every 5 points.
         if (count % 5 == 0 || count == 1) { scatter_series->append(point.volatitity, point.expected_return); }
     }
+}
 
 
+void EfficientFrontierGraph::clear() {
+
+    line_series->clear();
+
+    x_axis->setMin(0);
+    x_axis->setMax(10);
+
+    y_axis->setMin(0);
+    y_axis->setMax(10);
 }

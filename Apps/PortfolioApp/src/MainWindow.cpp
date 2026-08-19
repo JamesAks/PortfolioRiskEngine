@@ -51,6 +51,8 @@ void MainWindow::clearAnalyticsPage() {
     ui->historical_99->clear();
     ui->historical_995->clear();
     ui->historical_999->clear();
+
+    efficient_frontier_graph->clear();
 }
 
 
