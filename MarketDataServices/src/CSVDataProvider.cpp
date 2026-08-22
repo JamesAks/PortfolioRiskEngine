@@ -1,5 +1,5 @@
 #include "CSVDataProvider.hpp"
-#include "HistoricData.hpp"
+#include "MarketData.hpp"
 #include "Logger.hpp"
 
 #include <iostream>
@@ -21,6 +21,12 @@ void CSVDataProvider::validateDirectory(std::string dir_path) {
 }
 
 // ----- Public Members -----
+
+CSVDataProvider::CSVDataProvider() {
+
+	dir_path = "C:/Users/james/Documents/Portfolio/QuantProjects/PortfolioRiskEngine/DataLoader/TestMarketData";
+
+}
 
 CSVDataProvider::CSVDataProvider(std::string fp) : dir_path{ fp } { validateDirectory(dir_path); }
 
@@ -95,8 +101,8 @@ RequestResult CSVDataProvider::latestPrice(std::string asset_ID) const {
 
 	return { std::nullopt, RequestError::NONE, {
 
-		convertStringDate(line.substr(0, seperator_pos)),
-		std::stod(line.substr(seperator_pos + 1, line.length()))
+		std::stod(line.substr(seperator_pos + 1, line.length())),
+		convertStringDate(line.substr(0, seperator_pos))
 	} };
 }
 

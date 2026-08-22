@@ -1,12 +1,17 @@
 
 set(UTEST_SOURCES
 
-    Assets/StockTest.cpp
-	Core/HistoricDataTest.cpp
+	Core/MarketDataTest.cpp
+	Core/PortfolioTest.cpp
 	Core/TimeSeriesTest.cpp
+
+	MarketDataServices/AlphaVantageProviderTest.cpp
+	MarketDataServices/GenericDataStoreTest.cpp
+
+	RiskEngine/OptimizerTest.cpp
+
 )
-
-
+	
 
 add_executable(UTests ${UTEST_SOURCES})
 

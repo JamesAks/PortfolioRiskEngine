@@ -11,7 +11,7 @@
 enum class TimeFrame;
 
 
-class AlphaVantageProvider: MarketDataProvider {
+class AlphaVantageProvider: public MarketDataProvider {
 
 	private:
 
@@ -26,8 +26,8 @@ class AlphaVantageProvider: MarketDataProvider {
 
 		AlphaVantageProvider(std::string);
 		
-		RequestResult periodicData(std::string, TimeFrame, size_t) const;
-		RequestResult latestPrice(std::string) const;
+		RequestResult periodicData(std::string, TimeFrame, size_t) const override;
+		RequestResult latestPrice(std::string) const override;
 };
 
 static size_t memoryWriteCallback(void*, size_t, size_t, void*);

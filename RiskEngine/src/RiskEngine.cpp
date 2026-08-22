@@ -1,82 +1,195 @@
 ﻿#include "Asset.hpp"
+#include "CovarianceMatrix.hpp"
+#include "EfficientFrontier.hpp"
 #include "Logger.hpp"
+#include "MarketData.hpp"
+#include "Objectives.hpp"
+#include "Optimizer.hpp"
 #include "Portfolio.hpp"
 #include "Position.hpp"
 #include "RiskEngine.hpp"
-#include "Statistics.hpp"
+#include "RiskCalculations.hpp"
+#include "Solvers/GMVPLagrangianSolver.hpp"
+#include "Solvers/MVLagrangianSolver.hpp"
 #include "TimeSeries.hpp"
-
 
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 
+// Asset Analysis
+
 constexpr double PI = 3.14159265358979323846;
 
-PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf)  {
+RiskEngine::RiskEngine(): snapshot{nullptr}{}
 
-	Logger::logInfo("Analysing asset \"" + pos.viewID() + "\".");
-	std::string symbol = pos.viewID();
-	
-	PositionRiskReport report{
+RiskEngine::RiskEngine(std::shared_ptr<const std::map<std::string, MarketData>> snap) : snapshot{snap} {}
 
-		pos.viewID(),
-		pos.viewQuantity(),
-		pos.viewPriceBoughtAt(),
-		pos.marketValue(),
-		pos.initialInvestment(),
-		pos.unrealizedGains(),
+AssetReport RiskEngine::analyseAsset(Asset& asset, TimeFrame tf) const {
 
-		pos.viewAsset()->symbol(),
-		pos.viewAsset()->latestPrice()->value,
-		RiskStatistics::standardDeviation(pos.viewAsset()->historicData()->periodicReturns(tf)),
-		expectedReturn(pos, tf),
+	Logger::logInfo("Analysing Asset \"" + asset.symbol() + "\".");
+
+	const MarketData& asset_market_data = snapshot->find(asset.symbol())->second;
+
+	return {
+
+		RiskCalculations::standardDeviation(asset_market_data.historic_data.periodicReturns(tf)),
+		RiskCalculations::mean(asset_market_data.historic_data.periodicReturns(tf)),
+		asset_market_data.latest_price.price(),
+		asset_market_data.latest_price.timestamp()
 	};
+}
 
-	return report;
+double RiskEngine::assetCovariance(const Asset& first, const Asset& second, TimeFrame tf) const {
+
+	const HistoricData& historic_data_first = snapshot->find(first.symbol())->second.historic_data;
+	const HistoricData& historic_data_second = snapshot->find(second.symbol())->second.historic_data;
+
+	return RiskCalculations::covariance(historic_data_first.periodicReturns(tf), historic_data_second.periodicReturns(tf));
 }
 
 
-PortfolioRiskReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFrame tf)  {
+double RiskEngine::assetCorrelation(const Asset& first, const Asset& second, TimeFrame tf) const {
 
+	const HistoricData& historic_data_first = snapshot->find(first.symbol())->second.historic_data;
+	const HistoricData& historic_data_second = snapshot->find(second.symbol())->second.historic_data;
+
+	return RiskCalculations::correlation(historic_data_first.periodicReturns(tf), historic_data_second.periodicReturns(tf));
+}
+
+
+double RiskEngine::expectedAssetReturn(const Asset& asset, TimeFrame tf) const {
+	
+	const HistoricData& historic_data = snapshot->find(asset.symbol())->second.historic_data;
+
+	return RiskCalculations::mean(historic_data.periodicReturns(tf));
+}
+
+
+// Position Analysis
+
+PositionReport RiskEngine::analysePosition(const Position& position, TimeFrame tf) const {
+
+	Logger::logInfo("Analysing Position \"" + position.viewID() + "\".");
+
+	auto asset_report = analyseAsset(*position.viewAsset(), tf);
+
+	return {
+
+		position.initialInvestment(),
+		positionMarketValue(position),
+		positionUnrealizedGains(position),
+		asset_report,
+		asset_report.net_present_value * position.viewQuantity()
+	};
+}
+
+
+double RiskEngine::positionUnrealizedGains(const Position& position) const {
+
+	double quantity = position.viewQuantity();
+
+	if (position.viewPositionType() == PositionType::SHORT) {
+		quantity *= -1;
+	}
+
+	const LatestPrice& latest_price = snapshot->find(position.viewAsset()->symbol())->second.latest_price;
+
+	return (latest_price.price() - position.viewPriceBoughtAt()) * quantity;
+}
+
+
+double RiskEngine::positionMarketValue(const Position& position) const {
+
+	const LatestPrice& latest_price = snapshot->find(position.viewAsset()->symbol())->second.latest_price;
+
+	return latest_price.price() *position.viewQuantity();
+}
+
+//PositionRiskReport RiskEngine::analysePosition(const Position& pos, TimeFrame tf)  {
+//
+//	Logger::logInfo("Analysing Position \"" + pos.viewID() + "\".");
+//	std::string symbol = pos.viewID();
+//	
+//	PositionRiskReport report{
+//
+//		pos.viewID(),
+//		pos.viewQuantity(),
+//		pos.viewPriceBoughtAt(),
+//		pos.marketValue(),
+//		pos.initialInvestment(),
+//		pos.unrealizedGains(),
+//
+//		pos.viewAsset()->symbol(),
+//		pos.viewAsset()->NPV(),
+//		expectedReturn(pos, tf),
+//	};
+//
+//	return report;
+//}
+
+
+PortfolioReport RiskEngine::analysePortfolio(const Portfolio& port, TimeFrame tf) const {
+
+	// Due to asynchronous behaviour takes a copy of the portfolio as a sort of snapshot so that half way through calculations the 
 	std::string portfolio_ID = port.viewID();
 	Logger::logInfo("Analysing portfolio \"" + portfolio_ID + "\".");
 
-	if (port.viewPositions().empty()) {
+	PortfolioReport report{
 
-		Logger::logError("Can not anylse portfolio \"" + portfolio_ID + "\". No positions held in portfolio.");
-		return {portfolio_ID, 0,0,0,{},};
-	}
-
-	PortfolioRiskReport report{
-
-		portfolio_ID,
-		totalReturn(port),
+		totalInitialInvestment(port),
+		totalMarketValue(port),
 		expectedReturn(port,  tf),
 		portfolioVolatility(port, tf),
+		portfolioSharpeRatio(port, tf, 0.04),
 		historicalVaR(port,tf, 100, 0.95),
-		historicalShortfall(port,tf, 100, 0.95),
+		historicalVaR(port,tf, 100, 0.99),
+		historicalVaR(port,tf, 100, 0.995),
+		historicalVaR(port,tf, 100, 0.999),
 		parametricVaR(port,tf, 100, ConfidenceLevel::NINETY_FIVE),
+		parametricVaR(port,tf, 100, ConfidenceLevel::NINETY_NINE),
+		parametricVaR(port,tf, 100, ConfidenceLevel::NINETY_NINE_FIVE),
+		parametricVaR(port,tf, 100, ConfidenceLevel::NINETY_NINE_NINE),
+		historicalShortfall(port,tf, 100, 0.95),
+		historicalShortfall(port,tf, 100, 0.99),
+		historicalShortfall(port,tf, 100, 0.995),
+		historicalShortfall(port,tf, 100, 0.999),
 		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_FIVE),
-		portfolioSharpeRatio(port, tf, 100, 0.04),
-		breakdown(port,  tf),
-		computeCovarianceMatrix(port, tf)
+		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE),
+		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE_FIVE),
+		parametricShortfall(port,tf, 100, ConfidenceLevel::NINETY_NINE_NINE),
+		calculateEfficientFrontier(port,tf)
 	};
 
 	return report;
 }
 
+std::map<std::string, double> RiskEngine::portfolioWeights(const Portfolio& portfolio) const {
 
-std::vector<double> RiskEngine::portfolioPeriodicReturns(const Portfolio& port, TimeFrame tf, size_t quantity)  {
+	std::map<std::string, double> weights;
+	
+	double total_market_value = totalMarketValue(portfolio);
+
+	for (const auto& [name, position] : portfolio.viewPositions()) {
+
+		weights.emplace(name, positionMarketValue(*position)/ total_market_value);
+	}
+
+	return weights;
+}
+
+
+std::vector<double> RiskEngine::portfolioPeriodicReturns(const Portfolio& portfolio, TimeFrame tf, size_t quantity) const{
 
 	std::vector<double> returns;
 	returns.resize(quantity - 1, 0);
-  	auto& weights = port.weights();
+  	auto weights = portfolioWeights(portfolio);
 
-	for (const auto& pos : port.viewPositions()) {
-
-		auto& pos_returns = pos.second->viewAsset()->historicData()->periodicReturns(tf);
-		auto weight = weights.find(pos.first);
+	for (const auto& [name, pos] : portfolio.viewPositions()) {
+		
+		const HistoricData & historic_data = snapshot->find(pos->viewAsset()->symbol())->second.historic_data;;
+		const auto& pos_returns = historic_data.periodicReturns(tf);
+		auto weight = weights.find(name);
 		if (weight == weights.end()) { throw "Weight not found."; }
 
 		for (int i = 0; i < quantity - 1; i++) {
@@ -84,29 +197,50 @@ std::vector<double> RiskEngine::portfolioPeriodicReturns(const Portfolio& port, 
 			returns[i] += pos_returns[i] * weight->second;
 		}
 	}
-	
+
 	return returns;
 }
 
 
-double RiskEngine::expectedReturn(const Position& pos, TimeFrame tf)  { return RiskStatistics::mean(pos.viewAsset()->historicData()->periodicReturns(tf)); }
-
-
-double RiskEngine::totalReturn(const Portfolio& port)  {
+double RiskEngine::totalInitialInvestment(const Portfolio& portfolio) const {
 
 	double sum = 0;
-	for (auto& pos : port.viewPositions()) {
+	for (const auto& [name, position] : portfolio.viewPositions()) {
 
-		sum += pos.second->marketValue();
+		sum += position->initialInvestment();
+	}
+
+	return sum;
+}
+
+double RiskEngine::totalMarketValue(const Portfolio& portfolio) const {
+
+	double sum = 0;
+	for (const auto& [name, position] : portfolio.viewPositions()) {
+
+		sum += positionMarketValue(*position);
 	}
 
 	return sum;
 }
 
 
-double RiskEngine::expectedReturn(const Portfolio& port, TimeFrame tf)  {
+double RiskEngine::totalReturn(const Portfolio& port) const {
 
-	auto& ws = port.weights();
+	double sum = 0;
+	for (auto& [name,pos] : port.viewPositions()) {
+
+		const LatestPrice& latest_price = snapshot->find(pos->viewAsset()->symbol())->second.latest_price;
+		sum += latest_price.price();
+	}
+
+	return sum;
+}
+
+
+double RiskEngine::expectedReturn(const Portfolio& portfolio, TimeFrame tf) const {
+
+	auto ws = portfolioWeights(portfolio);
 
 	if (ws.size() == 0) {
 		return NULL;
@@ -115,9 +249,9 @@ double RiskEngine::expectedReturn(const Portfolio& port, TimeFrame tf)  {
 	double sum = 0;
 	int i = 0;
 
-	for (auto& pos : port.viewPositions()) {
+	for (auto& [name, position] : portfolio.viewPositions()) {
 
-		sum += ws.find(pos.second->viewID())->second * expectedReturn(*pos.second, tf);
+		sum += ws.find(position->viewID())->second * expectedAssetReturn(*position->viewAsset(), tf);
 		i++;
 	}
 
@@ -125,22 +259,22 @@ double RiskEngine::expectedReturn(const Portfolio& port, TimeFrame tf)  {
 }
 
 
-double RiskEngine::portfolioVolatility(const Portfolio& port, TimeFrame tf) {
+double RiskEngine::portfolioVolatility(const Portfolio& portfolio, TimeFrame tf) const {
 
 	std::vector<double> weights;
-	for (auto& ws : port.weights()) {
+	for (const auto& [name, weight] : portfolioWeights(portfolio)) {
 
-		weights.push_back(ws.second);
+		weights.push_back(weight);
 	}
 	
-	Eigen::MatrixXd cov_matrix = computeCovarianceMatrix(port, tf).matrixData();
-	Eigen::Map<Eigen::MatrixXd> weights_matrix(weights.data(), port.size(), 1);
+	Eigen::MatrixXd cov_matrix = computeCovarianceMatrix(portfolio, tf).matrixData();
+	Eigen::Map<Eigen::MatrixXd> weights_matrix(weights.data(), portfolio.size(), 1);
 	double variance = (weights_matrix.transpose() * cov_matrix * weights_matrix).value();
-	return  sqrt(variance);
+	return sqrt(variance);
 }
 
 
-CovarianceMatrix RiskEngine::computeCovarianceMatrix(const Portfolio& port, TimeFrame tf)  {
+CovarianceMatrix RiskEngine::computeCovarianceMatrix(const Portfolio& port, TimeFrame tf) const {
 
 	int i = 0;
 	CovarianceMatrix cov_matrix(port.viewAssetLabels());
@@ -159,12 +293,12 @@ CovarianceMatrix RiskEngine::computeCovarianceMatrix(const Portfolio& port, Time
 
 			if (i == j) {
 
-				cov_matrix(i, j) = assetCovariance(*pos.second, *pos_2.second, tf);
+				cov_matrix(i, j) = assetCovariance(*pos.second->viewAsset(), *pos_2.second->viewAsset(), tf);
 				j++;
 				continue;
 			}
 
-			double covariance = assetCovariance(*pos.second, *pos_2.second, tf);
+			double covariance = assetCovariance(*pos.second->viewAsset(), *pos_2.second->viewAsset(), tf);
 			
 			cov_matrix(i, j) = covariance;
 			cov_matrix(j, i) = covariance;
@@ -179,7 +313,7 @@ CovarianceMatrix RiskEngine::computeCovarianceMatrix(const Portfolio& port, Time
 }
 
 
-double RiskEngine::historicalVaR(const Portfolio& port, TimeFrame tf, size_t quantity, double confidence)  {
+double RiskEngine::historicalVaR(const Portfolio& port, TimeFrame tf, size_t quantity, double confidence) const {
 
 	if (confidence > 1 || confidence < 0 ) {
 
@@ -199,7 +333,7 @@ double RiskEngine::historicalVaR(const Portfolio& port, TimeFrame tf, size_t qua
 }
 
 
-double RiskEngine::historicalShortfall(const Portfolio& port, TimeFrame tf, size_t quantity, double confidence)  {
+double RiskEngine::historicalShortfall(const Portfolio& port, TimeFrame tf, size_t quantity, double confidence) const {
 
 	if (confidence > 1 || confidence < 0) {
 
@@ -216,20 +350,20 @@ double RiskEngine::historicalShortfall(const Portfolio& port, TimeFrame tf, size
 	//	Logger::logDebug("Window: " + std::to_string(ret));
 	//}
 
-	return - (RiskStatistics::mean(window) * totalReturn(port));
+	return - (RiskCalculations::mean(window) * totalReturn(port));
 }
 
 
-double RiskEngine::parametricVaR(const Portfolio& port, TimeFrame tf, size_t quantity, ConfidenceLevel cl)  {
+double RiskEngine::parametricVaR(const Portfolio& port, TimeFrame tf, size_t quantity, ConfidenceLevel cl) const {
 
 	auto returns = portfolioPeriodicReturns(port, tf, quantity);
-	double z_value = RiskStatistics::zScores(cl);
+	double z_value = RiskCalculations::zScores(cl);
 
-	return - totalReturn(port) * (RiskStatistics::mean(returns) - (RiskStatistics::zScores(cl) * RiskStatistics::standardDeviation(returns)));
+	return - totalReturn(port) * (RiskCalculations::mean(returns) - (RiskCalculations::zScores(cl) * RiskCalculations::standardDeviation(returns)));
 }
 
 
-double RiskEngine::parametricShortfall(const Portfolio& port, TimeFrame tf, size_t quantity, ConfidenceLevel cl)  {
+double RiskEngine::parametricShortfall(const Portfolio& port, TimeFrame tf, size_t quantity, ConfidenceLevel cl) const {
 
 	double probability;
 	switch (cl)
@@ -249,7 +383,7 @@ double RiskEngine::parametricShortfall(const Portfolio& port, TimeFrame tf, size
 		probability = 0.995;
 		break;
 
-	case ConfidenceLevel::NINET_NINE_NINE:
+	case ConfidenceLevel::NINETY_NINE_NINE:
 
 		probability = 0.999;
 		break;
@@ -259,39 +393,97 @@ double RiskEngine::parametricShortfall(const Portfolio& port, TimeFrame tf, size
 	}
 
 	auto returns = portfolioPeriodicReturns(port, tf, quantity);
-	double z_value = RiskStatistics::zScores(cl);
+	double z_value = RiskCalculations::zScores(cl);
 
-	return (RiskStatistics::mean(returns) + RiskStatistics::standardDeviation(returns) * (exp(-pow(z_value,2)/2) * 1/sqrt(2 * PI) * 1/(1-probability))) * totalReturn(port);
+	return (RiskCalculations::mean(returns) + RiskCalculations::standardDeviation(returns) * (exp(-pow(z_value,2)/2) * 1/sqrt(2 * PI) * 1/(1-probability))) * totalReturn(port);
 }
 
 
-double RiskEngine::portfolioSharpeRatio(const Portfolio& port, TimeFrame tf, size_t quantity, double risk_free_rate)  {
+double RiskEngine::portfolioSharpeRatio(const Portfolio& port, TimeFrame tf, double risk_free_rate) const {
 
 	return (expectedReturn(port, tf) - risk_free_rate) / portfolioVolatility(port,tf);
 }
 
 
-double RiskEngine::assetCovariance(const Position& first, const Position& second, TimeFrame tf)  {
-
-	return RiskStatistics::covariance(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
-}
 
 
-double RiskEngine::assetCorrelation(const Position& first, const Position& second, TimeFrame tf)  {
+std::vector<double> RiskEngine::expectedAssetReturns(const Portfolio& portfolio, TimeFrame tf) const {
 
-	return RiskStatistics::correlation(first.viewAsset()->historicData()->periodicReturns(tf), second.viewAsset()->historicData()->periodicReturns(tf));
-} 
+	std::vector<double> asset_returns;
+	asset_returns.reserve(portfolio.size());
 
+	for(auto& [name,position] : portfolio.viewPositions()){
 
-std::vector<PositionRiskReport> RiskEngine::breakdown(const Portfolio& port, TimeFrame tf)  {
-
-	std::vector<PositionRiskReport> breakdowns;
-	for (auto& pos : port.viewPositions()) {
-
-		breakdowns.push_back(analysePosition(*pos.second, tf));
+		asset_returns.push_back(expectedAssetReturn(*position->viewAsset(), tf));
 	}
 
-	return breakdowns;
+	return asset_returns;
 }
+
+
+std::shared_ptr<EfficientFrontier> RiskEngine::calculateEfficientFrontier(const Portfolio& portfolio, TimeFrame tf) const {
+
+	Optimizer<MinimiseVolatility, MVLagrangianSolver> optimizer;
+	std::array<EfficientFrontierPoint,50> points;
+	
+
+	auto cov_matrix = computeCovarianceMatrix(portfolio, tf);
+	auto asset_returns = expectedAssetReturns(portfolio, tf);
+	
+	// Find Global Minimum Variance Portfolio to start and produce a maximum "feasible" return.
+
+	Optimizer<MinimiseVolatility, GMVPLagrangianSolver> gmv_optimiser;
+	auto solution = gmv_optimiser.optimise(asset_returns, cov_matrix);
+	
+	auto min_return = RiskCalculations::expectedReturn(solution, asset_returns);
+	auto max_return = *std::max_element(asset_returns.begin(), asset_returns.end());
+
+	for (auto returns : asset_returns) {
+
+		Logger::logDebug("Asset return:" + std::to_string(returns));
+	}
+
+	Logger::logDebug("Minimum Return - " + std::to_string(min_return));
+	Logger::logDebug("Maximum Return - " + std::to_string(max_return));
+
+
+	// Construct the poortfolios/points for the efficient frontier.
+	double target = min_return;
+
+	for (int i = 0; i < 50;i++) {
+
+		optimizer.viewSolver().changeTargetReturn(target);
+
+		points[i] = {
+
+			optimizer.optimise(asset_returns, cov_matrix),
+			target,
+			optimizer.currentScore()
+	
+		};
+
+		Logger::logDebug("Volatility for target return " + std::to_string(target) + ":" + std::to_string(points[i].volatitity));
+
+		target += (max_return - min_return)/50.0;
+	}
+
+	return std::make_shared<EfficientFrontier>(points);
+}
+
+// Utility
+void RiskEngine::updateSnapshot(std::shared_ptr<const std::map<std::string, MarketData>> snap) { snapshot = snap; }
+
+
+
+//std::vector<PositionRiskReport> RiskEngine::breakdown(const Portfolio& port, TimeFrame tf)  {
+//
+//	std::vector<PositionRiskReport> breakdowns;
+//	for (auto& pos : port.viewPositions()) {
+//
+//		breakdowns.push_back(analysePosition(*pos.second, tf));
+//	}
+//
+//	return breakdowns;
+//}
 
 

@@ -7,7 +7,7 @@
 
 enum class TimeFrame;
 
-class CSVDataProvider : MarketDataProvider {
+class CSVDataProvider : public MarketDataProvider {
 
 	private:
 
@@ -16,10 +16,11 @@ class CSVDataProvider : MarketDataProvider {
 
 	public:
 
-		
+		CSVDataProvider();
 		CSVDataProvider(std::string);
-		RequestResult periodicData(std::string, TimeFrame, size_t) const ;
-		RequestResult latestPrice(std::string) const;
+
+		RequestResult periodicData(std::string, TimeFrame, size_t) const override;
+		RequestResult latestPrice(std::string) const override;
 
 		void changeFile(std::string);
 };

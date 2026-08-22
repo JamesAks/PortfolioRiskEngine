@@ -1,70 +1,56 @@
 #include "Asset.hpp"
 #include "Portfolio.hpp"
+#include "Position.hpp"
 #include "Logger.hpp"
 
 
 
 // ----- Private Members -----
 
-void Portfolio::calculateWeights() {
-
-    if (positions.size() == 0) { return; }
-    double value = totalMarketValue();
-
-    for (auto& p : positions) {
-
-        position_weights[p.first] =  p.second->marketValue() / value;
-    }
-}
 
 // ----- Public Memebers -----
 
-Portfolio::Portfolio(std::string& n) : ID{ std::move(n) } {}
-
-Portfolio::Portfolio(std::string n) : ID{ std::move(n) } {}
+Portfolio::Portfolio(std::string&& n): ID{std::move(n)}{}
 
 
-void Portfolio::addPosition(Position& p ) { 
+Portfolio::Portfolio(const std::string& n) : ID{n} {}
 
-    auto id = p.viewID();
-    positions.emplace(id, std::make_unique<Position>(std::move(p)));
-    Logger::logInfo("Added position: \"" + id + "\".");
-    calculateWeights();
+
+void Portfolio::addPosition(std::shared_ptr<Position> position ) { 
+
+    positions.emplace( position->viewID(), position);
+    Logger::logInfo("Added position: \"" + position->viewID() + "\".");
+} 
+
+
+void Portfolio::removePosition(const std::string& symbol) { positions.erase(symbol); }
+
+
+void Portfolio::changeID(const std::string& new_ID) { ID = new_ID; }
+
+
+void Portfolio::changeID(std::string&& new_ID) { ID = std::move(new_ID); }
+
+
+const Position& Portfolio::viewPosition(const std::string& symbol) const {
+
+    return *positions.find(symbol)->second;
 }
 
 
-void Portfolio::removePosition(std::string& symbol) { positions.erase(symbol); }
+const std::map<std::string, std::shared_ptr<Position>>& Portfolio::viewPositions() const { return positions; }
 
+std::vector<std::string> Portfolio::viewPositionIDs() const {
 
-void Portfolio::changeID(std::string new_ID) { ID = new_ID; }
+    std::vector<std::string> ids;
 
+    for (auto& [name, position] : positions) {
 
-double Portfolio::totalMarketValue() const {
-
-    double sum = 0;
-
-    for (auto& p : positions) {
-
-        sum += p.second->marketValue();
+        ids.push_back(name);
     }
 
-    return sum;
+    return ids;
 }
-
-
-const std::unique_ptr<Position>& Portfolio::viewPosition(const std::string& symbol) const {
-
-    if (positions.find(symbol) == positions.end()) {
-
-        Logger::logError("Could not find position.");
-        return nullptr;
-    }
-
-    return positions.find(symbol)->second;
-}
-
-
-const std::map<std::string, std::unique_ptr<Position>>& Portfolio::viewPositions() const { return positions; }
 
 
 std::vector<std::shared_ptr<Asset>> Portfolio::viewAssets() const {
@@ -95,6 +81,16 @@ std::vector<std::string> Portfolio::viewAssetLabels() const {
 
 const std::string& Portfolio::viewID() const { return ID; }
 
-const std::map<std::string, double>& Portfolio::weights() const { return position_weights; }
+double Portfolio::viewTotalInvestment() {
+
+    double sum = 0;
+    for (const auto& position : positions) {
+
+        sum += position.second->initialInvestment();
+    }
+
+    return sum;
+}
+
 
 size_t Portfolio::size() const { return positions.size(); }

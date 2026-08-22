@@ -9,16 +9,19 @@
 
 class TimeSeries {
 
+	// Struct that holds the periodic historical prices and returns of an underlying variable.
+
 	private:
 
-		// Struct that holds the periodic historical data of an asset
+
 		std::vector<std::chrono::year_month_day> date_data;
 		std::vector<double> price_data;
 		std::vector<double> returns_data; 
 
-		void updateReturns(double);
+		void updateReturns();
 		void calculateReturns();
 
+		// Validate that dates are in order and that there are no invalid dates (e.g. dates in the future).
 		//void validateDate();
 
 	public:
@@ -29,21 +32,13 @@ class TimeSeries {
 
 		const std::vector<std::chrono::year_month_day>& dates() const;
 		const std::vector<double>& prices() const;
-		const std::vector<double>& returns() const;
+		const std::vector<double>& returns() const;    
 
 		void addData(std::chrono::year_month_day, double);
 		void reserve(size_t);
 		
 
-		size_t size();
+		size_t size() const;
 };
 
-struct LatestPrice {
-
-	std::chrono::year_month_day timestamp;
-	double value;
-
-};
-
-   
 #endif // !TIME_SERIES_HPP

@@ -3,10 +3,14 @@
 
 #include "MarketDataStore.hpp"
 
+
 #include <map>
 #include <memory>
+#include <shared_mutex>
 #include <string>
+#include <thread>
 #include <vector>
+
 
 
 
@@ -14,35 +18,46 @@ class HistoricData;
 class TimeSeries;
 class LatestPrice;
 
+class GenericDataStore: public MarketDataStore{
 
-class GenericDataStore: MarketDataStore {
+	// Generic store for all the different market data needed for each asset.
 
 	private:
 
+		mutable std::shared_mutex mutex;
+		std::shared_ptr<MarketDataProvider> equity_data_provider;
 		std::map<std::string, std::shared_ptr<HistoricData>> historic_data_store;
-		std::map<std::string, std::shared_ptr<LatestPrice>> latest_price_store;
+		std::map<std::string, std::shared_ptr<LatestPrice>> latest_prices_store;
+
+		void updateMarketData();
+		void updateLoop(std::stop_token);
+		
+		size_t update_interval;
+		size_t update_count;
+
+		std::shared_ptr<std::map<std::string, MarketData>> market_data_snapshot;
+
+		std::jthread update_thread;
 
 	public:
 
-		GenericDataStore();
+		GenericDataStore(MarketDataProvider*);
+		GenericDataStore(std::shared_ptr<MarketDataProvider>);
+		GenericDataStore() = default;
 
-		void addHistoricalData(std::string,TimeSeries&, TimeSeries&, TimeSeries&);
-		void addHistoricalData(std::string, HistoricData);
-		void addLatestPrice(std::string, LatestPrice);
-		void removeMarketData(std::string);
-		
-		const std::shared_ptr<HistoricData> historicalData(std::string) const;
-		const std::shared_ptr<LatestPrice> latestPrice(std::string) const;
-		const TimeSeries& periodicData(std::string, TimeFrame) const;
-		
+		bool addMarketData(std::string) override;
+		bool removeMarketData(std::string) override;
+		bool changeDataProvider(std::shared_ptr<MarketDataProvider>);
 
-		const std::map<std::string, std::shared_ptr<HistoricData>>& viewHistoricData() const;
-		const std::map<std::string, std::shared_ptr<LatestPrice>>& viewLatestPrices() const;
-		std::vector<std::string> viewSymbols() const;
+		// Provides an immutable snapshot of the whole market data currently store in the the data store
+		std::shared_ptr<const std::map<std::string, MarketData>> getMarketDataSnapshot() const override;
 
-		void updateHistoricData(std::string, TimeSeries&, TimeSeries&, TimeSeries&);
-		void updateLatestPrice(std::string, LatestPrice);
-		
+		std::shared_ptr<MarketDataProvider> viewDataProvider() const ;
+
+		void update() override;
+		void setUpdateIntervalMinute(size_t);
+
+		size_t size() const;
 };
 
 #endif // !MARKET_DATA_STORE_HPP

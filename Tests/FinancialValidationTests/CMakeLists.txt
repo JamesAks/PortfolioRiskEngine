@@ -1,5 +1,13 @@
+set (FVTESTS_SOURCE
+	
+	Core/PortfolioFV.cpp
+	Core/PositionFV.cpp
+	Core/StatisticsFV.cpp
+	Core/TimeSeriesFV.cpp
+	RiskEngineTest.cpp
+)
 
-add_executable(FVTests)
+add_executable(FVTests ${FVTESTS_SOURCE})
 
 target_link_libraries(FVTests
 

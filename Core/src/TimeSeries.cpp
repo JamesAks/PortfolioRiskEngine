@@ -1,39 +1,46 @@
 #include "TimeSeries.hpp"
-#include "Statistics.hpp"
 #include "Logger.hpp"
 
 
 
 // ----- Private Members -----
 
-void TimeSeries::updateReturns(double price) {
+void TimeSeries::updateReturns() {
 
-	if (price_data.empty()) {
+	if (price_data.size() < 2) {
 		return;
 	}
 
 	const double& latest = price_data[price_data.size() - 1];
-	returns_data.push_back((price - latest) / latest);
+	const double& prev = price_data[price_data.size() - 2];
+	returns_data.push_back((latest - prev) / prev);
 }
 
 
 void TimeSeries::calculateReturns() {
 
-	if (returns_data.empty()) {
+	if (price_data.size() < 2) {
 		return;
 	}
 
-	returns_data.reserve(price_data.size());
+	returns_data.reserve(price_data.size() - 1);
 
 	for (size_t i = 1; i < price_data.size(); i++) {
 
-		returns_data[i] = price_data[i] - price_data[i - 1] / price_data[i];
+		returns_data.push_back((price_data[i] - price_data[i - 1]) / price_data[i - 1]);
 	}
 }
 
 // ----- Public Members -----
 
-TimeSeries::TimeSeries(std::vector<std::chrono::year_month_day>& d, std::vector<double>& p) : date_data{ std::move(d) }, price_data{ std::move(p) } { calculateReturns(); };
+TimeSeries::TimeSeries(std::vector<std::chrono::year_month_day>& d, std::vector<double>& p){
+
+	if (d.size() != p.size()) { throw ("Vector size mismatch."); }
+	
+	date_data = std::move(d);
+	price_data = std::move(p);
+	calculateReturns(); 
+};
 
 
 TimeSeries::TimeSeries(size_t size) { reserve(size); }
@@ -48,10 +55,8 @@ const std::vector<double>& TimeSeries::prices() const { return price_data; }
 void TimeSeries::addData(std::chrono::year_month_day date, double price) {
 
 	date_data.push_back(date);
-	updateReturns(price);
 	price_data.push_back(price);
-
-	
+	updateReturns();
 }
 
 
@@ -67,8 +72,8 @@ void TimeSeries::reserve(size_t size) {
 	}
 
 	date_data.reserve(size);
-	price_data.reserve(size);
+	price_data.reserve(size); 
 }
 
 
-size_t TimeSeries::size() { return date_data.size(); }
+size_t TimeSeries::size() const { return date_data.size(); }

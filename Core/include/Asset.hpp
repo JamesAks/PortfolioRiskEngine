@@ -6,37 +6,39 @@
 #include <vector>
 #include <memory>
 
-#include "HistoricData.hpp"
-#include "TimeSeries.hpp"
+#include "Observing.hpp"
 
 
 
-class Asset {
+class HistoricData;
+class LatestPrice;
 
-    // Very high-level, base class for an asset. Essentially an assets symbol(ticker name) and its historical data. Could be an option, bond etc.
-    
+enum class AssetType { NA, STOCK ,NUMBER_OF_TYPES};
 
+class Asset : public Observable, public Observer {
+
+    // Base class for an asset. 
+   
     protected:
 
         std::string asset_id;
-        std::shared_ptr<HistoricData> historical_data;
-        std::shared_ptr<LatestPrice> latest_price;
-        std::chrono::year_month_day latest_valuation_date;
         double net_present_value;
+        AssetType asset_type = AssetType::NA;
+        std::chrono::year_month_day latest_valuation_date;
 
     public:
         
-        Asset(std::string, std::shared_ptr<HistoricData>, std::shared_ptr<LatestPrice>);
+    
+        Asset(std::string);
+         
+        std::chrono::year_month_day latestValuationDate() const;
 
-        // Calculates the net present value of the asset.
-        virtual void calculateNPV() = 0;
-
+        AssetType assetType() const;
         const std::string& symbol() const;
-        double NPV();
-        std::chrono::year_month_day latestValuationDate() const ;
-        std::shared_ptr<HistoricData> historicData() const ;
-        std::shared_ptr<LatestPrice> latestPrice() const;
 
+        void update() override;
+
+        virtual ~Asset() = default;
 };
 
 #endif // !ASSET_HPP

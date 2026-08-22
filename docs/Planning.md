@@ -52,5 +52,5 @@ This is a document containing some of my planning for this project
         - PortfolioManager
 
     5. Build Interface
-        - Command Line input
-        - Parse user command
+        - User input
+  
